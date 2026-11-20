@@ -1,0 +1,2245 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مرسال — عرض الشاشات والـ Flows</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Tajawal:wght@700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        fontFamily: {
+          display: ['Tajawal', 'sans-serif'],
+          body: ['IBM Plex Sans Arabic', 'sans-serif'],
+          mono: ['JetBrains Mono', 'monospace'],
+        }
+      }
+    }
+  }
+</script>
+<style>
+  body {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    overflow-x: hidden;
+  }
+  h1, h2, h3, .d {
+    font-family: 'Tajawal', sans-serif;
+  }
+  .mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Subtle Architectural Grid Background */
+  .bg-grid {
+    background-size: 32px 32px;
+    background-image: 
+      linear-gradient(to right, rgba(161, 161, 170, 0.08) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(161, 161, 170, 0.08) 1px, transparent 1px);
+  }
+  .dark .bg-grid {
+    background-image: 
+      linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  }
+
+  /* Brand Badge Tag */
+  .tag {
+    font: 800 11px 'JetBrains Mono', monospace;
+    background: #FBBF24;
+    color: #0A0A0C;
+    border: 2px solid #0A0A0C;
+    padding: 5px 14px;
+    border-radius: 999px;
+    box-shadow: 3px 3px 0px #0A0A0C;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: 0.04em;
+  }
+
+  /* Flow Chips */
+  .chip {
+    background: #ffffff;
+    color: #09090b;
+    border: 2px solid #18181b;
+    border-radius: 12px;
+    padding: 0.5rem 1rem;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+    box-shadow: 3px 3px 0px #0A0A0C;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .dark .chip {
+    background: #18181b;
+    color: #f4f4f5;
+    border-color: #3f3f46;
+    box-shadow: 3px 3px 0px #000000;
+  }
+  .chip:hover {
+    transform: translateY(-2px);
+    border-color: #FBBF24;
+  }
+
+  .arw {
+    color: #DC2626;
+    font-weight: 900;
+    font-size: 16px;
+    padding: 0 2px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .dark .arw {
+    color: #FBBF24;
+  }
+
+  /* Browser Window Frame */
+  .win {
+    border: 2px solid #0A0A0C;
+    border-radius: 22px;
+    overflow: hidden;
+    background: #09090b;
+    box-shadow: 10px 10px 0px #0A0A0C;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .dark .win {
+    border-color: #3f3f46;
+    box-shadow: 12px 12px 0px #000000, 0 25px 50px -12px rgba(0, 0, 0, 0.75);
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 12px 18px;
+    background: #f4f4f5;
+    border-bottom: 2px solid #0A0A0C;
+  }
+  .dark .bar {
+    background: #18181b;
+    border-bottom-color: #27272a;
+  }
+  .bar i {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0.2);
+  }
+  .bar i:nth-child(1) { background: #ef4444; }
+  .bar i:nth-child(2) { background: #f59e0b; }
+  .bar i:nth-child(3) { background: #10b981; }
+
+  .bar span {
+    margin-inline-start: 12px;
+    font: 700 12px 'JetBrains Mono', monospace;
+    color: #52525b;
+    direction: ltr;
+    background: #ffffff;
+    border: 1.5px solid #d4d4d8;
+    border-radius: 8px;
+    padding: 4px 14px;
+    flex: 1;
+    max-width: 340px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .dark .bar span {
+    background: #09090b;
+    color: #a1a1aa;
+    border-color: #27272a;
+  }
+
+  /* Responsive Scaling Iframe */
+  .fr {
+    position: relative;
+    overflow: hidden;
+    background: #09090b;
+  }
+  .fr iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 0;
+    transform-origin: 0 0;
+  }
+
+  /* Mobile Phone Mockup */
+  .phone-stage {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 1rem;
+  }
+  .phone {
+    position: relative;
+    border: 11px solid #0A0A0C;
+    border-radius: 48px;
+    overflow: hidden;
+    background: #09090b;
+    box-shadow: 
+      0 0 0 2px #3f3f46,
+      14px 14px 0px #0A0A0C,
+      0 35px 70px -15px rgba(0, 0, 0, 0.65);
+  }
+  .phone::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 96px;
+    height: 22px;
+    background: #0A0A0C;
+    border-radius: 999px;
+    z-index: 20;
+    pointer-events: none;
+    border: 1px solid #27272a;
+  }
+
+  /* Neo-Brutalist Cards */
+  .card {
+    border: 2px solid #0A0A0C;
+    border-radius: 20px;
+    padding: 1.5rem;
+    background: #ffffff;
+    box-shadow: 6px 6px 0px #0A0A0C;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .dark .card {
+    background: #121215;
+    border-color: #27272a;
+    box-shadow: 6px 6px 0px #000000;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+  }
+</style>
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 bg-grid transition-colors duration-200 selection:bg-amber-400 selection:text-black">
+
+<!-- Scroll Progress Bar -->
+<div class="fixed top-0 left-0 right-0 h-1 z-50 bg-transparent">
+  <div id="scrollBar" class="h-full bg-gradient-to-l from-red-600 via-amber-400 to-red-600 w-0 transition-all duration-100"></div>
+</div>
+
+<!-- Sticky Navigation Header -->
+<header class="border-b-2 border-zinc-900 dark:border-zinc-800 sticky top-0 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md z-40">
+  <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <span class="d font-black text-xl text-white px-3.5 py-0.5 rounded-xl border-2 border-black shadow-[3px_3px_0px_#0A0A0C]" style="background:#DC2626">مرسال</span>
+      <span class="hidden sm:inline-block mono text-[11px] font-bold text-zinc-500 dark:text-zinc-400">PRODUCT SHOWCASE</span>
+    </div>
+
+    <nav class="hidden md:flex items-center gap-7 text-xs font-bold mono text-zinc-700 dark:text-zinc-300">
+      <a href="#screens" class="hover:text-red-600 dark:hover:text-amber-400 transition-colors">01. الشاشات</a>
+      <a href="#flows" class="hover:text-red-600 dark:hover:text-amber-400 transition-colors">02. الـ Flows</a>
+      <a href="#status" class="hover:text-red-600 dark:hover:text-amber-400 transition-colors">03. حالات الطلب</a>
+      <a href="#roadmap" class="hover:text-red-600 dark:hover:text-amber-400 transition-colors">04. خارطة الطريق</a>
+    </nav>
+
+    <button id="pageThemeBtn" type="button" class="mono text-[11px] font-extrabold px-3 py-1.5 rounded-xl border-2 border-zinc-900 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-amber-400 hover:border-amber-400 transition-all shadow-[2px_2px_0px_#0A0A0C]">
+      <span id="pageThemeLabel">☀ وضع النهار</span>
+    </button>
+  </div>
+</header>
+
+<!-- Hero Section -->
+<section class="relative overflow-hidden border-b-2 border-zinc-900 dark:border-zinc-800">
+  <!-- Ambient Glows -->
+  <div class="absolute -top-24 right-1/4 w-96 h-96 bg-red-600/15 dark:bg-red-600/10 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute -bottom-24 left-1/4 w-96 h-96 bg-amber-400/20 dark:bg-amber-400/10 rounded-full blur-3xl pointer-events-none"></div>
+
+  <div class="max-w-6xl mx-auto px-4 pt-16 pb-14 text-center relative z-10">
+    <span class="tag">
+      <span class="w-2 h-2 rounded-full bg-red-600 animate-ping"></span>
+      MERSAL LOGISTICS OS — MVP
+    </span>
+    
+    <h1 class="d font-black mt-6 leading-[1.12] text-[clamp(2.25rem,5.5vw,4.25rem)] tracking-tight text-zinc-900 dark:text-white">
+      من الطلب لحد التسليم،<br>
+      <span class="text-transparent bg-clip-text bg-gradient-to-l from-red-600 via-red-500 to-amber-500" style="color:#DC2626">في تلات شاشات.</span>
+    </h1>
+    
+    <p class="mt-5 text-zinc-600 dark:text-zinc-300 text-base sm:text-lg leading-8 max-w-2xl mx-auto font-medium">
+      دي الشاشات الفعلية اللي اتصمّمت لمرسال (من غير أي تعديل عليها)، معروضة هنا بنفس شكلها: صفحة العميل، لوحة الأدمن، وتطبيق الكابتن، ومعاها الـ flow الكامل للنظام.
+    </p>
+
+    <!-- Quick Jump Pills -->
+    <div class="mt-8 flex flex-wrap justify-center gap-3 mono text-xs font-bold">
+      <a href="#screen-customer" class="px-4 py-2 rounded-xl bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 shadow-[3px_3px_0px_#0A0A0C] hover:border-amber-400 transition-all">١. صفحة العميل</a>
+      <a href="#screen-admin" class="px-4 py-2 rounded-xl bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 shadow-[3px_3px_0px_#0A0A0C] hover:border-amber-400 transition-all">٢. لوحة الأدمن</a>
+      <a href="#screen-driver" class="px-4 py-2 rounded-xl bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 shadow-[3px_3px_0px_#0A0A0C] hover:border-amber-400 transition-all">٣. تطبيق الكابتن</a>
+    </div>
+  </div>
+</section>
+
+<!-- Screens Showcase Section -->
+<section id="screens" class="max-w-6xl mx-auto px-4 py-16 space-y-24">
+  
+  <!-- Screen 1 -->
+  <div id="screen-customer" class="scroll-mt-24">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-5">
+      <div>
+        <span class="mono text-xs font-extrabold text-red-600 dark:text-amber-400">/ SCREEN 01 — CUSTOMER PORTAL</span>
+        <h2 class="d font-black text-2xl sm:text-3xl text-zinc-900 dark:text-white mt-1">١. صفحة العميل — أول سكشن</h2>
+        <p class="text-sm text-zinc-600 dark:text-zinc-400 mt-1">أول قسم في اللاندينج بيج الحالية كما هو.</p>
+      </div>
+      <span class="mono text-[11px] font-bold px-3 py-1 rounded-lg bg-zinc-200/80 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 self-start sm:self-auto">
+        Desktop View • 1440px
+      </span>
+    </div>
+    <div class="win">
+      <div class="bar">
+        <i></i><i></i><i></i>
+        <span>mersal.com</span>
+      </div>
+      <div class="fr" data-w="1440" data-h="860">
+        <iframe scrolling="no" style="pointer-events:none" srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;ar&quot; dir=&quot;rtl&quot; class=&quot;dark scroll-smooth&quot;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot; /&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
+    &lt;title&gt;مرسال | Mersal Delivery&lt;/title&gt;
+
+    &lt;!-- Google Fonts --&gt;
+    &lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.googleapis.com&quot; /&gt;
+    &lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.gstatic.com&quot; crossorigin /&gt;
+    &lt;link
+      href=&quot;https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;family=Tajawal:wght@700;800;900&amp;family=JetBrains+Mono:wght@500;700;800&amp;display=swap&quot;
+      rel=&quot;stylesheet&quot;
+    /&gt;
+
+    &lt;!-- Tailwind CSS CDN --&gt;
+    &lt;script src=&quot;https://cdn.tailwindcss.com&quot;&gt;&lt;/script&gt;
+    &lt;script&gt;
+      tailwind.config = {
+        darkMode: &quot;class&quot;,
+        theme: {
+          extend: {
+            fontFamily: {
+              display: [&quot;Tajawal&quot;, &quot;sans-serif&quot;],
+              body: [&quot;IBM Plex Sans Arabic&quot;, &quot;sans-serif&quot;],
+              mono: [&quot;JetBrains Mono&quot;, &quot;monospace&quot;],
+            },
+          },
+        },
+      };
+    &lt;/script&gt;
+    &lt;style&gt;
+      body {
+        font-family: &quot;IBM Plex Sans Arabic&quot;, sans-serif;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      .font-display {
+        font-family: &quot;Tajawal&quot;, sans-serif;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body
+    class=&quot;bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-white antialiased selection:bg-amber-400 selection:text-black transition-colors duration-200&quot;
+  &gt;
+    &lt;!-- TOP SYSTEM BAR --&gt;
+    &lt;div
+      class=&quot;bg-zinc-950 text-white text-[11px] font-mono border-b border-zinc-800 py-1.5 px-4&quot;
+    &gt;
+      &lt;div class=&quot;max-w-7xl mx-auto flex justify-between items-center&quot;&gt;
+        &lt;div class=&quot;flex items-center gap-3&quot;&gt;
+          &lt;span
+            class=&quot;bg-amber-400 text-black font-extrabold px-2 py-0.5 border border-black&quot;
+            &gt;LOGISTICS OS V2.8&lt;/span
+          &gt;
+          &lt;span class=&quot;hidden sm:inline-block text-zinc-400&quot;
+            &gt;نظام إدارة الشحنات والتوصيل المباشر — أسوان&lt;/span
+          &gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;flex items-center gap-3&quot;&gt;
+          &lt;button
+            id=&quot;theme-toggle&quot;
+            type=&quot;button&quot;
+            class=&quot;bg-zinc-900 border border-zinc-700 hover:border-amber-400 text-white px-2 py-0.5 font-bold transition-all text-[10px]&quot;
+          &gt;
+            &lt;span id=&quot;theme-toggle-text&quot;&gt;MODE: DARK&lt;/span&gt;
+          &lt;/button&gt;
+          &lt;span class=&quot;text-amber-400 font-bold flex items-center gap-1.5&quot;&gt;
+            &lt;span
+              class=&quot;w-2 h-2 rounded-full bg-emerald-500 animate-ping&quot;
+            &gt;&lt;/span&gt;
+            الخدمة متوفرة الآن
+          &lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- NAVBAR --&gt;
+    &lt;header
+      class=&quot;sticky top-0 z-50 bg-white dark:bg-zinc-950 border-b-2 border-zinc-900 dark:border-zinc-800 transition-colors&quot;
+    &gt;
+      &lt;div
+        class=&quot;max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between&quot;
+      &gt;
+        &lt;!-- Brand Logo --&gt;
+        &lt;a href=&quot;#&quot; class=&quot;flex items-center gap-3&quot;&gt;
+          &lt;div
+            class=&quot;bg-red-600 text-white font-black text-2xl px-4 py-1 tracking-wider border-2 border-black rounded-lg shadow-[3px_3px_0px_#0A0A0C]&quot;
+          &gt;
+            مرسال
+          &lt;/div&gt;
+          &lt;div class=&quot;flex flex-col&quot;&gt;
+            &lt;span
+              class=&quot;text-sm font-black font-display text-zinc-900 dark:text-white leading-none&quot;
+              &gt;MERSAL DELIVERY&lt;/span
+            &gt;
+            &lt;span
+              class=&quot;text-[10px] font-mono text-red-600 dark:text-red-500 font-bold&quot;
+              &gt;مش بس سرعة.. سرعة ودقة وأمان&lt;/span
+            &gt;
+          &lt;/div&gt;
+        &lt;/a&gt;
+
+        &lt;!-- Navigation Menu --&gt;
+        &lt;nav
+          class=&quot;hidden lg:flex items-center gap-8 text-xs font-bold font-mono text-zinc-700 dark:text-zinc-300&quot;
+        &gt;
+          &lt;a
+            href=&quot;#about&quot;
+            class=&quot;hover:text-red-600 dark:hover:text-amber-400 transition-colors&quot;
+            &gt;01. عن مرسال&lt;/a
+          &gt;
+          &lt;a
+            href=&quot;#services&quot;
+            class=&quot;hover:text-red-600 dark:hover:text-amber-400 transition-colors&quot;
+            &gt;02. خدمات التوصيل&lt;/a
+          &gt;
+          &lt;a
+            href=&quot;#lifecycle&quot;
+            class=&quot;hover:text-red-600 dark:hover:text-amber-400 transition-colors&quot;
+            &gt;03. حالات الطلب&lt;/a
+          &gt;
+          &lt;a
+            href=&quot;#order-form&quot;
+            class=&quot;hover:text-red-600 dark:hover:text-amber-400 transition-colors&quot;
+            &gt;04. اطلب الآن&lt;/a
+          &gt;
+        &lt;/nav&gt;
+
+        &lt;!-- Action Buttons --&gt;
+        &lt;div class=&quot;flex items-center gap-3&quot;&gt;
+          &lt;a
+            href=&quot;#login&quot;
+            class=&quot;border-2 border-zinc-900 dark:border-zinc-700 bg-transparent text-zinc-900 dark:text-white font-bold text-xs px-4 py-2.5 rounded-lg hover:bg-amber-400 hover:text-black transition-all font-mono&quot;
+          &gt;
+            تسجيل الدخول
+          &lt;/a&gt;
+          &lt;a
+            href=&quot;#order-form&quot;
+            class=&quot;bg-amber-400 text-black font-extrabold text-xs px-5 py-2.5 rounded-lg border-2 border-zinc-900 shadow-[3px_3px_0px_#0A0A0C] hover:bg-red-600 hover:text-white transition-all font-display&quot;
+          &gt;
+            ارسل طلبك الآن
+          &lt;/a&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/header&gt;
+
+    &lt;!-- HERO SECTION --&gt;
+    &lt;section
+      id=&quot;hero&quot;
+      class=&quot;relative overflow-hidden py-16 lg:py-24 border-b-2 border-zinc-900 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-white transition-colors&quot;
+    &gt;
+      &lt;!-- Background Glows --&gt;
+      &lt;div
+        class=&quot;absolute -top-24 -right-24 w-96 h-96 bg-amber-500/10 dark:bg-amber-500/5 rounded-full blur-3xl pointer-events-none&quot;
+      &gt;&lt;/div&gt;
+      &lt;div
+        class=&quot;absolute top-1/2 -left-24 w-96 h-96 bg-red-600/10 dark:bg-red-600/5 rounded-full blur-3xl pointer-events-none&quot;
+      &gt;&lt;/div&gt;
+
+      &lt;div class=&quot;max-w-7xl mx-auto px-4 sm:px-6 relative z-10&quot;&gt;
+        &lt;div class=&quot;grid lg:grid-cols-12 gap-12 items-center&quot;&gt;
+          &lt;!-- Hero Content --&gt;
+          &lt;div class=&quot;lg:col-span-7 space-y-6 text-right&quot;&gt;
+            &lt;div
+              class=&quot;inline-flex items-center gap-2 bg-amber-400 text-black border-2 border-zinc-900 text-xs font-black px-4 py-1.5 rounded-full shadow-[3px_3px_0px_#0A0A0C]&quot;
+            &gt;
+              &lt;span&gt;خدمة التوصيل الأولى والأسرع في أسوان&lt;/span&gt;
+            &lt;/div&gt;
+
+            &lt;h1
+              class=&quot;text-4xl sm:text-6xl lg:text-7xl font-black font-display leading-[1.1] text-zinc-900 dark:text-white&quot;
+            &gt;
+              خليك مرتاح مع &lt;br /&gt;
+              &lt;span
+                class=&quot;text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-500 to-amber-500&quot;
+              &gt;
+                دليفري مرسال
+              &lt;/span&gt;
+            &lt;/h1&gt;
+
+            &lt;p
+              class=&quot;text-base sm:text-lg text-zinc-700 dark:text-zinc-300 font-medium max-w-2xl leading-relaxed&quot;
+            &gt;
+              &lt;strong class=&quot;text-red-600 dark:text-amber-400 font-bold&quot;
+                &gt;الطريق الأسرع لتوصيل طلباتك!&lt;/strong
+              &gt;
+              سواء كانت طرود، هدايا، أوراق أو بضائع.. الطلب عليك والتوصيل علينا
+              بسرعة ودقة وأمان تام.
+            &lt;/p&gt;
+
+            &lt;div class=&quot;flex flex-wrap gap-4 pt-2 font-mono&quot;&gt;
+              &lt;a
+                href=&quot;#order-form&quot;
+                class=&quot;bg-red-600 hover:bg-red-700 text-white font-extrabold text-sm px-8 py-4 rounded-xl border-2 border-zinc-900 shadow-[4px_4px_0px_#0A0A0C] transition-all&quot;
+              &gt;
+                طلب توصيل جديد
+              &lt;/a&gt;
+              &lt;a
+                href=&quot;https://wa.me/201148606472&quot;
+                target=&quot;_blank&quot;
+                class=&quot;bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm px-8 py-4 rounded-xl border-2 border-zinc-900 shadow-[4px_4px_0px_#0A0A0C] transition-all&quot;
+              &gt;
+                واتساب مباشر
+              &lt;/a&gt;
+            &lt;/div&gt;
+
+            &lt;!-- Feature Highlights --&gt;
+            &lt;div
+              class=&quot;grid grid-cols-3 gap-4 pt-8 border-t-2 border-zinc-200 dark:border-zinc-800&quot;
+            &gt;
+              &lt;div class=&quot;space-y-1&quot;&gt;
+                &lt;h4
+                  class=&quot;text-xl sm:text-2xl font-black font-display text-red-600 dark:text-amber-400&quot;
+                &gt;
+                  سرعة فائقة
+                &lt;/h4&gt;
+                &lt;p class=&quot;text-xs text-zinc-600 dark:text-zinc-400 font-bold&quot;&gt;
+                  توصيل مباشر داخل أسوان
+                &lt;/p&gt;
+              &lt;/div&gt;
+              &lt;div class=&quot;space-y-1&quot;&gt;
+                &lt;h4
+                  class=&quot;text-xl sm:text-2xl font-black font-display text-zinc-900 dark:text-white&quot;
+                &gt;
+                  أمان كامل
+                &lt;/h4&gt;
+                &lt;p class=&quot;text-xs text-zinc-600 dark:text-zinc-400 font-bold&quot;&gt;
+                  الحفاظ على شحنتك سليمة
+                &lt;/p&gt;
+              &lt;/div&gt;
+              &lt;div class=&quot;space-y-1&quot;&gt;
+                &lt;h4
+                  class=&quot;text-xl sm:text-2xl font-black font-display text-red-600 dark:text-amber-400&quot;
+                &gt;
+                  تتبع دقيق
+                &lt;/h4&gt;
+                &lt;p class=&quot;text-xs text-zinc-600 dark:text-zinc-400 font-bold&quot;&gt;
+                  تحديث الحالات مع الكابتن
+                &lt;/p&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;!-- Live Visual Card --&gt;
+          &lt;div class=&quot;lg:col-span-5&quot;&gt;
+            &lt;div
+              class=&quot;relative mx-auto max-w-md bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 rounded-2xl p-6 shadow-[8px_8px_0px_#0A0A0C] dark:shadow-[8px_8px_0px_#27272A] space-y-5&quot;
+            &gt;
+              &lt;div
+                class=&quot;flex items-center justify-between pb-4 border-b border-zinc-200 dark:border-zinc-800&quot;
+              &gt;
+                &lt;div class=&quot;flex items-center gap-2&quot;&gt;
+                  &lt;span
+                    class=&quot;w-3 h-3 rounded-full bg-emerald-500 animate-ping&quot;
+                  &gt;&lt;/span&gt;
+                  &lt;span
+                    class=&quot;font-mono text-xs font-bold text-zinc-800 dark:text-zinc-200&quot;
+                    &gt;تتبع الشحنة المباشرة&lt;/span
+                  &gt;
+                &lt;/div&gt;
+                &lt;span
+                  class=&quot;bg-amber-400 text-black text-[11px] font-black px-2.5 py-0.5 rounded border border-black font-mono&quot;
+                &gt;
+                  #MERSAL-994
+                &lt;/span&gt;
+              &lt;/div&gt;
+
+              &lt;div
+                class=&quot;bg-zinc-50 dark:bg-zinc-950 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 space-y-3&quot;
+              &gt;
+                &lt;div class=&quot;flex items-center justify-between&quot;&gt;
+                  &lt;div&gt;
+                    &lt;h5
+                      class=&quot;text-xs font-bold text-zinc-900 dark:text-white font-display&quot;
+                    &gt;
+                      الكابتن المسؤول
+                    &lt;/h5&gt;
+                    &lt;p
+                      class=&quot;text-[11px] text-zinc-500 dark:text-zinc-400 font-mono&quot;
+                    &gt;
+                      أحمد محمود (أسوان الوسطى)
+                    &lt;/p&gt;
+                  &lt;/div&gt;
+                  &lt;span
+                    class=&quot;bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400 text-[10px] font-extrabold px-2.5 py-1 rounded-full border border-emerald-500&quot;
+                  &gt;
+                    قيد التوصيل
+                  &lt;/span&gt;
+                &lt;/div&gt;
+
+                &lt;div class=&quot;space-y-1&quot;&gt;
+                  &lt;div
+                    class=&quot;flex justify-between text-[10px] font-mono text-zinc-500 dark:text-zinc-400&quot;
+                  &gt;
+                    &lt;span&gt;تم الاستلام من المرسل&lt;/span&gt;
+                    &lt;span class=&quot;text-red-600 dark:text-amber-400 font-bold&quot;
+                      &gt;المتبقي: 18 دقيقة (2.4 كم)&lt;/span
+                    &gt;
+                  &lt;/div&gt;
+                  &lt;div
+                    class=&quot;w-full bg-zinc-200 dark:bg-zinc-800 h-2.5 rounded-full overflow-hidden border border-black&quot;
+                  &gt;
+                    &lt;div
+                      class=&quot;bg-gradient-to-r from-amber-400 to-red-600 h-full w-3/4 rounded-full&quot;
+                    &gt;&lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+
+              &lt;div
+                class=&quot;p-3 bg-amber-400/10 border border-amber-400/40 rounded-xl flex items-center justify-between text-xs font-mono&quot;
+              &gt;
+                &lt;span class=&quot;font-bold text-zinc-800 dark:text-zinc-200&quot;
+                  &gt;الدعم والمتابعة المباشرة:&lt;/span
+                &gt;
+                &lt;a
+                  href=&quot;tel:01148606472&quot;
+                  class=&quot;font-black text-red-600 dark:text-amber-400 hover:underline dir-ltr&quot;
+                &gt;
+                  011 48606472
+                &lt;/a&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+  &lt;/body&gt;
+&lt;/html&gt;"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- Screen 2 -->
+  <div id="screen-admin" class="scroll-mt-24">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-5">
+      <div>
+        <span class="mono text-xs font-extrabold text-red-600 dark:text-amber-400">/ SCREEN 02 — ADMIN CONTROL CENTER</span>
+        <h2 class="d font-black text-2xl sm:text-3xl text-zinc-900 dark:text-white mt-1">٢. لوحة تحكم الأدمن</h2>
+        <p class="text-sm text-zinc-600 dark:text-zinc-400 mt-1">شغّالة تفاعليًا: افتح طلب، وزّعه من الدروب داون، وأضف سائق جديد (الإيميل والباسورد والفون).</p>
+      </div>
+      <span class="inline-flex items-center gap-1.5 mono text-[11px] font-extrabold px-3 py-1 rounded-lg bg-emerald-500/15 border border-emerald-500/40 text-emerald-700 dark:text-emerald-400 self-start sm:self-auto">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        Interactive Preview
+      </span>
+    </div>
+    <div class="win">
+      <div class="bar">
+        <i></i><i></i><i></i>
+        <span>mersal.com/admin</span>
+      </div>
+      <div class="fr" data-w="1440" data-h="1000">
+        <iframe srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;ar&quot; dir=&quot;rtl&quot; class=&quot;dark scroll-smooth&quot;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot; /&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
+    &lt;title&gt;لوحة تحكم الأدمن | نظام مرسال لوجفستيكس&lt;/title&gt;
+
+    &lt;!-- Google Fonts --&gt;
+    &lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.googleapis.com&quot; /&gt;
+    &lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.gstatic.com&quot; crossorigin /&gt;
+    &lt;link
+      href=&quot;https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;family=Tajawal:wght@700;800;900&amp;family=JetBrains+Mono:wght@500;700;800&amp;display=swap&quot;
+      rel=&quot;stylesheet&quot;
+    /&gt;
+
+    &lt;!-- Tailwind CSS CDN --&gt;
+    &lt;script src=&quot;https://cdn.tailwindcss.com&quot;&gt;&lt;/script&gt;
+    &lt;script&gt;
+      tailwind.config = {
+        darkMode: &quot;class&quot;,
+        theme: {
+          extend: {
+            fontFamily: {
+              display: [&quot;Tajawal&quot;, &quot;sans-serif&quot;],
+              body: [&quot;IBM Plex Sans Arabic&quot;, &quot;sans-serif&quot;],
+              mono: [&quot;JetBrains Mono&quot;, &quot;monospace&quot;],
+            },
+          },
+        },
+      };
+    &lt;/script&gt;
+    &lt;style&gt;
+      body {
+        font-family: &quot;IBM Plex Sans Arabic&quot;, sans-serif;
+      }
+      h1, h2, h3, h4, .font-display {
+        font-family: &quot;Tajawal&quot;, sans-serif;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body class=&quot;bg-zinc-100 dark:bg-zinc-950 text-zinc-900 dark:text-white antialiased selection:bg-amber-400 selection:text-black transition-colors duration-200 min-h-screen flex flex-col justify-between&quot;&gt;
+
+    &lt;!-- TOP SYSTEM BAR --&gt;
+    &lt;div class=&quot;bg-zinc-950 text-white text-[11px] font-mono border-b border-zinc-800 py-1.5 px-4&quot;&gt;
+      &lt;div class=&quot;max-w-7xl mx-auto flex justify-between items-center&quot;&gt;
+        &lt;div class=&quot;flex items-center gap-3&quot;&gt;
+          &lt;span class=&quot;bg-amber-400 text-black font-extrabold px-2 py-0.5 border border-black&quot;&gt;LOGISTICS OS V2.8&lt;/span&gt;
+          &lt;span class=&quot;hidden sm:inline-block text-zinc-400&quot;&gt;لوحة تحكم الإدارة المركزية — أسوان&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;flex items-center gap-3&quot;&gt;
+          &lt;button
+            id=&quot;theme-toggle&quot;
+            type=&quot;button&quot;
+            class=&quot;bg-zinc-900 border border-zinc-700 hover:border-amber-400 text-white px-2 py-0.5 font-bold transition-all text-[10px]&quot;
+          &gt;
+            &lt;span id=&quot;theme-toggle-text&quot;&gt;MODE: DARK&lt;/span&gt;
+          &lt;/button&gt;
+          &lt;span class=&quot;text-emerald-400 font-bold flex items-center gap-1.5&quot;&gt;
+            &lt;span class=&quot;w-2 h-2 rounded-full bg-emerald-500 animate-ping&quot;&gt;&lt;/span&gt;
+            متصل بالـ Database
+          &lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- ADMIN NAVBAR --&gt;
+    &lt;header class=&quot;sticky top-0 z-50 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md border-b-2 border-zinc-900 dark:border-zinc-800 transition-colors&quot;&gt;
+      &lt;div class=&quot;max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between&quot;&gt;
+        
+        &lt;!-- Brand Logo --&gt;
+        &lt;a href=&quot;#&quot; class=&quot;flex items-center gap-3&quot;&gt;
+          &lt;div class=&quot;bg-red-600 text-white font-black text-2xl px-4 py-1 tracking-wider border-2 border-black rounded-lg shadow-[3px_3px_0px_#0A0A0C]&quot;&gt;
+            مرسال
+          &lt;/div&gt;
+          &lt;div class=&quot;flex flex-col&quot;&gt;
+            &lt;span class=&quot;text-sm font-black font-display text-zinc-900 dark:text-white leading-none&quot;&gt;ADMIN DASHBOARD&lt;/span&gt;
+            &lt;span class=&quot;text-[10px] font-mono text-red-600 dark:text-red-500 font-bold&quot;&gt;إدارة الشحنات وتوزيع السائقين&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/a&gt;
+
+        &lt;!-- Navigation Links --&gt;
+        &lt;nav class=&quot;hidden lg:flex items-center gap-6 text-xs font-bold font-mono text-zinc-700 dark:text-zinc-300&quot;&gt;
+          &lt;a href=&quot;admin-dashboard.html&quot; class=&quot;text-red-600 dark:text-amber-400 font-black&quot;&gt;الطلبات العامة&lt;/a&gt;
+          &lt;a href=&quot;#drivers&quot; class=&quot;hover:text-red-600 dark:hover:text-amber-400 transition-colors&quot;&gt;إدارة السائقين (Drivers)&lt;/a&gt;
+          &lt;a href=&quot;Landingpage.html&quot; target=&quot;_blank&quot; class=&quot;hover:text-red-600 dark:hover:text-amber-400 transition-colors&quot;&gt;معاينة الموقع (Landing) ↗&lt;/a&gt;
+        &lt;/nav&gt;
+
+        &lt;!-- Admin Profile &amp; Logout --&gt;
+        &lt;div class=&quot;flex items-center gap-3&quot;&gt;
+          &lt;div class=&quot;hidden sm:flex flex-col text-left font-mono text-[11px]&quot;&gt;
+            &lt;span class=&quot;font-bold text-zinc-900 dark:text-white&quot;&gt;مدير النظام (Admin)&lt;/span&gt;
+            &lt;span class=&quot;text-zinc-500&quot;&gt;admin@mersal.com&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;a href=&quot;login.html&quot; class=&quot;border-2 border-zinc-900 dark:border-zinc-700 bg-red-600 text-white font-bold text-xs px-4 py-2 rounded-lg hover:bg-red-700 transition-all font-mono shadow-[2px_2px_0px_#0A0A0C]&quot;&gt;
+            خروج
+          &lt;/a&gt;
+        &lt;/div&gt;
+
+      &lt;/div&gt;
+    &lt;/header&gt;
+
+    &lt;!-- MAIN DASHBOARD CONTENT --&gt;
+    &lt;main class=&quot;max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-8 w-full flex-grow&quot;&gt;
+      
+      &lt;!-- Page Title &amp; Actions Header --&gt;
+      &lt;div class=&quot;flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b-2 border-zinc-300 dark:border-zinc-800&quot;&gt;
+        &lt;div&gt;
+          &lt;span class=&quot;text-xs font-mono font-bold text-red-600 dark:text-amber-400&quot;&gt;/ ORDERS MANAGEMENT&lt;/span&gt;
+          &lt;h1 class=&quot;text-2xl sm:text-4xl font-black font-display text-zinc-900 dark:text-white mt-1&quot;&gt;متابعة وتوزيع الشحنات&lt;/h1&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;flex items-center gap-3 font-mono text-xs&quot;&gt;
+          &lt;button onclick=&quot;alert(&#x27;جاري تحديث بيانات الطلبات من قاعدة البيانات...&#x27;)&quot; class=&quot;bg-amber-400 hover:bg-amber-500 text-black font-extrabold px-4 py-2.5 rounded-xl border-2 border-zinc-900 shadow-[3px_3px_0px_#0A0A0C] transition-all&quot;&gt;
+            تحديث القائمة ⟳
+          &lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;!-- KPI METRICS CARDS --&gt;
+      &lt;div class=&quot;grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6&quot;&gt;
+        
+        &lt;div class=&quot;bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 p-5 rounded-2xl shadow-[5px_5px_0px_#0A0A0C] dark:shadow-[5px_5px_0px_#27272A] space-y-2&quot;&gt;
+          &lt;div class=&quot;flex justify-between items-center text-xs font-mono text-zinc-500 dark:text-zinc-400&quot;&gt;
+            &lt;span&gt;إجمالي الطلبات&lt;/span&gt;
+            &lt;span class=&quot;bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded border border-zinc-300 dark:border-zinc-700&quot;&gt;Total&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;text-3xl font-black font-display text-zinc-900 dark:text-white&quot;&gt;142&lt;/div&gt;
+          &lt;p class=&quot;text-[10px] font-mono text-emerald-600 dark:text-emerald-400 font-bold&quot;&gt;+12 اليوم&lt;/p&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 p-5 rounded-2xl shadow-[5px_5px_0px_#0A0A0C] dark:shadow-[5px_5px_0px_#27272A] space-y-2&quot;&gt;
+          &lt;div class=&quot;flex justify-between items-center text-xs font-mono text-zinc-500 dark:text-zinc-400&quot;&gt;
+            &lt;span&gt;طلبات جديدة&lt;/span&gt;
+            &lt;span class=&quot;bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 px-2 py-0.5 rounded border border-amber-500&quot;&gt;New&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;text-3xl font-black font-display text-amber-500&quot;&gt;8&lt;/div&gt;
+          &lt;p class=&quot;text-[10px] font-mono text-zinc-500&quot;&gt;بانتظار تعيين سائق&lt;/p&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 p-5 rounded-2xl shadow-[5px_5px_0px_#0A0A0C] dark:shadow-[5px_5px_0px_#27272A] space-y-2&quot;&gt;
+          &lt;div class=&quot;flex justify-between items-center text-xs font-mono text-zinc-500 dark:text-zinc-400&quot;&gt;
+            &lt;span&gt;قيد التوصيل&lt;/span&gt;
+            &lt;span class=&quot;bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300 px-2 py-0.5 rounded border border-blue-500&quot;&gt;Active&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;text-3xl font-black font-display text-blue-600 dark:text-blue-400&quot;&gt;24&lt;/div&gt;
+          &lt;p class=&quot;text-[10px] font-mono text-zinc-500&quot;&gt;مع الكباتن حالياً&lt;/p&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 p-5 rounded-2xl shadow-[5px_5px_0px_#0A0A0C] dark:shadow-[5px_5px_0px_#27272A] space-y-2&quot;&gt;
+          &lt;div class=&quot;flex justify-between items-center text-xs font-mono text-zinc-500 dark:text-zinc-400&quot;&gt;
+            &lt;span&gt;تم التسليم بنجاح&lt;/span&gt;
+            &lt;span class=&quot;bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 px-2 py-0.5 rounded border border-emerald-500&quot;&gt;Done&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;text-3xl font-black font-display text-emerald-600 dark:text-emerald-400&quot;&gt;105&lt;/div&gt;
+          &lt;p class=&quot;text-[10px] font-mono text-zinc-500&quot;&gt;اليوم&lt;/p&gt;
+        &lt;/div&gt;
+
+      &lt;/div&gt;
+
+      &lt;!-- FILTER &amp; SEARCH BAR --&gt;
+      &lt;div class=&quot;bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 p-4 rounded-2xl shadow-[6px_6px_0px_#0A0A0C] dark:shadow-[6px_6px_0px_#27272A] flex flex-col md:flex-row gap-4 items-center justify-between&quot;&gt;
+        &lt;div class=&quot;w-full md:w-1/3 relative&quot;&gt;
+          &lt;input 
+            type=&quot;text&quot; 
+            placeholder=&quot;البحث برقم الطلب، اسم العميل أو الهاتف...&quot; 
+            class=&quot;w-full bg-zinc-50 dark:bg-zinc-950 border-2 border-zinc-900 dark:border-zinc-700 rounded-xl px-4 py-2.5 text-xs font-mono focus:outline-none focus:border-amber-400 text-zinc-900 dark:text-white&quot;
+          &gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;w-full md:w-auto flex flex-wrap gap-2 text-xs font-mono&quot;&gt;
+          &lt;button class=&quot;bg-amber-400 text-black font-bold px-3 py-2 rounded-lg border border-black&quot;&gt;الكل (142)&lt;/button&gt;
+          &lt;button class=&quot;bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-bold px-3 py-2 rounded-lg border border-zinc-300 dark:border-zinc-700 hover:border-amber-400&quot;&gt;جديد (8)&lt;/button&gt;
+          &lt;button class=&quot;bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-bold px-3 py-2 rounded-lg border border-zinc-300 dark:border-zinc-700 hover:border-amber-400&quot;&gt;قيد التوصيل (24)&lt;/button&gt;
+          &lt;button class=&quot;bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-bold px-3 py-2 rounded-lg border border-zinc-300 dark:border-zinc-700 hover:border-amber-400&quot;&gt;تم التسليم (105)&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;!-- ORDERS TABLE --&gt;
+      &lt;div class=&quot;bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 rounded-2xl shadow-[8px_8px_0px_#0A0A0C] dark:shadow-[8px_8px_0px_#27272A] overflow-hidden&quot;&gt;
+        
+        &lt;div class=&quot;overflow-x-auto&quot;&gt;
+          &lt;table class=&quot;w-full text-right border-collapse&quot;&gt;
+            &lt;thead&gt;
+              &lt;tr class=&quot;bg-zinc-100 dark:bg-zinc-950 border-b-2 border-zinc-900 dark:border-zinc-800 text-xs font-mono text-zinc-700 dark:text-zinc-300&quot;&gt;
+                &lt;th class=&quot;p-4&quot;&gt;رقم الطلب / الوقت&lt;/th&gt;
+                &lt;th class=&quot;p-4&quot;&gt;العميل (المرسل)&lt;/th&gt;
+                &lt;th class=&quot;p-4&quot;&gt;المستلم والاتصال&lt;/th&gt;
+                &lt;th class=&quot;p-4&quot;&gt;تفاصيل الشحنة&lt;/th&gt;
+                &lt;th class=&quot;p-4&quot;&gt;سعر التوصيل&lt;/th&gt;
+                &lt;th class=&quot;p-4&quot;&gt;حالة الطلب (Status)&lt;/th&gt;
+                &lt;th class=&quot;p-4&quot;&gt;الكابتن المسؤول (Driver)&lt;/th&gt;
+                &lt;th class=&quot;p-4 text-center&quot;&gt;الإجراءات&lt;/th&gt;
+              &lt;/tr&gt;
+            &lt;/thead&gt;
+
+            &lt;tbody id=&quot;ordersBody&quot; class=&quot;divide-y divide-zinc-200 dark:divide-zinc-800 text-xs font-mono&quot;&gt;&lt;/tbody&gt;
+          &lt;/table&gt;
+        &lt;/div&gt;
+
+      &lt;/div&gt;
+
+
+      &lt;!-- DRIVERS MANAGEMENT --&gt;
+      &lt;section id=&quot;drivers&quot; class=&quot;space-y-4 scroll-mt-28&quot;&gt;
+        &lt;div class=&quot;flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b-2 border-zinc-300 dark:border-zinc-800&quot;&gt;
+          &lt;div&gt;
+            &lt;span class=&quot;text-xs font-mono font-bold text-red-600 dark:text-amber-400&quot;&gt;/ DRIVERS MANAGEMENT&lt;/span&gt;
+            &lt;h2 class=&quot;text-2xl sm:text-3xl font-black font-display text-zinc-900 dark:text-white mt-1&quot;&gt;إدارة السائقين (الكباتن)&lt;/h2&gt;
+          &lt;/div&gt;
+          &lt;button onclick=&quot;openDriverModal()&quot; class=&quot;bg-red-600 hover:bg-red-700 text-white font-extrabold font-display text-sm px-5 py-3 rounded-xl border-2 border-zinc-900 shadow-[3px_3px_0px_#0A0A0C] transition-all&quot;&gt;
+            + إضافة سائق جديد
+          &lt;/button&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 rounded-2xl shadow-[8px_8px_0px_#0A0A0C] dark:shadow-[8px_8px_0px_#27272A] overflow-hidden&quot;&gt;
+          &lt;div class=&quot;overflow-x-auto&quot;&gt;
+            &lt;table class=&quot;w-full text-right border-collapse&quot;&gt;
+              &lt;thead&gt;
+                &lt;tr class=&quot;bg-zinc-100 dark:bg-zinc-950 border-b-2 border-zinc-900 dark:border-zinc-800 text-xs font-mono text-zinc-700 dark:text-zinc-300&quot;&gt;
+                  &lt;th class=&quot;p-4&quot;&gt;الكود&lt;/th&gt;
+                  &lt;th class=&quot;p-4&quot;&gt;اسم السائق&lt;/th&gt;
+                  &lt;th class=&quot;p-4&quot;&gt;رقم الهاتف (واتساب)&lt;/th&gt;
+                  &lt;th class=&quot;p-4&quot;&gt;البريد الإلكتروني&lt;/th&gt;
+                  &lt;th class=&quot;p-4&quot;&gt;طلبات مسندة&lt;/th&gt;
+                  &lt;th class=&quot;p-4&quot;&gt;الحالة&lt;/th&gt;
+                  &lt;th class=&quot;p-4 text-center&quot;&gt;إجراء&lt;/th&gt;
+                &lt;/tr&gt;
+              &lt;/thead&gt;
+              &lt;tbody id=&quot;driversBody&quot; class=&quot;divide-y divide-zinc-200 dark:divide-zinc-800 text-xs font-mono&quot;&gt;&lt;/tbody&gt;
+            &lt;/table&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/section&gt;
+
+    &lt;/main&gt;
+
+    &lt;!-- ORDER DETAILS MODAL --&gt;
+    &lt;div id=&quot;orderModal&quot; class=&quot;fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4&quot;&gt;
+      &lt;div class=&quot;bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 w-full max-w-2xl rounded-3xl p-6 sm:p-8 space-y-6 shadow-[10px_10px_0px_#0A0A0C] relative&quot;&gt;
+        
+        &lt;div class=&quot;flex justify-between items-center border-b-2 border-zinc-200 dark:border-zinc-800 pb-4&quot;&gt;
+          &lt;div&gt;
+            &lt;span id=&quot;modalOrderId&quot; class=&quot;bg-amber-400 text-black font-mono font-black text-xs px-3 py-1 rounded border border-black&quot;&gt;#MERS-000&lt;/span&gt;
+            &lt;h3 class=&quot;text-xl font-black font-display text-zinc-900 dark:text-white mt-2&quot;&gt;تفاصيل الشحنة الكاملة&lt;/h3&gt;
+          &lt;/div&gt;
+          &lt;button onclick=&quot;closeOrderModal()&quot; class=&quot;w-8 h-8 rounded-full bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 font-bold flex items-center justify-center border border-zinc-400 hover:bg-red-600 hover:text-white transition-all&quot;&gt;
+            ✕
+          &lt;/button&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;grid sm:grid-cols-2 gap-4 font-mono text-xs&quot;&gt;
+          &lt;div class=&quot;bg-zinc-50 dark:bg-zinc-950 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 space-y-1&quot;&gt;
+            &lt;span class=&quot;text-zinc-500 block&quot;&gt;بيانات المرسل (العميل):&lt;/span&gt;
+            &lt;p id=&quot;modalCustomerName&quot; class=&quot;font-bold text-zinc-900 dark:text-white text-sm&quot;&gt;-&lt;/p&gt;
+            &lt;p id=&quot;modalCustomerPhone&quot; class=&quot;text-zinc-600 dark:text-zinc-400&quot;&gt;-&lt;/p&gt;
+            &lt;p id=&quot;modalPickupAddress&quot; class=&quot;text-zinc-500 text-[11px]&quot;&gt;-&lt;/p&gt;
+          &lt;/div&gt;
+
+          &lt;div class=&quot;bg-zinc-50 dark:bg-zinc-950 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 space-y-1&quot;&gt;
+            &lt;span class=&quot;text-zinc-500 block&quot;&gt;بيانات المستلم:&lt;/span&gt;
+            &lt;p id=&quot;modalReceiverName&quot; class=&quot;font-bold text-zinc-900 dark:text-white text-sm&quot;&gt;-&lt;/p&gt;
+            &lt;p id=&quot;modalReceiverPhone&quot; class=&quot;text-zinc-600 dark:text-zinc-400&quot;&gt;-&lt;/p&gt;
+            &lt;p id=&quot;modalDeliveryAddress&quot; class=&quot;text-zinc-500 text-[11px]&quot;&gt;-&lt;/p&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;bg-amber-500/10 border border-amber-500/30 p-4 rounded-xl space-y-1 font-mono text-xs&quot;&gt;
+          &lt;span class=&quot;font-bold text-amber-600 dark:text-amber-400 block&quot;&gt;محتوى الشحنة والدفع:&lt;/span&gt;
+          &lt;p id=&quot;modalShipmentDetails&quot; class=&quot;text-zinc-800 dark:text-zinc-200&quot;&gt;-&lt;/p&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;pt-2 flex flex-col sm:flex-row gap-3&quot;&gt;
+          &lt;a id=&quot;whatsappDriverBtn&quot; href=&quot;#&quot; target=&quot;_blank&quot; class=&quot;flex-grow bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold font-display py-3 px-4 rounded-xl border-2 border-zinc-900 shadow-[3px_3px_0px_#0A0A0C] transition-all flex items-center justify-center gap-2 text-sm&quot;&gt;
+            &lt;span&gt;📲 إرسال تفاصيل الطلب للسائق عبر واتساب&lt;/span&gt;
+          &lt;/a&gt;
+          &lt;button onclick=&quot;closeOrderModal()&quot; class=&quot;bg-zinc-900 text-white dark:bg-zinc-100 dark:text-black font-bold py-3 px-6 rounded-xl border-2 border-black font-mono text-xs&quot;&gt;
+            إغلاق
+          &lt;/button&gt;
+        &lt;/div&gt;
+
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- ADD DRIVER MODAL --&gt;
+    &lt;div id=&quot;driverModal&quot; class=&quot;fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4&quot;&gt;
+      &lt;div class=&quot;bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 w-full max-w-lg rounded-3xl p-6 sm:p-8 space-y-5 shadow-[10px_10px_0px_#0A0A0C]&quot;&gt;
+        &lt;div class=&quot;flex justify-between items-center border-b-2 border-zinc-200 dark:border-zinc-800 pb-4&quot;&gt;
+          &lt;div&gt;
+            &lt;span class=&quot;bg-amber-400 text-black font-mono font-black text-xs px-3 py-1 rounded border border-black&quot;&gt;NEW DRIVER&lt;/span&gt;
+            &lt;h3 class=&quot;text-xl font-black font-display text-zinc-900 dark:text-white mt-2&quot;&gt;إضافة سائق جديد&lt;/h3&gt;
+          &lt;/div&gt;
+          &lt;button type=&quot;button&quot; onclick=&quot;closeDriverModal()&quot; class=&quot;w-8 h-8 rounded-full bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 font-bold flex items-center justify-center border border-zinc-400 hover:bg-red-600 hover:text-white transition-all&quot;&gt;✕&lt;/button&gt;
+        &lt;/div&gt;
+
+        &lt;form id=&quot;driverForm&quot; onsubmit=&quot;submitNewDriver(event)&quot; class=&quot;space-y-4 font-mono text-xs&quot; novalidate&gt;
+          &lt;div class=&quot;space-y-1&quot;&gt;
+            &lt;label class=&quot;font-bold text-zinc-700 dark:text-zinc-300 block&quot;&gt;اسم السائق بالكامل *&lt;/label&gt;
+            &lt;input type=&quot;text&quot; name=&quot;name&quot; required placeholder=&quot;مثال: محمود إبراهيم علي&quot; class=&quot;w-full bg-zinc-50 dark:bg-zinc-950 border-2 border-zinc-900 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-white p-3 focus:outline-none focus:border-amber-400&quot;&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;space-y-1&quot;&gt;
+            &lt;label class=&quot;font-bold text-zinc-700 dark:text-zinc-300 block&quot;&gt;البريد الإلكتروني (لتسجيل الدخول) *&lt;/label&gt;
+            &lt;input type=&quot;email&quot; name=&quot;email&quot; required placeholder=&quot;driver@mersal.com&quot; dir=&quot;ltr&quot; class=&quot;w-full bg-zinc-50 dark:bg-zinc-950 border-2 border-zinc-900 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-white p-3 focus:outline-none focus:border-amber-400 text-left&quot;&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;space-y-1&quot;&gt;
+            &lt;label class=&quot;font-bold text-zinc-700 dark:text-zinc-300 block&quot;&gt;كلمة المرور * (6 أحرف على الأقل)&lt;/label&gt;
+            &lt;div class=&quot;flex gap-2&quot;&gt;
+              &lt;input type=&quot;password&quot; name=&quot;password&quot; id=&quot;driverPassword&quot; required minlength=&quot;6&quot; placeholder=&quot;••••••••&quot; dir=&quot;ltr&quot; class=&quot;w-full bg-zinc-50 dark:bg-zinc-950 border-2 border-zinc-900 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-white p-3 focus:outline-none focus:border-amber-400 text-left&quot;&gt;
+              &lt;button type=&quot;button&quot; onclick=&quot;const i=document.getElementById(&#x27;driverPassword&#x27;); i.type = i.type===&#x27;password&#x27; ? &#x27;text&#x27; : &#x27;password&#x27;;&quot; class=&quot;border-2 border-zinc-900 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white font-bold px-3 rounded-xl&quot;&gt;إظهار&lt;/button&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;space-y-1&quot;&gt;
+            &lt;label class=&quot;font-bold text-zinc-700 dark:text-zinc-300 block&quot;&gt;رقم الهاتف / الواتساب *&lt;/label&gt;
+            &lt;input type=&quot;tel&quot; name=&quot;phone&quot; required placeholder=&quot;01012345678&quot; dir=&quot;ltr&quot; class=&quot;w-full bg-zinc-50 dark:bg-zinc-950 border-2 border-zinc-900 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-white p-3 focus:outline-none focus:border-amber-400 text-left&quot;&gt;
+            &lt;p class=&quot;text-[10px] text-zinc-500&quot;&gt;هنا بتوصل رسالة الواتساب لما الأدمن يسند طلب للسائق.&lt;/p&gt;
+          &lt;/div&gt;
+
+          &lt;p id=&quot;driverFormError&quot; class=&quot;hidden bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300 border border-red-500 rounded-lg px-3 py-2 font-bold&quot;&gt;&lt;/p&gt;
+
+          &lt;div class=&quot;flex gap-3 pt-2&quot;&gt;
+            &lt;button type=&quot;submit&quot; class=&quot;flex-grow bg-red-600 hover:bg-red-700 text-white font-extrabold font-display text-sm py-3 rounded-xl border-2 border-zinc-900 shadow-[3px_3px_0px_#0A0A0C] transition-all&quot;&gt;حفظ السائق&lt;/button&gt;
+            &lt;button type=&quot;button&quot; onclick=&quot;closeDriverModal()&quot; class=&quot;bg-zinc-900 text-white dark:bg-zinc-100 dark:text-black font-bold py-3 px-6 rounded-xl border-2 border-black text-xs&quot;&gt;إلغاء&lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/form&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- TOAST --&gt;
+    &lt;div id=&quot;toast&quot; class=&quot;fixed bottom-6 left-1/2 -translate-x-1/2 z-[60] hidden bg-zinc-900 text-white border-2 border-amber-400 font-mono text-xs font-bold px-5 py-3 rounded-xl shadow-[4px_4px_0px_#000] max-w-[90vw] text-center&quot;&gt;&lt;/div&gt;
+
+    &lt;!-- PROFESSIONAL FOOTER --&gt;
+    &lt;footer class=&quot;bg-white dark:bg-zinc-950 border-t-2 border-zinc-900 dark:border-zinc-800 text-zinc-900 dark:text-white transition-colors pt-12 pb-8&quot;&gt;
+      &lt;div class=&quot;max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-zinc-500 dark:text-zinc-400&quot;&gt;
+        &lt;p&gt;© 2026 Mersal Logistics OS. Admin Dashboard Module.&lt;/p&gt;
+        &lt;p class=&quot;flex items-center gap-2&quot;&gt;
+          &lt;span&gt;Database Schema v1&lt;/span&gt;
+          &lt;span class=&quot;w-1.5 h-1.5 rounded-full bg-red-600&quot;&gt;&lt;/span&gt;
+          &lt;span&gt;Aswan, Egypt&lt;/span&gt;
+        &lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/footer&gt;
+
+    &lt;script&gt;
+      const themeToggleBtn = document.getElementById(&quot;theme-toggle&quot;);
+      const themeToggleText = document.getElementById(&quot;theme-toggle-text&quot;);
+
+      themeToggleBtn.addEventListener(&quot;click&quot;, function () {
+        if (document.documentElement.classList.contains(&quot;dark&quot;)) {
+          document.documentElement.classList.remove(&quot;dark&quot;);
+          themeToggleText.textContent = &quot;MODE: LIGHT&quot;;
+        } else {
+          document.documentElement.classList.add(&quot;dark&quot;);
+          themeToggleText.textContent = &quot;MODE: DARK&quot;;
+        }
+      });
+
+      const KEYS = { drivers: &quot;mersal_drivers&quot;, orders: &quot;mersal_orders_state&quot;, inbox: &quot;mersal_driver_inbox&quot; };
+
+      const DEFAULT_DRIVERS = [
+        { id: &quot;driver1&quot;, code: &quot;DRV-01&quot;, name: &quot;محمود إبراهيم&quot;, phone: &quot;01098765432&quot;, email: &quot;mahmoud@mersal.com&quot;, isActive: true },
+        { id: &quot;driver2&quot;, code: &quot;DRV-02&quot;, name: &quot;علي حسن&quot;, phone: &quot;01022223333&quot;, email: &quot;ali@mersal.com&quot;, isActive: true },
+      ];
+
+      const ORDERS = [
+        { id: &quot;MERS-1025&quot;, age: &quot;منذ 15 دقيقة&quot;, customerName: &quot;محمد علي&quot;, customerPhone: &quot;01012345678&quot;, pickupAddress: &quot;أسوان - الكورنيش&quot;,
+          receiverName: &quot;أحمد محمود&quot;, receiverPhone: &quot;01099887766&quot;, deliveryAddress: &quot;أسوان - المحمودية&quot;,
+          shipmentDetails: &quot;أوراق ومستندات مهمة&quot;, shortDetails: &quot;أوراق ومستندات&quot;, piecesCount: 1, paymentMethod: &quot;COD&quot;, codAmount: 0, deliveryFee: 30,
+          status: &quot;NEW&quot;, driverId: null },
+        { id: &quot;MERS-1024&quot;, age: &quot;منذ ساعة&quot;, customerName: &quot;شركة النور&quot;, customerPhone: &quot;01198765432&quot;, pickupAddress: &quot;أسوان - السوق التجاري&quot;,
+          receiverName: &quot;إبراهيم عادل&quot;, receiverPhone: &quot;01233445566&quot;, deliveryAddress: &quot;أسوان - السيل&quot;,
+          shipmentDetails: &quot;ملابس وأزياء شتوية&quot;, shortDetails: &quot;ملابس وأزياء&quot;, piecesCount: 3, paymentMethod: &quot;COD&quot;, codAmount: 450, deliveryFee: 40,
+          status: &quot;GOING_TO_DELIVER&quot;, driverId: &quot;driver1&quot; },
+      ];
+
+      const STATUS_UI = {
+        NEW: { label: &quot;جديد (New)&quot;, cls: &quot;bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 border-amber-500&quot; },
+        ASSIGNED: { label: &quot;تم التعيين&quot;, cls: &quot;bg-indigo-100 text-indigo-800 dark:bg-indigo-950 dark:text-indigo-300 border-indigo-500&quot; },
+        GOING_TO_DELIVER: { label: &quot;في الطريق للتسليم&quot;, cls: &quot;bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300 border-blue-500&quot; },
+      };
+
+      const store = {
+        read(key, fallback) { try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch (e) { return fallback; } },
+        write(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {} },
+      };
+
+      let drivers = store.read(KEYS.drivers, DEFAULT_DRIVERS);
+      const savedOrders = store.read(KEYS.orders, {});
+      ORDERS.forEach((o) =&gt; { if (savedOrders[o.id]) Object.assign(o, savedOrders[o.id]); });
+
+      const api = {
+        addDriver(data) {
+          const next = drivers.length + 1;
+          const driver = { id: &quot;driver&quot; + Date.now(), code: &quot;DRV-&quot; + String(next).padStart(2, &quot;0&quot;), name: data.name, phone: data.phone, email: data.email, isActive: true };
+          drivers.push(driver);
+          store.write(KEYS.drivers, drivers);
+          return driver;
+        },
+        toggleDriver(id) {
+          const d = drivers.find((x) =&gt; x.id === id);
+          if (d) { d.isActive = !d.isActive; store.write(KEYS.drivers, drivers); }
+        },
+        assignOrder(order, driver) {
+          order.driverId = driver.id;
+          if (order.status === &quot;NEW&quot;) order.status = &quot;ASSIGNED&quot;;
+          const state = {}; ORDERS.forEach((o) =&gt; { state[o.id] = { status: o.status, driverId: o.driverId }; });
+          store.write(KEYS.orders, state);
+          const inbox = store.read(KEYS.inbox, {});
+          Object.keys(inbox).forEach((k) =&gt; { inbox[k] = inbox[k].filter((x) =&gt; x.id !== order.id); });
+          (inbox[driver.id] = inbox[driver.id] || []).push({ ...order, assignedAt: new Date().toISOString() });
+          store.write(KEYS.inbox, inbox);
+        },
+      };
+
+      const esc = (t) =&gt; String(t).replace(/[&amp;&lt;&gt;&quot;&#x27;]/g, (c) =&gt; ({ &quot;&amp;&quot;: &quot;&amp;amp;&quot;, &quot;&lt;&quot;: &quot;&amp;lt;&quot;, &quot;&gt;&quot;: &quot;&amp;gt;&quot;, &#x27;&quot;&#x27;: &quot;&amp;quot;&quot;, &quot;&#x27;&quot;: &quot;&amp;#39;&quot; }[c]));
+      const driverById = (id) =&gt; drivers.find((d) =&gt; d.id === id);
+      const paymentText = (o) =&gt; (o.paymentMethod === &quot;COD&quot; ? &quot;COD: &quot; + o.codAmount + &quot; ج.م&quot; : &quot;مدفوع مقدماً&quot;);
+      const waNumber = (phone) =&gt; &quot;20&quot; + phone.replace(/^0/, &quot;&quot;);
+
+      function buildWhatsAppLink(order, driver) {
+        const text =
+          &quot;📦 *طلب توصيل جديد من مرسال*\n&quot; +
+          &quot;كابتن &quot; + driver.name + &quot;\n&quot; +
+          &quot;رقم الطلب: #&quot; + order.id + &quot;\n&quot; +
+          &quot;المرسل: &quot; + order.customerName + &quot; (&quot; + order.customerPhone + &quot;)\n&quot; +
+          &quot;عنوان الاستلام: &quot; + order.pickupAddress + &quot;\n&quot; +
+          &quot;المستلم: &quot; + order.receiverName + &quot; (&quot; + order.receiverPhone + &quot;)\n&quot; +
+          &quot;عنوان التسليم: &quot; + order.deliveryAddress + &quot;\n&quot; +
+          &quot;التفاصيل: &quot; + order.shipmentDetails + &quot; (&quot; + order.piecesCount + &quot; قطعة) • &quot; + paymentText(order) + &quot;\n&quot; +
+          &quot;سعر التوصيل: &quot; + order.deliveryFee + &quot; ج.م&quot;;
+        return &quot;https://wa.me/&quot; + waNumber(driver.phone) + &quot;?text=&quot; + encodeURIComponent(text);
+      }
+
+      let toastTimer;
+      function toast(msg) {
+        const el = document.getElementById(&quot;toast&quot;);
+        el.textContent = msg;
+        el.classList.remove(&quot;hidden&quot;);
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() =&gt; el.classList.add(&quot;hidden&quot;), 3500);
+      }
+
+      function driverOptions(order) {
+        const placeholder = order.driverId ? &quot;&quot; : &#x27;&lt;option value=&quot;&quot;&gt;-- تعيين سائق --&lt;/option&gt;&#x27;;
+        const opts = drivers
+          .filter((d) =&gt; d.isActive || d.id === order.driverId)
+          .map((d) =&gt; &#x27;&lt;option value=&quot;&#x27; + d.id + &#x27;&quot;&#x27; + (d.id === order.driverId ? &quot; selected&quot; : &quot;&quot;) + &quot;&gt;&quot; + esc(d.name) + (d.isActive ? &quot;&quot; : &quot; (معطّل)&quot;) + &quot;&lt;/option&gt;&quot;)
+          .join(&quot;&quot;);
+        return placeholder + opts;
+      }
+
+      function renderOrders() {
+        document.getElementById(&quot;ordersBody&quot;).innerHTML = ORDERS.map((o) =&gt; {
+          const st = STATUS_UI[o.status] || STATUS_UI.NEW;
+          const selCls = o.driverId ? &quot;text-zinc-900 dark:text-white&quot; : &quot;text-amber-600 dark:text-amber-400&quot;;
+          return (
+            &#x27;&lt;tr class=&quot;hover:bg-amber-500/5 transition-colors cursor-pointer&quot; onclick=&quot;openOrderModal(\&#x27;&#x27; + o.id + &#x27;\&#x27;)&quot;&gt;&#x27; +
+            &#x27;&lt;td class=&quot;p-4&quot;&gt;&lt;span class=&quot;font-black text-zinc-900 dark:text-white block&quot;&gt;#&#x27; + o.id + &#x27;&lt;/span&gt;&lt;span class=&quot;text-[10px] text-zinc-500&quot;&gt;&#x27; + o.age + &quot;&lt;/span&gt;&lt;/td&gt;&quot; +
+            &#x27;&lt;td class=&quot;p-4&quot;&gt;&lt;span class=&quot;font-bold text-zinc-900 dark:text-white block&quot;&gt;&#x27; + esc(o.customerName) + &#x27;&lt;/span&gt;&lt;span class=&quot;text-[10px] text-zinc-500&quot;&gt;&#x27; + o.customerPhone + &quot;&lt;/span&gt;&lt;/td&gt;&quot; +
+            &#x27;&lt;td class=&quot;p-4&quot;&gt;&lt;span class=&quot;font-bold text-zinc-900 dark:text-white block&quot;&gt;&#x27; + esc(o.receiverName) + &#x27;&lt;/span&gt;&lt;span class=&quot;text-[10px] text-zinc-500&quot;&gt;&#x27; + esc(o.deliveryAddress) + &quot;&lt;/span&gt;&lt;/td&gt;&quot; +
+            &#x27;&lt;td class=&quot;p-4&quot;&gt;&lt;span class=&quot;font-bold block&quot;&gt;&#x27; + esc(o.shortDetails) + &#x27;&lt;/span&gt;&lt;span class=&quot;text-[10px] text-zinc-500&quot;&gt;&#x27; + o.piecesCount + &quot; قطع • &quot; + paymentText(o) + &quot;&lt;/span&gt;&lt;/td&gt;&quot; +
+            &#x27;&lt;td class=&quot;p-4&quot;&gt;&lt;span class=&quot;font-black text-emerald-600 dark:text-emerald-400&quot;&gt;&#x27; + o.deliveryFee + &quot; ج.م&lt;/span&gt;&lt;/td&gt;&quot; +
+            &#x27;&lt;td class=&quot;p-4&quot;&gt;&lt;span class=&quot;&#x27; + st.cls + &#x27; font-extrabold px-2.5 py-1 rounded-full border text-[10px]&quot;&gt;&#x27; + st.label + &quot;&lt;/span&gt;&lt;/td&gt;&quot; +
+            &#x27;&lt;td class=&quot;p-4&quot; onclick=&quot;event.stopPropagation();&quot;&gt;&lt;select onchange=&quot;assignDriver(\&#x27;&#x27; + o.id + &#x27;\&#x27;, this.value)&quot; class=&quot;bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-700 rounded px-2 py-1 text-xs font-bold &#x27; + selCls + &#x27; focus:outline-none&quot;&gt;&#x27; + driverOptions(o) + &quot;&lt;/select&gt;&lt;/td&gt;&quot; +
+            &#x27;&lt;td class=&quot;p-4 text-center&quot; onclick=&quot;event.stopPropagation();&quot;&gt;&lt;button onclick=&quot;openOrderModal(\&#x27;&#x27; + o.id + &#x27;\&#x27;)&quot; class=&quot;bg-zinc-900 text-white dark:bg-zinc-100 dark:text-black font-bold px-3 py-1.5 rounded-lg border border-black hover:bg-red-600 hover:text-white transition-all text-[11px]&quot;&gt;التفاصيل&lt;/button&gt;&lt;/td&gt;&#x27; +
+            &quot;&lt;/tr&gt;&quot;
+          );
+        }).join(&quot;&quot;);
+      }
+
+      function assignDriver(orderId, driverId) {
+        if (!driverId) return;
+        const order = ORDERS.find((o) =&gt; o.id === orderId);
+        const driver = driverById(driverId);
+        if (!order || !driver) return;
+
+        api.assignOrder(order, driver);
+        renderOrders();
+        renderDrivers();
+
+        window.open(buildWhatsAppLink(order, driver), &quot;_blank&quot;);
+        toast(&quot;تم إسناد #&quot; + order.id + &quot; للكابتن &quot; + driver.name + &quot; — ظهر في تطبيقه وفُتح واتساب لإرساله&quot;);
+      }
+
+      function openOrderModal(id) {
+        const o = ORDERS.find((x) =&gt; x.id === id);
+        if (!o) return;
+        const driver = o.driverId ? driverById(o.driverId) : null;
+        document.getElementById(&quot;modalOrderId&quot;).textContent = &quot;#&quot; + o.id;
+        document.getElementById(&quot;modalCustomerName&quot;).textContent = o.customerName;
+        document.getElementById(&quot;modalCustomerPhone&quot;).textContent = o.customerPhone;
+        document.getElementById(&quot;modalPickupAddress&quot;).textContent = &quot;استلام من: &quot; + o.pickupAddress;
+        document.getElementById(&quot;modalReceiverName&quot;).textContent = o.receiverName;
+        document.getElementById(&quot;modalReceiverPhone&quot;).textContent = o.receiverPhone;
+        document.getElementById(&quot;modalDeliveryAddress&quot;).textContent = &quot;تسليم إلى: &quot; + o.deliveryAddress;
+        document.getElementById(&quot;modalShipmentDetails&quot;).textContent =
+          o.shipmentDetails + &quot; (&quot; + o.piecesCount + &quot; قطع) • &quot; + paymentText(o) + &quot; • سعر التوصيل: &quot; + o.deliveryFee + &quot; ج.م&quot; +
+          (driver ? &quot; • الكابتن: &quot; + driver.name : &quot; • لم يُسند لسائق بعد&quot;);
+
+        const wa = document.getElementById(&quot;whatsappDriverBtn&quot;);
+        if (driver) {
+          wa.href = buildWhatsAppLink(o, driver);
+          wa.removeAttribute(&quot;onclick&quot;);
+        } else {
+          wa.href = &quot;#&quot;;
+          wa.onclick = (e) =&gt; { e.preventDefault(); toast(&quot;اختار سائق من القائمة الأول عشان يتبعتله الطلب&quot;); };
+        }
+        document.getElementById(&quot;orderModal&quot;).classList.remove(&quot;hidden&quot;);
+      }
+      function closeOrderModal() { document.getElementById(&quot;orderModal&quot;).classList.add(&quot;hidden&quot;); }
+
+      function renderDrivers() {
+        document.getElementById(&quot;driversBody&quot;).innerHTML = drivers.map((d) =&gt; {
+          const count = ORDERS.filter((o) =&gt; o.driverId === d.id).length;
+          const badge = d.isActive
+            ? &#x27;&lt;span class=&quot;bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-500 font-extrabold px-2.5 py-1 rounded-full text-[10px]&quot;&gt;نشط&lt;/span&gt;&#x27;
+            : &#x27;&lt;span class=&quot;bg-zinc-200 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 border border-zinc-500 font-extrabold px-2.5 py-1 rounded-full text-[10px]&quot;&gt;معطّل&lt;/span&gt;&#x27;;
+          return (
+            &quot;&lt;tr&gt;&quot; +
+            &#x27;&lt;td class=&quot;p-4 font-black text-zinc-900 dark:text-white&quot;&gt;&#x27; + d.code + &quot;&lt;/td&gt;&quot; +
+            &#x27;&lt;td class=&quot;p-4 font-bold text-zinc-900 dark:text-white&quot;&gt;&#x27; + esc(d.name) + &quot;&lt;/td&gt;&quot; +
+            &#x27;&lt;td class=&quot;p-4&quot; dir=&quot;ltr&quot;&gt;&#x27; + esc(d.phone) + &quot;&lt;/td&gt;&quot; +
+            &#x27;&lt;td class=&quot;p-4&quot; dir=&quot;ltr&quot;&gt;&#x27; + esc(d.email) + &quot;&lt;/td&gt;&quot; +
+            &#x27;&lt;td class=&quot;p-4 font-bold&quot;&gt;&#x27; + count + &quot;&lt;/td&gt;&quot; +
+            &#x27;&lt;td class=&quot;p-4&quot;&gt;&#x27; + badge + &quot;&lt;/td&gt;&quot; +
+            &#x27;&lt;td class=&quot;p-4 text-center&quot;&gt;&lt;button onclick=&quot;toggleDriver(\&#x27;&#x27; + d.id + &#x27;\&#x27;)&quot; class=&quot;bg-zinc-900 text-white dark:bg-zinc-100 dark:text-black font-bold px-3 py-1.5 rounded-lg border border-black hover:bg-red-600 hover:text-white transition-all text-[11px]&quot;&gt;&#x27; + (d.isActive ? &quot;تعطيل&quot; : &quot;تفعيل&quot;) + &quot;&lt;/button&gt;&lt;/td&gt;&quot; +
+            &quot;&lt;/tr&gt;&quot;
+          );
+        }).join(&quot;&quot;);
+      }
+
+      function toggleDriver(id) { api.toggleDriver(id); renderDrivers(); renderOrders(); }
+
+      function openDriverModal() {
+        document.getElementById(&quot;driverForm&quot;).reset();
+        document.getElementById(&quot;driverFormError&quot;).classList.add(&quot;hidden&quot;);
+        document.getElementById(&quot;driverPassword&quot;).type = &quot;password&quot;;
+        document.getElementById(&quot;driverModal&quot;).classList.remove(&quot;hidden&quot;);
+      }
+      function closeDriverModal() { document.getElementById(&quot;driverModal&quot;).classList.add(&quot;hidden&quot;); }
+
+      function submitNewDriver(e) {
+        e.preventDefault();
+        const f = e.target;
+        const fd = new FormData(f);
+        const data = { name: String(fd.get(&quot;name&quot;)).trim(), email: String(fd.get(&quot;email&quot;)).trim().toLowerCase(), password: String(fd.get(&quot;password&quot;)), phone: String(fd.get(&quot;phone&quot;)).trim() };
+        const err = document.getElementById(&quot;driverFormError&quot;);
+        const fail = (m) =&gt; { err.textContent = m; err.classList.remove(&quot;hidden&quot;); };
+
+        if (!data.name) return fail(&quot;اكتب اسم السائق&quot;);
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) return fail(&quot;البريد الإلكتروني غير صحيح&quot;);
+        if (data.password.length &lt; 6) return fail(&quot;كلمة المرور لازم تكون 6 أحرف على الأقل&quot;);
+        if (!/^01[0125][0-9]{8}$/.test(data.phone)) return fail(&quot;رقم الهاتف لازم يكون رقم مصري صحيح (مثال: 01012345678)&quot;);
+        if (drivers.some((d) =&gt; d.phone === data.phone)) return fail(&quot;رقم الهاتف ده مسجّل لسائق آخر&quot;);
+        if (drivers.some((d) =&gt; d.email === data.email)) return fail(&quot;البريد الإلكتروني ده مسجّل لسائق آخر&quot;);
+
+        const driver = api.addDriver(data);
+        closeDriverModal();
+        renderDrivers();
+        renderOrders();
+        toast(&quot;تمت إضافة الكابتن &quot; + driver.name + &quot; (&quot; + driver.code + &quot;) وهو متاح الآن في قائمة التعيين&quot;);
+      }
+
+      renderOrders();
+      renderDrivers();
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- Screen 3 -->
+  <div id="screen-driver" class="scroll-mt-24">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-5">
+      <div>
+        <span class="mono text-xs font-extrabold text-red-600 dark:text-amber-400">/ SCREEN 03 — CAPTAIN MOBILE PORTAL</span>
+        <h2 class="d font-black text-2xl sm:text-3xl text-zinc-900 dark:text-white mt-1">٣. تطبيق الكابتن (Mobile Portal)</h2>
+        <p class="text-sm text-zinc-600 dark:text-zinc-400 mt-1">الطلبات المسندة، قبول الطلب، تحديث الحالة، الأرباح والملف الشخصي.</p>
+      </div>
+      <span class="mono text-[11px] font-bold px-3 py-1 rounded-lg bg-zinc-200/80 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 self-start sm:self-auto">
+        Mobile App View • 390px
+      </span>
+    </div>
+
+    <div class="phone-stage rounded-3xl bg-zinc-100/70 dark:bg-zinc-900/40 border-2 border-dashed border-zinc-300 dark:border-zinc-800">
+      <div class="phone mx-auto" style="width:min(100%,396px)">
+        <div class="fr" data-w="390" data-h="800">
+          <iframe srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;ar&quot; dir=&quot;rtl&quot; class=&quot;dark scroll-smooth&quot;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot; /&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; /&gt;
+    &lt;title&gt;تطبيق الكابتن | مرسال دليفري&lt;/title&gt;
+
+    &lt;!-- Google Fonts --&gt;
+    &lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.googleapis.com&quot; /&gt;
+    &lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.gstatic.com&quot; crossorigin /&gt;
+    &lt;link
+      href=&quot;https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;family=Tajawal:wght@700;800;900&amp;family=JetBrains+Mono:wght@500;700;800&amp;display=swap&quot;
+      rel=&quot;stylesheet&quot;
+    /&gt;
+
+    &lt;!-- Tailwind CSS CDN --&gt;
+    &lt;script src=&quot;https://cdn.tailwindcss.com&quot;&gt;&lt;/script&gt;
+    &lt;script&gt;
+      tailwind.config = {
+        darkMode: &quot;class&quot;,
+        theme: {
+          extend: {
+            colors: {
+              mersalRed: &quot;#D80027&quot;,
+              mersalYellow: &quot;#FFC800&quot;,
+            },
+            fontFamily: {
+              display: [&quot;Tajawal&quot;, &quot;sans-serif&quot;],
+              body: [&quot;IBM Plex Sans Arabic&quot;, &quot;sans-serif&quot;],
+              mono: [&quot;JetBrains Mono&quot;, &quot;monospace&quot;],
+            },
+          },
+        },
+      };
+    &lt;/script&gt;
+    &lt;style&gt;
+      body {
+        font-family: &quot;IBM Plex Sans Arabic&quot;, sans-serif;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+      h1, h2, h3, h4, .font-display {
+        font-family: &quot;Tajawal&quot;, sans-serif;
+      }
+
+      @keyframes roadMove {
+        0% { stroke-dashoffset: 0; }
+        100% { stroke-dashoffset: -80; }
+      }
+      .animate-road {
+        animation: roadMove 0.4s linear infinite;
+      }
+
+      @keyframes motoBounce {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-3px) rotate(-0.5deg); }
+      }
+      .animate-moto-bounce {
+        animation: motoBounce 0.35s ease-in-out infinite;
+      }
+
+      @keyframes wheelSpin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      .animate-wheel {
+        transform-origin: center;
+        animation: wheelSpin 0.3s linear infinite;
+      }
+
+      @keyframes smokePuff {
+        0% { transform: translate(0, 0) scale(0.5); opacity: 0.8; }
+        100% { transform: translate(-30px, -15px) scale(1.8); opacity: 0; }
+      }
+      .smoke-1 { animation: smokePuff 0.6s ease-out infinite; }
+      .smoke-2 { animation: smokePuff 0.6s ease-out infinite 0.2s; }
+
+      @keyframes pulseGlow {
+        0%, 100% { opacity: 0.3; transform: scale(0.98); }
+        50% { opacity: 0.7; transform: scale(1.02); }
+      }
+      .animate-glow {
+        animation: pulseGlow 2s infinite;
+      }
+
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body class=&quot;bg-zinc-100 dark:bg-zinc-950 text-zinc-900 dark:text-white antialiased transition-colors duration-200 min-h-screen flex flex-col justify-between overflow-x-hidden selection:bg-amber-400 selection:text-black&quot;&gt;
+
+    &lt;!-- 1. ANIMATED SPLASH SCREEN OVERLAY --&gt;
+    &lt;div id=&quot;splashScreen&quot; class=&quot;fixed inset-0 z-[100] bg-zinc-950 flex flex-col items-center justify-between p-6 overflow-hidden transition-opacity duration-700&quot;&gt;
+      &lt;div class=&quot;absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-red-600/20 rounded-full blur-3xl pointer-events-none animate-glow&quot;&gt;&lt;/div&gt;
+      &lt;div class=&quot;absolute bottom-1/4 left-1/2 -translate-x-1/2 w-72 h-72 bg-amber-400/20 rounded-full blur-3xl pointer-events-none animate-glow&quot;&gt;&lt;/div&gt;
+
+      &lt;div class=&quot;relative z-10 pt-8 text-center space-y-2&quot;&gt;
+        &lt;span class=&quot;inline-block bg-amber-400 text-black font-mono font-extrabold text-xs px-3 py-1 border-2 border-black rounded-md shadow-[3px_3px_0px_#000]&quot;&gt;
+          MERSAL DRIVER OS V2.8
+        &lt;/span&gt;
+        &lt;p class=&quot;text-xs font-mono text-zinc-400&quot;&gt;تطبيق كباتن التوصيل السريع — أسوان&lt;/p&gt;
+      &lt;/div&gt;
+
+      &lt;div class=&quot;relative z-10 w-full max-w-sm flex flex-col items-center justify-center space-y-6&quot;&gt;
+        &lt;div class=&quot;relative w-72 h-48 flex items-center justify-center&quot;&gt;
+          &lt;svg class=&quot;w-full h-full drop-shadow-[0_10px_15px_rgba(0,0,0,0.5)]&quot; viewBox=&quot;0 0 320 200&quot; fill=&quot;none&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;
+            &lt;line x1=&quot;10&quot; y1=&quot;165&quot; x2=&quot;310&quot; y2=&quot;165&quot; stroke=&quot;#3f3f46&quot; stroke-width=&quot;6&quot; stroke-linecap=&quot;round&quot;/&gt;
+            &lt;line x1=&quot;20&quot; y1=&quot;165&quot; x2=&quot;300&quot; y2=&quot;165&quot; stroke=&quot;#FFC800&quot; stroke-width=&quot;4&quot; stroke-dasharray=&quot;20 20&quot; class=&quot;animate-road&quot; stroke-linecap=&quot;round&quot;/&gt;
+            &lt;circle cx=&quot;75&quot; cy=&quot;148&quot; r=&quot;6&quot; fill=&quot;#71717a&quot; class=&quot;smoke-1&quot;/&gt;
+            &lt;circle cx=&quot;65&quot; cy=&quot;145&quot; r=&quot;8&quot; fill=&quot;#a1a1aa&quot; class=&quot;smoke-2&quot;/&gt;
+            &lt;g class=&quot;animate-moto-bounce&quot;&gt;
+              &lt;g transform=&quot;translate(90, 145)&quot;&gt;
+                &lt;circle cx=&quot;0&quot; cy=&quot;0&quot; r=&quot;22&quot; fill=&quot;#18181b&quot; stroke=&quot;#000&quot; stroke-width=&quot;3&quot;/&gt;
+                &lt;circle cx=&quot;0&quot; cy=&quot;0&quot; r=&quot;14&quot; fill=&quot;#3f3f46&quot;/&gt;
+                &lt;g class=&quot;animate-wheel&quot;&gt;
+                  &lt;line x1=&quot;-14&quot; y1=&quot;0&quot; x2=&quot;14&quot; y2=&quot;0&quot; stroke=&quot;#FFC800&quot; stroke-width=&quot;2.5&quot;/&gt;
+                  &lt;line x1=&quot;0&quot; y1=&quot;-14&quot; x2=&quot;0&quot; y2=&quot;14&quot; stroke=&quot;#FFC800&quot; stroke-width=&quot;2.5&quot;/&gt;
+                &lt;/g&gt;
+                &lt;circle cx=&quot;0&quot; cy=&quot;0&quot; r=&quot;5&quot; fill=&quot;#000&quot;/&gt;
+              &lt;/g&gt;
+              &lt;g transform=&quot;translate(230, 145)&quot;&gt;
+                &lt;circle cx=&quot;0&quot; cy=&quot;0&quot; r=&quot;22&quot; fill=&quot;#18181b&quot; stroke=&quot;#000&quot; stroke-width=&quot;3&quot;/&gt;
+                &lt;circle cx=&quot;0&quot; cy=&quot;0&quot; r=&quot;14&quot; fill=&quot;#3f3f46&quot;/&gt;
+                &lt;g class=&quot;animate-wheel&quot;&gt;
+                  &lt;line x1=&quot;-14&quot; y1=&quot;0&quot; x2=&quot;14&quot; y2=&quot;0&quot; stroke=&quot;#FFC800&quot; stroke-width=&quot;2.5&quot;/&gt;
+                  &lt;line x1=&quot;0&quot; y1=&quot;-14&quot; x2=&quot;0&quot; y2=&quot;14&quot; stroke=&quot;#FFC800&quot; stroke-width=&quot;2.5&quot;/&gt;
+                &lt;/g&gt;
+                &lt;circle cx=&quot;0&quot; cy=&quot;0&quot; r=&quot;5&quot; fill=&quot;#000&quot;/&gt;
+              &lt;/g&gt;
+              &lt;path d=&quot;M70 148 L110 148 L130 135&quot; stroke=&quot;#d4d4d8&quot; stroke-width=&quot;5&quot; stroke-linecap=&quot;round&quot;/&gt;
+              &lt;path d=&quot;M90 145 L145 110 L195 110 L230 145&quot; stroke=&quot;#D80027&quot; stroke-width=&quot;12&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/&gt;
+              &lt;path d=&quot;M120 125 L160 125 L190 95 L225 105&quot; stroke=&quot;#18181b&quot; stroke-width=&quot;7&quot; stroke-linecap=&quot;round&quot;/&gt;
+              &lt;rect x=&quot;130&quot; y=&quot;120&quot; width=&quot;30&quot; height=&quot;22&quot; rx=&quot;4&quot; fill=&quot;#52525b&quot; stroke=&quot;#000&quot; stroke-width=&quot;2&quot;/&gt;
+              &lt;line x1=&quot;135&quot; y1=&quot;126&quot; x2=&quot;155&quot; y2=&quot;126&quot; stroke=&quot;#a1a1aa&quot; stroke-width=&quot;2&quot;/&gt;
+              &lt;line x1=&quot;135&quot; y1=&quot;132&quot; x2=&quot;155&quot; y2=&quot;132&quot; stroke=&quot;#a1a1aa&quot; stroke-width=&quot;2&quot;/&gt;
+              &lt;rect x=&quot;70&quot; y=&quot;80&quot; width=&quot;45&quot; height=&quot;42&quot; rx=&quot;5&quot; fill=&quot;#FFC800&quot; stroke=&quot;#000&quot; stroke-width=&quot;3&quot;/&gt;
+              &lt;rect x=&quot;78&quot; y=&quot;90&quot; width=&quot;29&quot; height=&quot;12&quot; rx=&quot;2&quot; fill=&quot;#D80027&quot;/&gt;
+              &lt;text x=&quot;92&quot; y=&quot;99&quot; fill=&quot;#FFF&quot; font-size=&quot;8&quot; font-weight=&quot;900&quot; text-anchor=&quot;middle&quot; font-family=&quot;Tajawal&quot;&gt;مرسال&lt;/text&gt;
+              &lt;line x1=&quot;82&quot; y1=&quot;80&quot; x2=&quot;82&quot; y2=&quot;122&quot; stroke=&quot;#000&quot; stroke-width=&quot;2&quot;/&gt;
+              &lt;line x1=&quot;102&quot; y1=&quot;80&quot; x2=&quot;102&quot; y2=&quot;122&quot; stroke=&quot;#000&quot; stroke-width=&quot;2&quot;/&gt;
+              &lt;path d=&quot;M130 95 Q145 70 170 75 L190 100 L155 108 Z&quot; fill=&quot;#D80027&quot; stroke=&quot;#000&quot; stroke-width=&quot;3&quot;/&gt;
+              &lt;path d=&quot;M160 80 L205 92&quot; stroke=&quot;#D80027&quot; stroke-width=&quot;7&quot; stroke-linecap=&quot;round&quot;/&gt;
+              &lt;path d=&quot;M205 92 L220 95&quot; stroke=&quot;#18181b&quot; stroke-width=&quot;5&quot; stroke-linecap=&quot;round&quot;/&gt;
+              &lt;circle cx=&quot;160&quot; cy=&quot;58&quot; r=&quot;16&quot; fill=&quot;#18181b&quot; stroke=&quot;#000&quot; stroke-width=&quot;3&quot;/&gt;
+              &lt;path d=&quot;M162 50 C172 50 176 58 174 66 L160 66 Z&quot; fill=&quot;#FFC800&quot;/&gt;
+              &lt;circle cx=&quot;152&quot; cy=&quot;58&quot; r=&quot;3&quot; fill=&quot;#D80027&quot;/&gt;
+              &lt;path d=&quot;M235 105 L290 90 L290 135 Z&quot; fill=&quot;#FFC800&quot; opacity=&quot;0.35&quot;/&gt;
+              &lt;circle cx=&quot;232&quot; cy=&quot;108&quot; r=&quot;5&quot; fill=&quot;#FFF&quot; stroke=&quot;#000&quot; stroke-width=&quot;1.5&quot;/&gt;
+            &lt;/g&gt;
+          &lt;/svg&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;text-center space-y-1&quot;&gt;
+          &lt;div class=&quot;inline-block bg-red-600 text-white font-black text-4xl px-6 py-1.5 tracking-wider border-3 border-black rounded-xl shadow-[4px_4px_0px_#FFC800]&quot;&gt;
+            مرسال
+          &lt;/div&gt;
+          &lt;p class=&quot;text-lg font-black font-display text-white tracking-wide pt-2&quot;&gt;تطبيق أسطول التوصيل&lt;/p&gt;
+          &lt;p class=&quot;text-xs font-mono text-zinc-400&quot;&gt;سرعة • دقة • أمان في أسوان&lt;/p&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;w-56 bg-zinc-800 h-3 rounded-full border border-zinc-700 overflow-hidden p-0.5&quot;&gt;
+          &lt;div id=&quot;splashProgress&quot; class=&quot;bg-gradient-to-r from-red-600 to-amber-400 h-full rounded-full w-0 transition-all duration-300&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class=&quot;relative z-10 pb-6 text-center font-mono text-[11px] text-zinc-500&quot;&gt;
+        جاري تحميل نظام الكباتن الميداني...
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- 2. TOP FIXED APP HEADER --&gt;
+    &lt;header class=&quot;sticky top-0 z-40 bg-zinc-950 text-white border-b-2 border-zinc-800 px-4 py-3 shadow-md&quot;&gt;
+      &lt;div class=&quot;max-w-md mx-auto flex items-center justify-between&quot;&gt;
+        &lt;div class=&quot;flex items-center gap-2.5&quot;&gt;
+          &lt;div class=&quot;bg-red-600 text-white font-black text-xl px-3 py-0.5 border-2 border-black rounded-lg shadow-[2px_2px_0px_#FFC800]&quot;&gt;
+            مرسال
+          &lt;/div&gt;
+          &lt;div&gt;
+            &lt;div class=&quot;flex items-center gap-1.5&quot;&gt;
+              &lt;span class=&quot;text-xs font-black font-display text-white&quot;&gt;كابتن محمود إبراهيم&lt;/span&gt;
+              &lt;span class=&quot;w-2 h-2 rounded-full bg-emerald-500 animate-ping&quot;&gt;&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;span class=&quot;text-[10px] font-mono text-amber-400 block leading-tight&quot;&gt;أسوان — منطقة المحمودية والمركز&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;flex items-center gap-2&quot;&gt;
+          &lt;button
+            id=&quot;shiftToggleBtn&quot;
+            onclick=&quot;toggleShiftStatus()&quot;
+            class=&quot;bg-emerald-500 text-black border-2 border-black font-mono font-extrabold text-[11px] px-3 py-1 rounded-lg shadow-[2px_2px_0px_#000] active:translate-y-0.5 transition-all flex items-center gap-1&quot;
+          &gt;
+            &lt;span id=&quot;shiftStatusDot&quot; class=&quot;w-2 h-2 rounded-full bg-black&quot;&gt;&lt;/span&gt;
+            &lt;span id=&quot;shiftStatusText&quot;&gt;متاح للعمل&lt;/span&gt;
+          &lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/header&gt;
+
+    &lt;!-- 3. MAIN TAB CONTAINERS --&gt;
+    &lt;main class=&quot;max-w-md mx-auto w-full px-4 pt-4 pb-24 flex-grow relative&quot;&gt;
+
+      &lt;!-- TAB 1: HOME / ACTIVE ORDERS --&gt;
+      &lt;section id=&quot;tab-home&quot; class=&quot;space-y-5 animate-fadeIn&quot;&gt;
+        &lt;div id=&quot;onlineNotice&quot; class=&quot;bg-amber-400 border-2 border-black p-3.5 rounded-2xl shadow-[4px_4px_0px_#000] text-black font-mono text-xs flex items-center justify-between&quot;&gt;
+          &lt;div class=&quot;flex items-center gap-2.5&quot;&gt;
+            &lt;span class=&quot;text-lg&quot;&gt;🛵&lt;/span&gt;
+            &lt;div&gt;
+              &lt;span class=&quot;font-extrabold block&quot;&gt;أنت جاهز لاستلام الشحنات!&lt;/span&gt;
+              &lt;span class=&quot;text-[10px] opacity-90&quot;&gt;يتم تحديث الطلبات القريبة تلقائياً&lt;/span&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+          &lt;span class=&quot;bg-black text-amber-400 font-bold px-2 py-0.5 rounded text-[10px]&quot;&gt;نشط الآن&lt;/span&gt;
+        &lt;/div&gt;
+
+        &lt;div id=&quot;offlineNotice&quot; class=&quot;hidden bg-zinc-800 border-2 border-zinc-700 p-3.5 rounded-2xl shadow-[4px_4px_0px_#000] text-zinc-300 font-mono text-xs flex items-center justify-between&quot;&gt;
+          &lt;div class=&quot;flex items-center gap-2.5&quot;&gt;
+            &lt;span class=&quot;text-lg&quot;&gt;🌙&lt;/span&gt;
+            &lt;div&gt;
+              &lt;span class=&quot;font-extrabold block&quot;&gt;أنت في وضع استراحة&lt;/span&gt;
+              &lt;span class=&quot;text-[10px] text-zinc-400&quot;&gt;قم بتغيير الحالة للبدء في استقبال طلبات جديدة&lt;/span&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;grid grid-cols-2 gap-3 font-mono text-xs&quot;&gt;
+          &lt;div class=&quot;bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 p-3.5 rounded-2xl shadow-[3px_3px_0px_#000] dark:shadow-[3px_3px_0px_#27272A] space-y-1&quot;&gt;
+            &lt;span class=&quot;text-zinc-500 dark:text-zinc-400 text-[10px] block&quot;&gt;طلبات قيد التوصيل&lt;/span&gt;
+            &lt;div class=&quot;text-2xl font-black font-display text-red-600 dark:text-amber-400&quot; id=&quot;activeOrdersCount&quot;&gt;2 شحنة&lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 p-3.5 rounded-2xl shadow-[3px_3px_0px_#000] dark:shadow-[3px_3px_0px_#27272A] space-y-1&quot;&gt;
+            &lt;span class=&quot;text-zinc-500 dark:text-zinc-400 text-[10px] block&quot;&gt;أرباح متوقعة اليوم&lt;/span&gt;
+            &lt;div class=&quot;text-2xl font-black font-display text-emerald-600 dark:text-emerald-400&quot;&gt;185 ج.م&lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;flex items-center justify-between pt-1&quot;&gt;
+          &lt;h2 class=&quot;text-base font-black font-display text-zinc-900 dark:text-white flex items-center gap-2&quot;&gt;
+            &lt;span class=&quot;w-2.5 h-2.5 rounded-full bg-red-600&quot;&gt;&lt;/span&gt;
+            &lt;span&gt;الطلبات الواردة النشطة&lt;/span&gt;
+          &lt;/h2&gt;
+          &lt;span class=&quot;text-[11px] font-mono text-zinc-500&quot;&gt;ترتيب حسب الأقرب&lt;/span&gt;
+        &lt;/div&gt;
+
+        &lt;!-- ACTIVE ORDER CARD 1 --&gt;
+        &lt;div class=&quot;bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 rounded-3xl p-5 shadow-[6px_6px_0px_#0A0A0C] dark:shadow-[6px_6px_0px_#27272A] space-y-4 relative overflow-hidden transition-all&quot;&gt;
+          &lt;div class=&quot;flex justify-between items-start pb-3 border-b-2 border-zinc-100 dark:border-zinc-800&quot;&gt;
+            &lt;div&gt;
+              &lt;div class=&quot;flex items-center gap-2&quot;&gt;
+                &lt;span class=&quot;bg-amber-400 text-black font-mono font-black text-xs px-2.5 py-0.5 rounded border border-black shadow-sm&quot;&gt;
+                  #MERS-1025
+                &lt;/span&gt;
+                &lt;span class=&quot;text-[10px] font-mono text-zinc-500&quot;&gt;منذ 10 دقائق&lt;/span&gt;
+              &lt;/div&gt;
+              &lt;h3 class=&quot;text-sm font-bold font-display text-zinc-900 dark:text-white mt-1&quot;&gt;توصيل طرد أوراق ومستندات&lt;/h3&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;text-left font-mono&quot;&gt;
+              &lt;span class=&quot;bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300 border border-blue-500 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full block&quot;&gt;
+                في الطريق للاستلام
+              &lt;/span&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;div class=&quot;space-y-3 font-mono text-xs relative pr-2&quot;&gt;
+            &lt;div class=&quot;flex items-start gap-3&quot;&gt;
+              &lt;div class=&quot;w-6 h-6 rounded-full bg-amber-400 text-black border-2 border-black flex items-center justify-center font-black text-[10px] shrink-0 mt-0.5&quot;&gt;
+                أ
+              &lt;/div&gt;
+              &lt;div class=&quot;space-y-0.5&quot;&gt;
+                &lt;span class=&quot;text-[10px] text-zinc-400 block&quot;&gt;نقطة الاستلام (المرسل):&lt;/span&gt;
+                &lt;p class=&quot;font-bold text-zinc-900 dark:text-white&quot;&gt;محمد علي — الكورنيش بجوار بنك مصر&lt;/p&gt;
+                &lt;div class=&quot;pt-1 flex items-center gap-2&quot;&gt;
+                  &lt;a href=&quot;tel:01012345678&quot; class=&quot;inline-flex items-center gap-1 bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-200 px-2.5 py-1 rounded-md border border-zinc-300 dark:border-zinc-700 font-bold hover:bg-amber-400 hover:text-black transition-all&quot;&gt;
+                    &lt;span&gt;📞&lt;/span&gt;
+                    &lt;span&gt;01012345678&lt;/span&gt;
+                  &lt;/a&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div class=&quot;border-r-2 border-dashed border-zinc-300 dark:border-zinc-700 h-4 mr-3&quot;&gt;&lt;/div&gt;
+
+            &lt;div class=&quot;flex items-start gap-3&quot;&gt;
+              &lt;div class=&quot;w-6 h-6 rounded-full bg-red-600 text-white border-2 border-black flex items-center justify-center font-black text-[10px] shrink-0 mt-0.5&quot;&gt;
+                ب
+              &lt;/div&gt;
+              &lt;div class=&quot;space-y-0.5&quot;&gt;
+                &lt;span class=&quot;text-[10px] text-zinc-400 block&quot;&gt;نقطة التسليم (المستلم):&lt;/span&gt;
+                &lt;p class=&quot;font-bold text-zinc-900 dark:text-white&quot;&gt;أحمد محمود — المحمودية عمارة 12&lt;/p&gt;
+                &lt;div class=&quot;pt-1 flex items-center gap-2&quot;&gt;
+                  &lt;a href=&quot;tel:01099887766&quot; class=&quot;inline-flex items-center gap-1 bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-200 px-2.5 py-1 rounded-md border border-zinc-300 dark:border-zinc-700 font-bold hover:bg-amber-400 hover:text-black transition-all&quot;&gt;
+                    &lt;span&gt;📞&lt;/span&gt;
+                    &lt;span&gt;01099887766&lt;/span&gt;
+                  &lt;/a&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;div class=&quot;bg-zinc-50 dark:bg-zinc-950 p-3 rounded-2xl border border-zinc-200 dark:border-zinc-800 font-mono text-xs flex justify-between items-center&quot;&gt;
+            &lt;div&gt;
+              &lt;span class=&quot;text-zinc-500 text-[10px] block&quot;&gt;المبلغ المطلوب تحصيله (COD):&lt;/span&gt;
+              &lt;span class=&quot;font-black text-sm text-emerald-600 dark:text-emerald-400&quot;&gt;0.00 ج.م (مدفوع)&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;text-left border-r border-zinc-300 dark:border-zinc-800 pr-3&quot;&gt;
+              &lt;span class=&quot;text-zinc-500 text-[10px] block&quot;&gt;أجرة التوصيل الكلية:&lt;/span&gt;
+              &lt;span class=&quot;font-bold text-zinc-900 dark:text-white&quot;&gt;30.00 ج.م&lt;/span&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;div class=&quot;space-y-1 font-mono&quot;&gt;
+            &lt;label class=&quot;text-[11px] font-bold text-zinc-700 dark:text-zinc-300 block&quot;&gt;تحديث حالة الشحنة الأن:&lt;/label&gt;
+            &lt;select onchange=&quot;updateOrderStatus(this, &#x27;MERS-1025&#x27;)&quot; class=&quot;w-full bg-amber-400 text-black font-extrabold p-3 rounded-xl border-2 border-zinc-900 text-xs focus:outline-none shadow-[2px_2px_0px_#0A0A0C] cursor-pointer&quot;&gt;
+              &lt;option value=&quot;assigned&quot;&gt;1. تم التعيين (قبول الطلب)&lt;/option&gt;
+              &lt;option value=&quot;pickup&quot; selected&gt;2. في الطريق للاستلام&lt;/option&gt;
+              &lt;option value=&quot;received&quot;&gt;3. تم الاستلام من المرسل&lt;/option&gt;
+              &lt;option value=&quot;delivering&quot;&gt;4. في الطريق للتسليم&lt;/option&gt;
+              &lt;option value=&quot;delivered&quot;&gt;5. تم التسليم للعميل النهائي ✓&lt;/option&gt;
+              &lt;option value=&quot;failed&quot;&gt;❌ تعذر الوصول / إلغاء الطلب&lt;/option&gt;
+            &lt;/select&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- ACTIVE ORDER CARD 2 --&gt;
+        &lt;div class=&quot;bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 rounded-3xl p-5 shadow-[6px_6px_0px_#0A0A0C] dark:shadow-[6px_6px_0px_#27272A] space-y-4 relative overflow-hidden transition-all&quot;&gt;
+          &lt;div class=&quot;flex justify-between items-start pb-3 border-b-2 border-zinc-100 dark:border-zinc-800&quot;&gt;
+            &lt;div&gt;
+              &lt;div class=&quot;flex items-center gap-2&quot;&gt;
+                &lt;span class=&quot;bg-amber-400 text-black font-mono font-black text-xs px-2.5 py-0.5 rounded border border-black shadow-sm&quot;&gt;
+                  #MERS-1024
+                &lt;/span&gt;
+                &lt;span class=&quot;text-[10px] font-mono text-zinc-500&quot;&gt;منذ 25 دقيقة&lt;/span&gt;
+              &lt;/div&gt;
+              &lt;h3 class=&quot;text-sm font-bold font-display text-zinc-900 dark:text-white mt-1&quot;&gt;توصيل شحنة ملابس شتوية (3 قطع)&lt;/h3&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;text-left font-mono&quot;&gt;
+              &lt;span class=&quot;bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 border border-amber-500 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full block&quot;&gt;
+                طلب جديد بانتظارك
+              &lt;/span&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;div class=&quot;space-y-3 font-mono text-xs relative pr-2&quot;&gt;
+            &lt;div class=&quot;flex items-start gap-3&quot;&gt;
+              &lt;div class=&quot;w-6 h-6 rounded-full bg-amber-400 text-black border-2 border-black flex items-center justify-center font-black text-[10px] shrink-0 mt-0.5&quot;&gt;
+                أ
+              &lt;/div&gt;
+              &lt;div class=&quot;space-y-0.5&quot;&gt;
+                &lt;span class=&quot;text-[10px] text-zinc-400 block&quot;&gt;نقطة الاستلام (المتجر):&lt;/span&gt;
+                &lt;p class=&quot;font-bold text-zinc-900 dark:text-white&quot;&gt;شركة النور — السوق التجاري بأسوان&lt;/p&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div class=&quot;border-r-2 border-dashed border-zinc-300 dark:border-zinc-700 h-4 mr-3&quot;&gt;&lt;/div&gt;
+
+            &lt;div class=&quot;flex items-start gap-3&quot;&gt;
+              &lt;div class=&quot;w-6 h-6 rounded-full bg-red-600 text-white border-2 border-black flex items-center justify-center font-black text-[10px] shrink-0 mt-0.5&quot;&gt;
+                ب
+              &lt;/div&gt;
+              &lt;div class=&quot;space-y-0.5&quot;&gt;
+                &lt;span class=&quot;text-[10px] text-zinc-400 block&quot;&gt;نقطة التسليم (العميل):&lt;/span&gt;
+                &lt;p class=&quot;font-bold text-zinc-900 dark:text-white&quot;&gt;إبراهيم عادل — حي السيل الجديد&lt;/p&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;div class=&quot;bg-zinc-50 dark:bg-zinc-950 p-3 rounded-2xl border border-zinc-200 dark:border-zinc-800 font-mono text-xs flex justify-between items-center&quot;&gt;
+            &lt;div&gt;
+              &lt;span class=&quot;text-zinc-500 text-[10px] block&quot;&gt;تحصيل عند الاستلام (COD):&lt;/span&gt;
+              &lt;span class=&quot;font-black text-sm text-red-600 dark:text-amber-400&quot;&gt;450.00 ج.م&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;text-left border-r border-zinc-300 dark:border-zinc-800 pr-3&quot;&gt;
+              &lt;span class=&quot;text-zinc-500 text-[10px] block&quot;&gt;أجرة التوصيل:&lt;/span&gt;
+              &lt;span class=&quot;font-bold text-zinc-900 dark:text-white&quot;&gt;40.00 ج.م&lt;/span&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;button onclick=&quot;acceptOrder(this, &#x27;MERS-1024&#x27;)&quot; class=&quot;w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold font-display py-3 rounded-xl border-2 border-zinc-900 shadow-[3px_3px_0px_#0A0A0C] transition-all text-xs flex items-center justify-center gap-2&quot;&gt;
+            &lt;span&gt;قبول الطلب والبدء في التوصيل&lt;/span&gt;
+            &lt;span class=&quot;font-mono text-sm&quot;&gt;→&lt;/span&gt;
+          &lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/section&gt;
+
+      &lt;!-- TAB 2: DELIVERIES &amp; EARNINGS --&gt;
+      &lt;section id=&quot;tab-earnings&quot; class=&quot;hidden space-y-5 animate-fadeIn&quot;&gt;
+        &lt;div class=&quot;bg-gradient-to-br from-zinc-900 to-zinc-950 border-2 border-zinc-800 p-5 rounded-3xl text-white shadow-[6px_6px_0px_#FFC800] space-y-4&quot;&gt;
+          &lt;div class=&quot;flex justify-between items-center border-b border-zinc-800 pb-3&quot;&gt;
+            &lt;div&gt;
+              &lt;span class=&quot;text-xs font-mono text-zinc-400 block&quot;&gt;إجمالي أرباح اليوم (الصافية)&lt;/span&gt;
+              &lt;div class=&quot;text-3xl font-black font-display text-amber-400 mt-0.5&quot;&gt;245.50 ج.م&lt;/div&gt;
+            &lt;/div&gt;
+            &lt;span class=&quot;bg-emerald-500/20 text-emerald-400 border border-emerald-500 text-xs font-mono font-bold px-3 py-1 rounded-full&quot;&gt;
+              نسبة الكابتن: 75%
+            &lt;/span&gt;
+          &lt;/div&gt;
+
+          &lt;div class=&quot;grid grid-cols-3 gap-2 text-center font-mono text-[11px]&quot;&gt;
+            &lt;div class=&quot;bg-zinc-900/80 p-2.5 rounded-xl border border-zinc-800&quot;&gt;
+              &lt;span class=&quot;text-zinc-400 text-[10px] block&quot;&gt;تم تسليمها&lt;/span&gt;
+              &lt;span class=&quot;font-bold text-emerald-400 text-sm&quot;&gt;8 طلبات&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;bg-zinc-900/80 p-2.5 rounded-xl border border-zinc-800&quot;&gt;
+              &lt;span class=&quot;text-zinc-400 text-[10px] block&quot;&gt;لم تُسلم/ملغاة&lt;/span&gt;
+              &lt;span class=&quot;font-bold text-red-400 text-sm&quot;&gt;1 طلب&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;bg-zinc-900/80 p-2.5 rounded-xl border border-zinc-800&quot;&gt;
+              &lt;span class=&quot;text-zinc-400 text-[10px] block&quot;&gt;مبالغ كاش كابينة&lt;/span&gt;
+              &lt;span class=&quot;font-bold text-amber-400 text-sm&quot;&gt;1,250 ج.م&lt;/span&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;flex gap-2 font-mono text-xs&quot;&gt;
+          &lt;button onclick=&quot;filterEarningsHistory(&#x27;all&#x27;)&quot; id=&quot;filterBtnAll&quot; class=&quot;flex-1 bg-amber-400 text-black font-extrabold py-2 rounded-xl border-2 border-black shadow-[2px_2px_0px_#000]&quot;&gt;
+            الكل (9)
+          &lt;/button&gt;
+          &lt;button onclick=&quot;filterEarningsHistory(&#x27;delivered&#x27;)&quot; id=&quot;filterBtnDelivered&quot; class=&quot;flex-1 bg-white dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 font-bold py-2 rounded-xl border-2 border-zinc-300 dark:border-zinc-700&quot;&gt;
+            تم التسليم (8)
+          &lt;/button&gt;
+          &lt;button onclick=&quot;filterEarningsHistory(&#x27;failed&#x27;)&quot; id=&quot;filterBtnFailed&quot; class=&quot;flex-1 bg-white dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 font-bold py-2 rounded-xl border-2 border-zinc-300 dark:border-zinc-700&quot;&gt;
+            لم تُسلم (1)
+          &lt;/button&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;space-y-3 font-mono text-xs&quot;&gt;
+          &lt;div class=&quot;earning-item delivered bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 p-4 rounded-2xl shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#27272A] space-y-2&quot;&gt;
+            &lt;div class=&quot;flex justify-between items-center&quot;&gt;
+              &lt;span class=&quot;font-black text-zinc-900 dark:text-white&quot;&gt;#MERS-1022 — مكتبة الأهرام&lt;/span&gt;
+              &lt;span class=&quot;bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 font-bold px-2 py-0.5 rounded text-[10px] border border-emerald-500&quot;&gt;
+                تم التسليم ✓
+              &lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;text-[11px] text-zinc-500 flex justify-between&quot;&gt;
+              &lt;span&gt;التسليم: أسوان — الجامعة&lt;/span&gt;
+              &lt;span&gt;أجرة التوصيل: 35.00 ج.م&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;pt-2 border-t border-zinc-100 dark:border-zinc-800 flex justify-between items-center text-xs&quot;&gt;
+              &lt;span class=&quot;text-zinc-400&quot;&gt;حصة الكابتن (75%):&lt;/span&gt;
+              &lt;span class=&quot;font-extrabold text-emerald-600 dark:text-emerald-400&quot;&gt;+26.25 ج.م&lt;/span&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;div class=&quot;earning-item delivered bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 p-4 rounded-2xl shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#27272A] space-y-2&quot;&gt;
+            &lt;div class=&quot;flex justify-between items-center&quot;&gt;
+              &lt;span class=&quot;font-black text-zinc-900 dark:text-white&quot;&gt;#MERS-1020 — صيدلية الشفاء&lt;/span&gt;
+              &lt;span class=&quot;bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 font-bold px-2 py-0.5 rounded text-[10px] border border-emerald-500&quot;&gt;
+                تم التسليم ✓
+              &lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;text-[11px] text-zinc-500 flex justify-between&quot;&gt;
+              &lt;span&gt;التسليم: أسوان — أطلس&lt;/span&gt;
+              &lt;span&gt;أجرة التوصيل: 40.00 ج.م&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;pt-2 border-t border-zinc-100 dark:border-zinc-800 flex justify-between items-center text-xs&quot;&gt;
+              &lt;span class=&quot;text-zinc-400&quot;&gt;حصة الكابتن (75%):&lt;/span&gt;
+              &lt;span class=&quot;font-extrabold text-emerald-600 dark:text-emerald-400&quot;&gt;+30.00 ج.م&lt;/span&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;div class=&quot;earning-item failed bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 p-4 rounded-2xl shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#27272A] space-y-2 border-l-4 border-l-red-600&quot;&gt;
+            &lt;div class=&quot;flex justify-between items-center&quot;&gt;
+              &lt;span class=&quot;font-black text-zinc-900 dark:text-white&quot;&gt;#MERS-1018 — مطعم النيل&lt;/span&gt;
+              &lt;span class=&quot;bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300 font-bold px-2 py-0.5 rounded text-[10px] border border-red-500&quot;&gt;
+                لم يتم التسليم (العميل لم يرد)
+              &lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;text-[11px] text-zinc-500 flex justify-between&quot;&gt;
+              &lt;span&gt;التسليم: أسوان — الشيخ هارون&lt;/span&gt;
+              &lt;span&gt;أجرة التوصيل: 25.00 ج.م&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;pt-2 border-t border-zinc-100 dark:border-zinc-800 flex justify-between items-center text-xs&quot;&gt;
+              &lt;span class=&quot;text-zinc-400&quot;&gt;حصة الكابتن (إعادة للمخزن):&lt;/span&gt;
+              &lt;span class=&quot;font-extrabold text-zinc-500&quot;&gt;0.00 ج.م&lt;/span&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;div class=&quot;earning-item delivered bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 p-4 rounded-2xl shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#27272A] space-y-2&quot;&gt;
+            &lt;div class=&quot;flex justify-between items-center&quot;&gt;
+              &lt;span class=&quot;font-black text-zinc-900 dark:text-white&quot;&gt;#MERS-1015 — متجر الأناقة&lt;/span&gt;
+              &lt;span class=&quot;bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 font-bold px-2 py-0.5 rounded text-[10px] border border-emerald-500&quot;&gt;
+                تم التسليم ✓
+              &lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;text-[11px] text-zinc-500 flex justify-between&quot;&gt;
+              &lt;span&gt;التسليم: أسوان — العقاد&lt;/span&gt;
+              &lt;span&gt;أجرة التوصيل: 50.00 ج.م&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;pt-2 border-t border-zinc-100 dark:border-zinc-800 flex justify-between items-center text-xs&quot;&gt;
+              &lt;span class=&quot;text-zinc-400&quot;&gt;حصة الكابتن (75%):&lt;/span&gt;
+              &lt;span class=&quot;font-extrabold text-emerald-600 dark:text-emerald-400&quot;&gt;+37.50 ج.م&lt;/span&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/section&gt;
+
+      &lt;!-- TAB 3: DRIVER PROFILE --&gt;
+      &lt;section id=&quot;tab-profile&quot; class=&quot;hidden space-y-5 animate-fadeIn&quot;&gt;
+        &lt;div class=&quot;bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 p-6 rounded-3xl shadow-[6px_6px_0px_#0A0A0C] dark:shadow-[6px_6px_0px_#27272A] text-center space-y-3 relative overflow-hidden&quot;&gt;
+          &lt;div class=&quot;w-20 h-20 mx-auto rounded-full bg-amber-400 border-3 border-black flex items-center justify-center font-black text-3xl shadow-[3px_3px_0px_#000]&quot;&gt;
+            🛵
+          &lt;/div&gt;
+          &lt;div&gt;
+            &lt;h2 class=&quot;text-xl font-black font-display text-zinc-900 dark:text-white&quot;&gt;محمود إبراهيم علي&lt;/h2&gt;
+            &lt;p class=&quot;text-xs font-mono text-zinc-500&quot;&gt;كابتن توصيل معتمد (#DRV-01)&lt;/p&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;flex justify-center items-center gap-2 pt-1&quot;&gt;
+            &lt;span class=&quot;bg-amber-400 text-black font-mono font-bold text-xs px-3 py-1 rounded-full border border-black&quot;&gt;
+              ⭐ 4.9 (128 تقييم)
+            &lt;/span&gt;
+            &lt;span class=&quot;bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-mono font-bold text-xs px-3 py-1 rounded-full border border-emerald-500&quot;&gt;
+              حساب نشط
+            &lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 p-5 rounded-3xl shadow-[5px_5px_0px_#0A0A0C] dark:shadow-[5px_5px_0px_#27272A] space-y-3 font-mono text-xs&quot;&gt;
+          &lt;h3 class=&quot;font-extrabold text-sm font-display text-zinc-900 dark:text-white border-b border-zinc-200 dark:border-zinc-800 pb-2&quot;&gt;
+            بيانات المركبة والعمل
+          &lt;/h3&gt;
+          &lt;div class=&quot;flex justify-between py-1 border-b border-zinc-100 dark:border-zinc-800&quot;&gt;
+            &lt;span class=&quot;text-zinc-500&quot;&gt;نوع المركبة:&lt;/span&gt;
+            &lt;span class=&quot;font-bold text-zinc-900 dark:text-white&quot;&gt;موتوسيكل (Bajaj Pulsar 180)&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;flex justify-between py-1 border-b border-zinc-100 dark:border-zinc-800&quot;&gt;
+            &lt;span class=&quot;text-zinc-500&quot;&gt;رقم اللوحة:&lt;/span&gt;
+            &lt;span class=&quot;font-bold text-zinc-900 dark:text-white&quot;&gt;ص ق ج 4821&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;flex justify-between py-1 border-b border-zinc-100 dark:border-zinc-800&quot;&gt;
+            &lt;span class=&quot;text-zinc-500&quot;&gt;رقم الهاتف:&lt;/span&gt;
+            &lt;span class=&quot;font-bold text-zinc-900 dark:text-white dir-ltr&quot;&gt;01098765432&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;flex justify-between py-1&quot;&gt;
+            &lt;span class=&quot;text-zinc-500&quot;&gt;منطقة التغطية:&lt;/span&gt;
+            &lt;span class=&quot;font-bold text-amber-600 dark:text-amber-400&quot;&gt;مدينة أسوان والمحمودية&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 p-5 rounded-3xl shadow-[5px_5px_0px_#0A0A0C] dark:shadow-[5px_5px_0px_#27272A] space-y-3 font-mono text-xs&quot;&gt;
+          &lt;h3 class=&quot;font-extrabold text-sm font-display text-zinc-900 dark:text-white border-b border-zinc-200 dark:border-zinc-800 pb-2&quot;&gt;
+            إعدادات التنسيق والنظام
+          &lt;/h3&gt;
+          &lt;div class=&quot;flex justify-between items-center&quot;&gt;
+            &lt;span&gt;مظهر التطبيق (Light/Dark):&lt;/span&gt;
+            &lt;button id=&quot;themeToggleBtn&quot; onclick=&quot;toggleAppTheme()&quot; class=&quot;bg-zinc-900 dark:bg-zinc-100 text-white dark:text-black font-bold px-3 py-1.5 rounded-xl border border-black text-[11px]&quot;&gt;
+              تغيير الثيم
+            &lt;/button&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;flex justify-between items-center pt-2 border-t border-zinc-100 dark:border-zinc-800&quot;&gt;
+            &lt;span&gt;إعادة تشغيل انيميشن البداية:&lt;/span&gt;
+            &lt;button onclick=&quot;replaySplash()&quot; class=&quot;bg-amber-400 text-black font-extrabold px-3 py-1.5 rounded-xl border border-black text-[11px]&quot;&gt;
+              مشاهدة السكراين 🎬
+            &lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;a href=&quot;login.html&quot; class=&quot;block w-full bg-red-600 hover:bg-red-700 text-white font-extrabold font-display text-center py-3.5 rounded-2xl border-2 border-zinc-900 shadow-[4px_4px_0px_#000] transition-all text-sm&quot;&gt;
+          تسجيل الخروج من حساب الكابتن
+        &lt;/a&gt;
+      &lt;/section&gt;
+
+    &lt;/main&gt;
+
+    &lt;!-- 4. FLOATING BOTTOM NAVIGATION BAR --&gt;
+    &lt;nav class=&quot;fixed bottom-0 inset-x-0 z-40 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md border-t-2 border-zinc-900 dark:border-zinc-800 py-2.5 px-4 shadow-[0_-5px_15px_rgba(0,0,0,0.1)]&quot;&gt;
+      &lt;div class=&quot;max-w-md mx-auto grid grid-cols-3 gap-2&quot;&gt;
+        &lt;button
+          id=&quot;navTabHome&quot;
+          onclick=&quot;switchTab(&#x27;home&#x27;)&quot;
+          class=&quot;nav-tab active-tab flex flex-col items-center justify-center py-1.5 px-2 rounded-2xl bg-amber-400 text-black border-2 border-black font-mono transition-all shadow-[2px_2px_0px_#000]&quot;
+        &gt;
+          &lt;span class=&quot;text-lg leading-none&quot;&gt;🛵&lt;/span&gt;
+          &lt;span class=&quot;text-[11px] font-black font-display mt-1&quot;&gt;الرئيسية&lt;/span&gt;
+        &lt;/button&gt;
+
+        &lt;button
+          id=&quot;navTabEarnings&quot;
+          onclick=&quot;switchTab(&#x27;earnings&#x27;)&quot;
+          class=&quot;nav-tab flex flex-col items-center justify-center py-1.5 px-2 rounded-2xl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white font-mono transition-all&quot;
+        &gt;
+          &lt;span class=&quot;text-lg leading-none&quot;&gt;💰&lt;/span&gt;
+          &lt;span class=&quot;text-[11px] font-bold font-display mt-1&quot;&gt;الأرباح&lt;/span&gt;
+        &lt;/button&gt;
+
+        &lt;button
+          id=&quot;navTabProfile&quot;
+          onclick=&quot;switchTab(&#x27;profile&#x27;)&quot;
+          class=&quot;nav-tab flex flex-col items-center justify-center py-1.5 px-2 rounded-2xl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white font-mono transition-all&quot;
+        &gt;
+          &lt;span class=&quot;text-lg leading-none&quot;&gt;👤&lt;/span&gt;
+          &lt;span class=&quot;text-[11px] font-bold font-display mt-1&quot;&gt;الملف&lt;/span&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/nav&gt;
+
+    &lt;script&gt;
+      window.addEventListener(&#x27;DOMContentLoaded&#x27;, () =&gt; {
+        runSplashAnimation();
+      });
+
+      function runSplashAnimation() {
+        const splash = document.getElementById(&#x27;splashScreen&#x27;);
+        const progress = document.getElementById(&#x27;splashProgress&#x27;);
+        
+        splash.style.display = &#x27;flex&#x27;;
+        splash.style.opacity = &#x27;1&#x27;;
+        progress.style.width = &#x27;0%&#x27;;
+
+        setTimeout(() =&gt; { progress.style.width = &#x27;45%&#x27;; }, 300);
+        setTimeout(() =&gt; { progress.style.width = &#x27;85%&#x27;; }, 900);
+        setTimeout(() =&gt; { progress.style.width = &#x27;100%&#x27;; }, 1400);
+
+        setTimeout(() =&gt; {
+          splash.style.opacity = &#x27;0&#x27;;
+          setTimeout(() =&gt; {
+            splash.style.display = &#x27;none&#x27;;
+          }, 700);
+        }, 1800);
+      }
+
+      function replaySplash() {
+        runSplashAnimation();
+      }
+
+      function switchTab(tabName) {
+        const tabs = [&#x27;home&#x27;, &#x27;earnings&#x27;, &#x27;profile&#x27;];
+        tabs.forEach(t =&gt; {
+          const content = document.getElementById(`tab-${t}`);
+          const navBtn = document.getElementById(`navTab${capitalize(t)}`);
+          if (t === tabName) {
+            content.classList.remove(&#x27;hidden&#x27;);
+            navBtn.className = &quot;nav-tab active-tab flex flex-col items-center justify-center py-1.5 px-2 rounded-2xl bg-amber-400 text-black border-2 border-black font-mono transition-all shadow-[2px_2px_0px_#000]&quot;;
+          } else {
+            content.classList.add(&#x27;hidden&#x27;);
+            navBtn.className = &quot;nav-tab flex flex-col items-center justify-center py-1.5 px-2 rounded-2xl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white font-mono transition-all&quot;;
+          }
+        });
+      }
+
+      function capitalize(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+      }
+
+      let isOnline = true;
+      function toggleShiftStatus() {
+        isOnline = !isOnline;
+        const btn = document.getElementById(&#x27;shiftToggleBtn&#x27;);
+        const dot = document.getElementById(&#x27;shiftStatusDot&#x27;);
+        const text = document.getElementById(&#x27;shiftStatusText&#x27;);
+        const onlineNotice = document.getElementById(&#x27;onlineNotice&#x27;);
+        const offlineNotice = document.getElementById(&#x27;offlineNotice&#x27;);
+
+        if (isOnline) {
+          btn.className = &quot;bg-emerald-500 text-black border-2 border-black font-mono font-extrabold text-[11px] px-3 py-1 rounded-lg shadow-[2px_2px_0px_#000] active:translate-y-0.5 transition-all flex items-center gap-1&quot;;
+          dot.className = &quot;w-2 h-2 rounded-full bg-black&quot;;
+          text.textContent = &quot;متاح للعمل&quot;;
+          onlineNotice.classList.remove(&#x27;hidden&#x27;);
+          offlineNotice.classList.add(&#x27;hidden&#x27;);
+        } else {
+          btn.className = &quot;bg-zinc-700 text-white border-2 border-black font-mono font-extrabold text-[11px] px-3 py-1 rounded-lg shadow-[2px_2px_0px_#000] active:translate-y-0.5 transition-all flex items-center gap-1&quot;;
+          dot.className = &quot;w-2 h-2 rounded-full bg-red-500&quot;;
+          text.textContent = &quot;في استراحة&quot;;
+          onlineNotice.classList.add(&#x27;hidden&#x27;);
+          offlineNotice.classList.remove(&#x27;hidden&#x27;);
+        }
+      }
+
+      function updateOrderStatus(selectElem, orderId) {
+        const val = selectElem.value;
+        if (val === &#x27;delivered&#x27;) {
+          alert(`🎉 ممتاز! تم تسليم الشحنة #${orderId} بنجاح وتسجيل الأرباح في حسابك.`);
+        } else {
+          alert(`تم تحديث حالة الشحنة #${orderId} بنجاح في نظام مرسال.`);
+        }
+      }
+
+      function acceptOrder(btnElem, orderId) {
+        alert(`تم قبول الشحنة #${orderId} وتخصيصها لك رسمياً!`);
+        btnElem.outerHTML = `
+          &lt;div class=&quot;space-y-1 font-mono&quot;&gt;
+            &lt;label class=&quot;text-[11px] font-bold text-zinc-700 dark:text-zinc-300 block&quot;&gt;تحديث حالة الشحنة الأن:&lt;/label&gt;
+            &lt;select onchange=&quot;updateOrderStatus(this, &#x27;${orderId}&#x27;)&quot; class=&quot;w-full bg-amber-400 text-black font-extrabold p-3 rounded-xl border-2 border-zinc-900 text-xs focus:outline-none shadow-[2px_2px_0px_#0A0A0C] cursor-pointer&quot;&gt;
+              &lt;option value=&quot;assigned&quot; selected&gt;1. تم قبول الطلب&lt;/option&gt;
+              &lt;option value=&quot;pickup&quot;&gt;2. في الطريق للاستلام&lt;/option&gt;
+              &lt;option value=&quot;received&quot;&gt;3. تم الاستلام من المرسل&lt;/option&gt;
+              &lt;option value=&quot;delivering&quot;&gt;4. في الطريق للتسليم&lt;/option&gt;
+              &lt;option value=&quot;delivered&quot;&gt;5. تم التسليم للعميل النهائي ✓&lt;/option&gt;
+            &lt;/select&gt;
+          &lt;/div&gt;
+        `;
+      }
+
+      function filterEarningsHistory(type) {
+        const items = document.querySelectorAll(&#x27;.earning-item&#x27;);
+        const btnAll = document.getElementById(&#x27;filterBtnAll&#x27;);
+        const btnDelivered = document.getElementById(&#x27;filterBtnDelivered&#x27;);
+        const btnFailed = document.getElementById(&#x27;filterBtnFailed&#x27;);
+
+        [btnAll, btnDelivered, btnFailed].forEach(btn =&gt; {
+          btn.className = &quot;flex-1 bg-white dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 font-bold py-2 rounded-xl border-2 border-zinc-300 dark:border-zinc-700&quot;;
+        });
+
+        if (type === &#x27;all&#x27;) {
+          btnAll.className = &quot;flex-1 bg-amber-400 text-black font-extrabold py-2 rounded-xl border-2 border-black shadow-[2px_2px_0px_#000]&quot;;
+          items.forEach(item =&gt; item.classList.remove(&#x27;hidden&#x27;));
+        } else if (type === &#x27;delivered&#x27;) {
+          btnDelivered.className = &quot;flex-1 bg-amber-400 text-black font-extrabold py-2 rounded-xl border-2 border-black shadow-[2px_2px_0px_#000]&quot;;
+          items.forEach(item =&gt; {
+            if (item.classList.contains(&#x27;delivered&#x27;)) item.classList.remove(&#x27;hidden&#x27;);
+            else item.classList.add(&#x27;hidden&#x27;);
+          });
+        } else if (type === &#x27;failed&#x27;) {
+          btnFailed.className = &quot;flex-1 bg-amber-400 text-black font-extrabold py-2 rounded-xl border-2 border-black shadow-[2px_2px_0px_#000]&quot;;
+          items.forEach(item =&gt; {
+            if (item.classList.contains(&#x27;failed&#x27;)) item.classList.remove(&#x27;hidden&#x27;);
+            else item.classList.add(&#x27;hidden&#x27;);
+          });
+        }
+      }
+
+      function toggleAppTheme() {
+        if (document.documentElement.classList.contains(&#x27;dark&#x27;)) {
+          document.documentElement.classList.remove(&#x27;dark&#x27;);
+        } else {
+          document.documentElement.classList.add(&#x27;dark&#x27;);
+        }
+      }
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- System Flows Section -->
+<section id="flows" class="bg-zinc-100/80 dark:bg-zinc-900/50 border-y-2 border-zinc-900 dark:border-zinc-800 scroll-mt-16">
+  <div class="max-w-6xl mx-auto px-4 py-16 space-y-12">
+    <div class="border-b-2 border-zinc-300 dark:border-zinc-800 pb-6">
+      <span class="mono text-xs font-extrabold text-red-600 dark:text-amber-400">/ 02. SYSTEM WORKFLOW</span>
+      <h2 class="d font-black text-3xl sm:text-4xl text-zinc-900 dark:text-white mt-1">الـ Flow الكامل للنظام</h2>
+      <p class="mt-2 text-zinc-600 dark:text-zinc-300 max-w-3xl leading-7">
+        المشكلة اللي بيحلها: بدل التسجيل اليدوي والاتصال بكل سائق، نظام مركزي يشوف منه الموظف كل الطلبات ويوزّعها بسهولة.
+      </p>
+    </div>
+
+    <!-- Core Flow Highlight -->
+    <div class="p-6 rounded-2xl bg-amber-400/10 border-2 border-amber-400/50">
+      <div id="core" class="flex flex-wrap items-center gap-2.5"></div>
+    </div>
+
+    <!-- Role Flows -->
+    <div class="grid md:grid-cols-3 gap-6" id="roles"></div>
+
+    <!-- Architecture Flow -->
+    <div class="card">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="d font-black text-xl text-zinc-900 dark:text-white">مسار البيانات (Architecture)</h3>
+        <span class="mono text-[11px] font-bold text-zinc-500">DATA PIPELINE</span>
+      </div>
+      <div id="arch" class="flex flex-wrap items-center gap-2.5" dir="ltr"></div>
+    </div>
+
+    <!-- System Capabilities -->
+    <div class="grid md:grid-cols-2 gap-6" id="caps"></div>
+  </div>
+</section>
+
+<!-- Order Status Lifecycle Section -->
+<section id="status" class="max-w-6xl mx-auto px-4 py-16 scroll-mt-16">
+  <div class="mb-6">
+    <span class="mono text-xs font-extrabold text-red-600 dark:text-amber-400">/ 03. ORDER LIFECYCLE</span>
+    <h2 class="d font-black text-3xl sm:text-4xl text-zinc-900 dark:text-white mt-1">حالات الطلب (Lifecycle)</h2>
+    <p class="text-zinc-600 dark:text-zinc-400 mt-1">نبدأ بحالات قليلة ونطوّرها لاحقًا.</p>
+  </div>
+
+  <div class="card space-y-5">
+    <div id="st" class="flex flex-wrap items-center gap-2.5"></div>
+    <div class="pt-4 border-t border-zinc-200 dark:border-zinc-800">
+      <div id="stx" class="flex flex-wrap items-center gap-2.5"></div>
+    </div>
+  </div>
+
+  <div class="mt-6 p-4 rounded-xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 flex items-center gap-3">
+    <span class="w-2.5 h-2.5 rounded-full bg-amber-400 shrink-0"></span>
+    <p class="text-sm text-zinc-700 dark:text-zinc-300">
+      لوحة الأدمن بتعرض أرقامًا بسيطة بس: إجمالي الطلبات، الجديدة، قيد التوصيل، المسلّمة، والفاشلة (من غير Analytics متقدمة).
+    </p>
+  </div>
+</section>
+
+<!-- Product Roadmap Section -->
+<section id="roadmap" class="bg-zinc-100/80 dark:bg-zinc-900/50 border-y-2 border-zinc-900 dark:border-zinc-800 scroll-mt-16">
+  <div class="max-w-6xl mx-auto px-4 py-16">
+    <div class="mb-8">
+      <span class="mono text-xs font-extrabold text-red-600 dark:text-amber-400">/ 04. PRODUCT ROADMAP</span>
+      <h2 class="d font-black text-3xl sm:text-4xl text-zinc-900 dark:text-white mt-1">خارطة الطريق</h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6" id="rm"></div>
+
+    <div class="mt-12">
+      <h3 class="d font-black text-xl text-zinc-900 dark:text-white mb-4 flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-red-600"></span>
+        <span>مش هنبنيه في الـ MVP</span>
+      </h3>
+      <div id="no" class="flex flex-wrap gap-2.5"></div>
+    </div>
+
+    <!-- Golden Rule Banner -->
+    <div class="mt-12 rounded-3xl p-8 sm:p-10 text-center border-2 border-amber-400 shadow-[8px_8px_0px_#FBBF24] relative overflow-hidden" style="background:#0A0A0C;color:#fff">
+      <div class="absolute -top-20 -right-20 w-64 h-64 bg-red-600/20 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-20 -left-20 w-64 h-64 bg-amber-400/20 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="relative z-10">
+        <span class="mono text-[11px] font-extrabold text-amber-400 tracking-widest uppercase">CORE PRINCIPLE</span>
+        <p class="d font-black text-2xl sm:text-4xl mt-2 text-white">Build the smallest useful product first.</p>
+        <p class="mt-3 text-zinc-300 text-sm sm:text-base max-w-xl mx-auto leading-7">
+          كل Feature لازم تجاوب: هل بتحل مشكلة حقيقية في تشغيل الشركة؟ لو لأ، نأجّلها.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="py-10 text-center mono text-xs text-zinc-500 dark:text-zinc-400">
+  <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800">
+    <span class="w-2 h-2 rounded-full bg-red-600"></span>
+    <span>مرسال — أسوان، مصر</span>
+  </div>
+</footer>
+
+<script>
+const chips = (a, arrow = true, ltr = false) =>
+  a.map(x => `<span class="chip">${x}</span>`).join(arrow ? `<span class="arw">${ltr ? '→' : '←'}</span>` : '');
+
+const $ = i => document.getElementById(i);
+
+$('core').innerHTML = chips([
+  'العميل يرسل طلب',
+  'يظهر في Dashboard',
+  'الأدمن يوزّع على Driver',
+  'الـ Driver يستلم ويحدّث الحالة'
+]);
+
+const roles = [
+  [
+    'العميل (بدون حساب)',
+    ['Landing Page', 'طلب شحنة', 'تعبئة النموذج', 'إرسال', 'تم إنشاء الطلب'],
+    'الفورم: اسم العميل وهاتفه، عنوان الاستلام والتسليم، المستلم وهاتفه، تفاصيل الشحنة، عدد القطع، الدفع (COD)، وسعر التوصيل.'
+  ],
+  [
+    'الأدمن',
+    ['تسجيل الدخول', 'Dashboard', 'طلبات جديدة', 'فتح الطلب', 'تعيين Driver', 'إرسال إشعار'],
+    'يشوف الطلبات وحالاتها، يبحث ويفلتر، ويغيّر السائق.'
+  ],
+  [
+    'السائق',
+    ['استلام الطلب', 'عرض التفاصيل', 'قبول', 'توصيل', 'تم التسليم'],
+    'يشوف طلباته، يقبلها، ويحدّث الحالة خطوة بخطوة.'
+  ]
+];
+
+$('roles').innerHTML = roles.map((r, idx) => `
+  <div class="card flex flex-col justify-between">
+    <div>
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="d font-black text-xl text-zinc-900 dark:text-white">${r[0]}</h3>
+        <span class="mono text-xs font-black px-2.5 py-1 rounded-lg bg-amber-400 text-black border border-black">0${idx + 1}</span>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">${chips(r[1])}</div>
+    </div>
+    <p class="mt-4 pt-3 border-t border-zinc-200 dark:border-zinc-800 text-xs text-zinc-600 dark:text-zinc-400 leading-6">${r[2]}</p>
+  </div>
+`).join('');
+
+$('arch').innerHTML = chips(['Customer', 'Order Form', 'Backend API', 'Database', 'Admin Dashboard'], true, true);
+
+const caps = [
+  [
+    'إدارة السائقين',
+    ['إضافة Driver (اسم، إيميل، باسورد، هاتف)', 'تعديل بياناته', 'تعطيل Driver', 'تسجيل رقم WhatsApp', 'مشاهدة الطلبات المسندة إليه']
+  ],
+  [
+    'التوزيع والإشعارات',
+    ['اختيار Driver من قائمة منسدلة', 'الطلب يتحول إلى «تم التعيين»', 'يظهر في تطبيق الكابتن', 'تُرسل تفاصيله على WhatsApp', 'لاحقًا: Push وSMS وWhatsApp Business API وEmail']
+  ],
+  [
+    'الدخول والأدوار',
+    ['Admin: Email/Phone + Password', 'Driver: Phone/Email + Password', 'العميل بدون Login', 'دوران فقط: ADMIN وDRIVER (JWT)']
+  ],
+  [
+    'Tech Stack',
+    ['React + Tailwind CSS', 'Node.js + Express', 'PostgreSQL أو MongoDB', 'JWT للمصادقة']
+  ]
+];
+
+$('caps').innerHTML = caps.map(c => `
+  <div class="card">
+    <h3 class="d font-black text-xl text-zinc-900 dark:text-white mb-3 pb-2 border-b border-zinc-200 dark:border-zinc-800">${c[0]}</h3>
+    <ul class="text-sm text-zinc-700 dark:text-zinc-300 space-y-2 leading-6">
+      ${c[1].map(x => `<li class="flex items-start gap-2"><span class="text-red-600 dark:text-amber-400 font-black">—</span><span>${x}</span></li>`).join('')}
+    </ul>
+  </div>
+`).join('');
+
+$('st').innerHTML = chips([
+  'جديد',
+  'تم التعيين',
+  'في الطريق للاستلام',
+  'تم الاستلام',
+  'في الطريق للتسليم',
+  'تم التسليم'
+]);
+
+$('stx').innerHTML = `
+  <span class="mono text-xs font-bold text-zinc-500 dark:text-zinc-400 ml-1">استثنائية:</span>
+  <span class="chip" style="border-color:#DC2626;color:#DC2626">فشل التوصيل</span>
+  <span class="chip" style="border-color:#DC2626;color:#DC2626">ملغي</span>
+`;
+
+const rm = [
+  [
+    'MVP v1',
+    ['Landing Page + Order Form', 'Admin Dashboard', 'الطلبات والسائقين', 'تعيين Driver', 'حالات الطلب', 'إشعار WhatsApp']
+  ],
+  [
+    'v2 — بعد التجربة',
+    ['Driver Web App', 'Customer Tracking', 'Proof of Delivery', 'تقارير متقدمة', 'Google Maps وGPS', 'تحديثات لحظية']
+  ],
+  [
+    'v3 — لو بقى SaaS',
+    ['شركات متعددة', 'حسابات الشركات', 'اشتراكات', 'صلاحيات متقدمة', 'Billing', 'Analytics متقدمة']
+  ]
+];
+
+$('rm').innerHTML = rm.map((r, i) => `
+  <div class="card relative ${i == 0 ? 'ring-2 ring-red-600 dark:ring-amber-400' : ''}" ${i == 0 ? 'style="border-color:#DC2626"' : ''}>
+    <div class="flex items-center justify-between mb-4 pb-2 border-b border-zinc-200 dark:border-zinc-800">
+      <h3 class="d font-black text-xl text-zinc-900 dark:text-white">${r[0]}</h3>
+      ${i == 0 ? '<span class="mono text-[10px] font-black px-2.5 py-0.5 rounded-full bg-red-600 text-white">CURRENT</span>' : ''}
+    </div>
+    <ul class="text-sm text-zinc-700 dark:text-zinc-300 space-y-2">
+      ${r[1].map(x => `<li class="flex items-start gap-2"><span class="text-red-600 dark:text-amber-400 font-black">—</span><span>${x}</span></li>`).join('')}
+    </ul>
+  </div>
+`).join('');
+
+$('no').innerHTML = [
+  'Mobile App Native',
+  'GPS Live Tracking',
+  'Socket.io',
+  'Advanced Analytics',
+  'Payment Gateway',
+  'Route Optimization',
+  'AI',
+  'Multi-company SaaS',
+  'Subscription Plans',
+  'Complex RBAC',
+  'Customer Accounts',
+  'Advanced Notifications'
+].map(x => `<span class="chip opacity-75" style="color:#71717a;text-decoration:line-through">${x}</span>`).join('');
+
+// Iframe Responsive Fit
+function fit() {
+  document.querySelectorAll('.fr').forEach(f => {
+    const w = +f.dataset.w,
+          h = +f.dataset.h,
+          s = f.clientWidth / w,
+          i = f.firstElementChild;
+    i.style.width = w + 'px';
+    i.style.height = h + 'px';
+    i.style.transform = `scale(${s})`;
+    f.style.height = h * s + 'px';
+  });
+}
+addEventListener('resize', fit);
+addEventListener('load', fit);
+fit();
+
+// Theme Toggle
+const pageThemeBtn = $('pageThemeBtn');
+const pageThemeLabel = $('pageThemeLabel');
+pageThemeBtn.addEventListener('click', () => {
+  const isDark = document.documentElement.classList.toggle('dark');
+  pageThemeLabel.textContent = isDark ? '☀ وضع النهار' : '🌙 الوضع الليلي';
+});
+
+// Scroll Progress Bar
+addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const scrolled = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  $('scrollBar').style.width = scrolled + '%';
+});
+</script>
+</body>
+</html>

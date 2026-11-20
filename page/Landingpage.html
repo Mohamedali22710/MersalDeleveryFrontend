@@ -1,0 +1,1219 @@
+<!doctype html>
+<html lang="ar" dir="rtl" class="dark scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>مرسال | Mersal Delivery</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Tajawal:wght@700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ["Tajawal", "sans-serif"],
+              body: ["IBM Plex Sans Arabic", "sans-serif"],
+              mono: ["JetBrains Mono", "monospace"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "IBM Plex Sans Arabic", sans-serif;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      .font-display {
+        font-family: "Tajawal", sans-serif;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-white antialiased selection:bg-amber-400 selection:text-black transition-colors duration-200"
+  >
+    <!-- TOP SYSTEM BAR -->
+    <div
+      class="bg-zinc-950 text-white text-[11px] font-mono border-b border-zinc-800 py-1.5 px-4"
+    >
+      <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <span
+            class="bg-amber-400 text-black font-extrabold px-2 py-0.5 border border-black"
+            >LOGISTICS OS V2.8</span
+          >
+          <span class="hidden sm:inline-block text-zinc-400"
+            >نظام إدارة الشحنات والتوصيل المباشر — أسوان</span
+          >
+        </div>
+        <div class="flex items-center gap-3">
+          <button
+            id="theme-toggle"
+            type="button"
+            class="bg-zinc-900 border border-zinc-700 hover:border-amber-400 text-white px-2 py-0.5 font-bold transition-all text-[10px]"
+          >
+            <span id="theme-toggle-text">MODE: DARK</span>
+          </button>
+          <span class="text-amber-400 font-bold flex items-center gap-1.5">
+            <span
+              class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"
+            ></span>
+            الخدمة متوفرة الآن
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <header
+      class="sticky top-0 z-50 bg-white dark:bg-zinc-950 border-b-2 border-zinc-900 dark:border-zinc-800 transition-colors"
+    >
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between"
+      >
+        <!-- Brand Logo -->
+        <a href="#" class="flex items-center gap-3">
+          <div
+            class="bg-red-600 text-white font-black text-2xl px-4 py-1 tracking-wider border-2 border-black rounded-lg shadow-[3px_3px_0px_#0A0A0C]"
+          >
+            مرسال
+          </div>
+          <div class="flex flex-col">
+            <span
+              class="text-sm font-black font-display text-zinc-900 dark:text-white leading-none"
+              >MERSAL DELIVERY</span
+            >
+            <span
+              class="text-[10px] font-mono text-red-600 dark:text-red-500 font-bold"
+              >مش بس سرعة.. سرعة ودقة وأمان</span
+            >
+          </div>
+        </a>
+
+        <!-- Navigation Menu -->
+        <nav
+          class="hidden lg:flex items-center gap-8 text-xs font-bold font-mono text-zinc-700 dark:text-zinc-300"
+        >
+          <a
+            href="#about"
+            class="hover:text-red-600 dark:hover:text-amber-400 transition-colors"
+            >01. عن مرسال</a
+          >
+          <a
+            href="#services"
+            class="hover:text-red-600 dark:hover:text-amber-400 transition-colors"
+            >02. خدمات التوصيل</a
+          >
+          <a
+            href="#lifecycle"
+            class="hover:text-red-600 dark:hover:text-amber-400 transition-colors"
+            >03. حالات الطلب</a
+          >
+          <a
+            href="#order-form"
+            class="hover:text-red-600 dark:hover:text-amber-400 transition-colors"
+            >04. اطلب الآن</a
+          >
+        </nav>
+
+        <!-- Action Buttons -->
+        <div class="flex items-center gap-3">
+          <a
+            href="#login"
+            class="border-2 border-zinc-900 dark:border-zinc-700 bg-transparent text-zinc-900 dark:text-white font-bold text-xs px-4 py-2.5 rounded-lg hover:bg-amber-400 hover:text-black transition-all font-mono"
+          >
+            تسجيل الدخول
+          </a>
+          <a
+            href="#order-form"
+            class="bg-amber-400 text-black font-extrabold text-xs px-5 py-2.5 rounded-lg border-2 border-zinc-900 shadow-[3px_3px_0px_#0A0A0C] hover:bg-red-600 hover:text-white transition-all font-display"
+          >
+            ارسل طلبك الآن
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section
+      id="hero"
+      class="relative overflow-hidden py-16 lg:py-24 border-b-2 border-zinc-900 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-white transition-colors"
+    >
+      <!-- Background Glows -->
+      <div
+        class="absolute -top-24 -right-24 w-96 h-96 bg-amber-500/10 dark:bg-amber-500/5 rounded-full blur-3xl pointer-events-none"
+      ></div>
+      <div
+        class="absolute top-1/2 -left-24 w-96 h-96 bg-red-600/10 dark:bg-red-600/5 rounded-full blur-3xl pointer-events-none"
+      ></div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+        <div class="grid lg:grid-cols-12 gap-12 items-center">
+          <!-- Hero Content -->
+          <div class="lg:col-span-7 space-y-6 text-right">
+            <div
+              class="inline-flex items-center gap-2 bg-amber-400 text-black border-2 border-zinc-900 text-xs font-black px-4 py-1.5 rounded-full shadow-[3px_3px_0px_#0A0A0C]"
+            >
+              <span>خدمة التوصيل الأولى والأسرع في أسوان</span>
+            </div>
+
+            <h1
+              class="text-4xl sm:text-6xl lg:text-7xl font-black font-display leading-[1.1] text-zinc-900 dark:text-white"
+            >
+              خليك مرتاح مع <br />
+              <span
+                class="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-500 to-amber-500"
+              >
+                دليفري مرسال
+              </span>
+            </h1>
+
+            <p
+              class="text-base sm:text-lg text-zinc-700 dark:text-zinc-300 font-medium max-w-2xl leading-relaxed"
+            >
+              <strong class="text-red-600 dark:text-amber-400 font-bold"
+                >الطريق الأسرع لتوصيل طلباتك!</strong
+              >
+              سواء كانت طرود، هدايا، أوراق أو بضائع.. الطلب عليك والتوصيل علينا
+              بسرعة ودقة وأمان تام.
+            </p>
+
+            <div class="flex flex-wrap gap-4 pt-2 font-mono">
+              <a
+                href="#order-form"
+                class="bg-red-600 hover:bg-red-700 text-white font-extrabold text-sm px-8 py-4 rounded-xl border-2 border-zinc-900 shadow-[4px_4px_0px_#0A0A0C] transition-all"
+              >
+                طلب توصيل جديد
+              </a>
+              <a
+                href="https://wa.me/201148606472"
+                target="_blank"
+                class="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm px-8 py-4 rounded-xl border-2 border-zinc-900 shadow-[4px_4px_0px_#0A0A0C] transition-all"
+              >
+                واتساب مباشر
+              </a>
+            </div>
+
+            <!-- Feature Highlights -->
+            <div
+              class="grid grid-cols-3 gap-4 pt-8 border-t-2 border-zinc-200 dark:border-zinc-800"
+            >
+              <div class="space-y-1">
+                <h4
+                  class="text-xl sm:text-2xl font-black font-display text-red-600 dark:text-amber-400"
+                >
+                  سرعة فائقة
+                </h4>
+                <p class="text-xs text-zinc-600 dark:text-zinc-400 font-bold">
+                  توصيل مباشر داخل أسوان
+                </p>
+              </div>
+              <div class="space-y-1">
+                <h4
+                  class="text-xl sm:text-2xl font-black font-display text-zinc-900 dark:text-white"
+                >
+                  أمان كامل
+                </h4>
+                <p class="text-xs text-zinc-600 dark:text-zinc-400 font-bold">
+                  الحفاظ على شحنتك سليمة
+                </p>
+              </div>
+              <div class="space-y-1">
+                <h4
+                  class="text-xl sm:text-2xl font-black font-display text-red-600 dark:text-amber-400"
+                >
+                  تتبع دقيق
+                </h4>
+                <p class="text-xs text-zinc-600 dark:text-zinc-400 font-bold">
+                  تحديث الحالات مع الكابتن
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Visual Card -->
+          <div class="lg:col-span-5">
+            <div
+              class="relative mx-auto max-w-md bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 rounded-2xl p-6 shadow-[8px_8px_0px_#0A0A0C] dark:shadow-[8px_8px_0px_#27272A] space-y-5"
+            >
+              <div
+                class="flex items-center justify-between pb-4 border-b border-zinc-200 dark:border-zinc-800"
+              >
+                <div class="flex items-center gap-2">
+                  <span
+                    class="w-3 h-3 rounded-full bg-emerald-500 animate-ping"
+                  ></span>
+                  <span
+                    class="font-mono text-xs font-bold text-zinc-800 dark:text-zinc-200"
+                    >تتبع الشحنة المباشرة</span
+                  >
+                </div>
+                <span
+                  class="bg-amber-400 text-black text-[11px] font-black px-2.5 py-0.5 rounded border border-black font-mono"
+                >
+                  #MERSAL-994
+                </span>
+              </div>
+
+              <div
+                class="bg-zinc-50 dark:bg-zinc-950 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 space-y-3"
+              >
+                <div class="flex items-center justify-between">
+                  <div>
+                    <h5
+                      class="text-xs font-bold text-zinc-900 dark:text-white font-display"
+                    >
+                      الكابتن المسؤول
+                    </h5>
+                    <p
+                      class="text-[11px] text-zinc-500 dark:text-zinc-400 font-mono"
+                    >
+                      أحمد محمود (أسوان الوسطى)
+                    </p>
+                  </div>
+                  <span
+                    class="bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400 text-[10px] font-extrabold px-2.5 py-1 rounded-full border border-emerald-500"
+                  >
+                    قيد التوصيل
+                  </span>
+                </div>
+
+                <div class="space-y-1">
+                  <div
+                    class="flex justify-between text-[10px] font-mono text-zinc-500 dark:text-zinc-400"
+                  >
+                    <span>تم الاستلام من المرسل</span>
+                    <span class="text-red-600 dark:text-amber-400 font-bold"
+                      >المتبقي: 18 دقيقة (2.4 كم)</span
+                    >
+                  </div>
+                  <div
+                    class="w-full bg-zinc-200 dark:bg-zinc-800 h-2.5 rounded-full overflow-hidden border border-black"
+                  >
+                    <div
+                      class="bg-gradient-to-r from-amber-400 to-red-600 h-full w-3/4 rounded-full"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="p-3 bg-amber-400/10 border border-amber-400/40 rounded-xl flex items-center justify-between text-xs font-mono"
+              >
+                <span class="font-bold text-zinc-800 dark:text-zinc-200"
+                  >الدعم والمتابعة المباشرة:</span
+                >
+                <a
+                  href="tel:01148606472"
+                  class="font-black text-red-600 dark:text-amber-400 hover:underline dir-ltr"
+                >
+                  011 48606472
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: SERVICES (خدمات التوصيل الفخمة) -->
+    <section
+      id="services"
+      class="py-20 border-b-2 border-zinc-900 dark:border-zinc-800 bg-white dark:bg-zinc-900 transition-colors"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 space-y-12">
+        <!-- Section Header -->
+        <div
+          class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b-2 border-zinc-900 dark:border-zinc-800 pb-6"
+        >
+          <div>
+            <span
+              class="text-xs font-mono font-bold text-red-600 dark:text-amber-400"
+              >/ 02. SERVICES</span
+            >
+            <h2
+              class="text-3xl sm:text-5xl font-black font-display text-zinc-900 dark:text-white mt-1"
+            >
+              خدمات توصيل تناسب عملك واحتياجاتك
+            </h2>
+          </div>
+          <p
+            class="text-xs font-mono text-zinc-600 dark:text-zinc-400 max-w-sm"
+          >
+            حلول لوجستية فائقة السرعة مصممة للأفراد، المتاجر الإلكترونية،
+            والمطاعم داخل أسوان.
+          </p>
+        </div>
+
+        <!-- Services Cards Grid -->
+        <div class="grid md:grid-cols-3 gap-8">
+          <!-- Card 1 -->
+          <div
+            class="group relative bg-zinc-50 dark:bg-zinc-950 border-2 border-zinc-900 dark:border-zinc-800 p-8 rounded-2xl shadow-[6px_6px_0px_#0A0A0C] dark:shadow-[6px_6px_0px_#27272A] hover:-translate-y-1.5 transition-all duration-300"
+          >
+            <div class="flex items-center justify-between mb-6">
+              <span
+                class="bg-amber-400 text-black font-mono font-black text-xs px-3 py-1 rounded border border-black"
+                >01</span
+              >
+              <span
+                class="text-xs font-mono font-bold text-zinc-400 group-hover:text-red-600 transition-colors"
+                >EXPRESS</span
+              >
+            </div>
+            <h3
+              class="text-2xl font-black font-display text-zinc-900 dark:text-white mb-3"
+            >
+              توصيل طرود فورية
+            </h3>
+            <p
+              class="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed font-medium mb-6"
+            >
+              توصيل المستندات، الطرود الشخصية، والهدايا من الباب إلى الباب داخل
+              مدينة أسوان في أقل وقت ممكن.
+            </p>
+            <div
+              class="pt-4 border-t border-zinc-200 dark:border-zinc-800 flex justify-between items-center text-xs font-mono font-bold"
+            >
+              <span class="text-zinc-500">السرعة المتوقعة</span>
+              <span class="text-red-600 dark:text-amber-400"
+                >30 - 45 دقيقة</span
+              >
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div
+            class="group relative bg-zinc-50 dark:bg-zinc-950 border-2 border-zinc-900 dark:border-zinc-800 p-8 rounded-2xl shadow-[6px_6px_0px_#0A0A0C] dark:shadow-[6px_6px_0px_#27272A] hover:-translate-y-1.5 transition-all duration-300"
+          >
+            <div class="flex items-center justify-between mb-6">
+              <span
+                class="bg-red-600 text-white font-mono font-black text-xs px-3 py-1 rounded border border-black"
+                >02</span
+              >
+              <span
+                class="text-xs font-mono font-bold text-zinc-400 group-hover:text-amber-400 transition-colors"
+                >BUSINESS</span
+              >
+            </div>
+            <h3
+              class="text-2xl font-black font-display text-zinc-900 dark:text-white mb-3"
+            >
+              حلول المتاجر والشركات
+            </h3>
+            <p
+              class="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed font-medium mb-6"
+            >
+              ربط أصحاب التجارة الإلكترونية بأسطول مرسال للتوصيل المباشر مع دعم
+              كامل لخدمة تحصيل الأموال (COD).
+            </p>
+            <div
+              class="pt-4 border-t border-zinc-200 dark:border-zinc-800 flex justify-between items-center text-xs font-mono font-bold"
+            >
+              <span class="text-zinc-500">خدمة التحصيل</span>
+              <span class="text-emerald-600 dark:text-emerald-400"
+                >تصفية يومية تلقائية</span
+              >
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div
+            class="group relative bg-zinc-50 dark:bg-zinc-950 border-2 border-zinc-900 dark:border-zinc-800 p-8 rounded-2xl shadow-[6px_6px_0px_#0A0A0C] dark:shadow-[6px_6px_0px_#27272A] hover:-translate-y-1.5 transition-all duration-300"
+          >
+            <div class="flex items-center justify-between mb-6">
+              <span
+                class="bg-zinc-900 text-white dark:bg-zinc-100 dark:text-black font-mono font-black text-xs px-3 py-1 rounded border border-black"
+                >03</span
+              >
+              <span
+                class="text-xs font-mono font-bold text-zinc-400 group-hover:text-red-600 transition-colors"
+                >SCHEDULED</span
+              >
+            </div>
+            <h3
+              class="text-2xl font-black font-display text-zinc-900 dark:text-white mb-3"
+            >
+              شحنات مخصصة ومجدولة
+            </h3>
+            <p
+              class="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed font-medium mb-6"
+            >
+              حجز مواعيد تسليم مجدولة مسبقاً للشركات والمؤسسات لضمان وصول
+              الشحنات في أوقات المكاتب والعمل الرسمية.
+            </p>
+            <div
+              class="pt-4 border-t border-zinc-200 dark:border-zinc-800 flex justify-between items-center text-xs font-mono font-bold"
+            >
+              <span class="text-zinc-500">الجدولة</span>
+              <span class="text-red-600 dark:text-amber-400"
+                >تحديد وقت بدقة</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: WHY CHOOSE MERSAL (لماذا تختار مرسال) -->
+    <section
+      id="why-us"
+      class="py-24 border-b-2 border-zinc-900 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 transition-colors overflow-hidden"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        <div class="grid lg:grid-cols-12 gap-12 items-center">
+          <!-- Left Column: Image with Curved Point Arc -->
+          <div class="lg:col-span-6 relative flex justify-center items-center">
+            <!-- Glowing Backdrop Circle -->
+            <div
+              class="absolute w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-gradient-to-tr from-red-600 to-amber-400 opacity-20 dark:opacity-30 blur-2xl animate-pulse"
+            ></div>
+
+            <!-- Arc Circle Line -->
+            <div
+              class="absolute w-[320px] h-[320px] sm:w-[420px] sm:h-[420px] rounded-full border-2 border-dashed border-amber-400/60 dark:border-amber-400/40 animate-[spin_60s_linear_infinite] pointer-events-none"
+            ></div>
+
+            <!-- Delivery Courier Image Container -->
+            <div
+              class="relative z-10 max-w-sm sm:max-w-md bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 rounded-3xl p-4 shadow-[10px_10px_0px_#0A0A0C] dark:shadow-[10px_10px_0px_#27272A]"
+            >
+              <img
+                src="https://images.unsplash.com/photo-1526367790999-0150786686a2?auto=format&fit=crop&w=800&q=80"
+                alt="Mersal Courier"
+                class="w-full h-80 sm:h-96 object-cover rounded-2xl filter contrast-105"
+              />
+
+              <div
+                class="absolute -bottom-4 right-6 bg-amber-400 text-black border-2 border-zinc-900 px-4 py-2 rounded-xl font-mono text-xs font-black shadow-[3px_3px_0px_#0A0A0C]"
+              >
+                توصيل آمن 100%
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Content & Step Badge Arc List -->
+          <div class="lg:col-span-6 space-y-8 text-right">
+            <div class="space-y-3">
+              <span
+                class="text-xs font-mono font-bold text-red-600 dark:text-amber-400"
+                >/ 03. WHY CHOOSE US</span
+              >
+              <h2
+                class="text-3xl sm:text-5xl font-black font-display text-zinc-900 dark:text-white leading-tight"
+              >
+                لماذا تختار
+                <span class="text-red-600 dark:text-amber-400">مرسال</span>
+                لتوصيل طلباتك؟
+              </h2>
+              <p
+                class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 font-medium leading-relaxed max-w-xl"
+              >
+                نجمع بين السرعة الميدانية والتقنية الذكية لتقديم أفضل تجربة
+                توصيل داخل أسوان مع الحفاظ على سلامة شحنتك ودعم مباشر على مدار
+                اليوم.
+              </p>
+            </div>
+
+            <!-- Vertical Arc Steps -->
+            <div class="space-y-4">
+              <!-- Step 01 -->
+              <div
+                class="group flex items-center gap-4 bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-800 p-4 rounded-xl shadow-[4px_4px_0px_#0A0A0C] dark:shadow-[4px_4px_0px_#27272A] hover:border-amber-400 transition-all"
+              >
+                <div
+                  class="w-10 h-10 rounded-lg bg-amber-400 text-black flex items-center justify-center font-mono font-black text-sm border border-black shrink-0"
+                >
+                  01
+                </div>
+                <div>
+                  <h4
+                    class="font-bold text-base font-display text-zinc-900 dark:text-white"
+                  >
+                    توصيل مباشر عند الطلب
+                  </h4>
+                  <p
+                    class="text-xs text-zinc-600 dark:text-zinc-400 font-medium"
+                  >
+                    استلام فوري من المرسل وتوجه مباشر لعنوان المستلم بدون تأخير.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Step 02 -->
+              <div
+                class="group flex items-center gap-4 bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-800 p-4 rounded-xl shadow-[4px_4px_0px_#0A0A0C] dark:shadow-[4px_4px_0px_#27272A] hover:border-red-600 transition-all"
+              >
+                <div
+                  class="w-10 h-10 rounded-lg bg-red-600 text-white flex items-center justify-center font-mono font-black text-sm border border-black shrink-0"
+                >
+                  02
+                </div>
+                <div>
+                  <h4
+                    class="font-bold text-base font-display text-zinc-900 dark:text-white"
+                  >
+                    مندوبون موثوقون ومعتمدون
+                  </h4>
+                  <p
+                    class="text-xs text-zinc-600 dark:text-zinc-400 font-medium"
+                  >
+                    فريق كباتن مدرب جيدا لضمان أعلى مستويات الأمان والأخلاق
+                    المهنية.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Step 03 -->
+              <div
+                class="group flex items-center gap-4 bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-800 p-4 rounded-xl shadow-[4px_4px_0px_#0A0A0C] dark:shadow-[4px_4px_0px_#27272A] hover:border-amber-400 transition-all"
+              >
+                <div
+                  class="w-10 h-10 rounded-lg bg-zinc-900 text-white dark:bg-zinc-100 dark:text-black flex items-center justify-center font-mono font-black text-sm border border-black shrink-0"
+                >
+                  03
+                </div>
+                <div>
+                  <h4
+                    class="font-bold text-base font-display text-zinc-900 dark:text-white"
+                  >
+                    أسعار عادلة وشفافة
+                  </h4>
+                  <p
+                    class="text-xs text-zinc-600 dark:text-zinc-400 font-medium"
+                  >
+                    تكلفة توصيل واضحة ومناسبة بدون أي رسوم خفية أو إضافات غير
+                    متوقعة.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Step 04 -->
+              <div
+                class="group flex items-center gap-4 bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-800 p-4 rounded-xl shadow-[4px_4px_0px_#0A0A0C] dark:shadow-[4px_4px_0px_#27272A] hover:border-emerald-500 transition-all"
+              >
+                <div
+                  class="w-10 h-10 rounded-lg bg-emerald-500 text-white flex items-center justify-center font-mono font-black text-sm border border-black shrink-0"
+                >
+                  04
+                </div>
+                <div>
+                  <h4
+                    class="font-bold text-base font-display text-zinc-900 dark:text-white"
+                  >
+                    خدمة سريعة ودعم دائم
+                  </h4>
+                  <p
+                    class="text-xs text-zinc-600 dark:text-zinc-400 font-medium"
+                  >
+                    متابعة لحظية للطلب مع خط دعم مباشر لتلبية استفساراتك فوراً.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: SERVICE AREA (مناطق التغطية ونطاق التوصيل والخريطة) -->
+    <section
+      id="coverage"
+      class="py-20 border-b-2 border-zinc-900 dark:border-zinc-800 bg-white dark:bg-zinc-900 transition-colors"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 space-y-12">
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto space-y-3">
+          <span
+            class="text-xs font-mono font-bold text-red-600 dark:text-amber-400"
+            >/ 04. SERVICE AREA</span
+          >
+          <h2
+            class="text-3xl sm:text-5xl font-black font-display text-zinc-900 dark:text-white"
+          >
+            مناطق التغطية ونطاق الخدمة
+          </h2>
+          <p
+            class="text-xs sm:text-sm font-mono text-zinc-600 dark:text-zinc-400"
+          >
+            نوفر خدمة توصيل موثوقة وسريعة داخل نطاق مدينة أسوان والمناطق
+            المجاورة. تحقق من الخريطة للتأكد من تغطية موقعك.
+          </p>
+        </div>
+
+        <!-- Content Grid (Cards Left, Map Right) -->
+        <div class="grid lg:grid-cols-12 gap-8 items-stretch">
+          <!-- Types of Delivery Offered (Left Column) -->
+          <div class="lg:col-span-6 flex flex-col justify-between space-y-4">
+            <div class="border-b-2 border-zinc-900 dark:border-zinc-800 pb-3">
+              <h3
+                class="text-xl font-black font-display text-zinc-900 dark:text-white"
+              >
+                أنواع التوصيل المتاحة
+              </h3>
+              <p
+                class="text-xs font-mono text-zinc-500 dark:text-zinc-400 mt-1"
+              >
+                حلول مرنة تناسب جميع احتياجات الشحن الخاصة بك
+              </p>
+            </div>
+
+            <!-- Option 1 -->
+            <div
+              class="group bg-amber-400/10 border-2 border-zinc-900 dark:border-zinc-700 p-5 rounded-2xl shadow-[4px_4px_0px_#0A0A0C] dark:shadow-[4px_4px_0px_#27272A] transition-all hover:-translate-y-1"
+            >
+              <div class="flex items-center justify-between mb-2">
+                <h4
+                  class="font-bold text-base font-display text-zinc-900 dark:text-white"
+                >
+                  من نقطة التجميع إلى المنزل
+                </h4>
+                <span
+                  class="bg-amber-400 text-black font-mono font-black text-[10px] px-2 py-0.5 rounded border border-black"
+                  >POINT TO HOME</span
+                >
+              </div>
+              <p
+                class="text-xs text-zinc-700 dark:text-zinc-300 font-medium leading-relaxed"
+              >
+                استلام شحناتك وبضائعك مباشرة من المكاتب أو نقطة التجميع المركزية
+                وتوصيلها حتى باب منزلك.
+              </p>
+            </div>
+
+            <!-- Option 2 -->
+            <div
+              class="group bg-red-600/10 border-2 border-zinc-900 dark:border-zinc-700 p-5 rounded-2xl shadow-[4px_4px_0px_#0A0A0C] dark:shadow-[4px_4px_0px_#27272A] transition-all hover:-translate-y-1"
+            >
+              <div class="flex items-center justify-between mb-2">
+                <h4
+                  class="font-bold text-base font-display text-zinc-900 dark:text-white"
+                >
+                  من المنزل إلى نقطة التجميع
+                </h4>
+                <span
+                  class="bg-red-600 text-white font-mono font-black text-[10px] px-2 py-0.5 rounded border border-black"
+                  >HOME TO POINT</span
+                >
+              </div>
+              <p
+                class="text-xs text-zinc-700 dark:text-zinc-300 font-medium leading-relaxed"
+              >
+                استلام الأغراض أو الطرود من موقعك وتسليمها ونقلها مباشرة إلى
+                نقطة التجميع المحددة.
+              </p>
+            </div>
+
+            <!-- Option 3 -->
+            <div
+              class="group bg-zinc-100 dark:bg-zinc-950 border-2 border-zinc-900 dark:border-zinc-700 p-5 rounded-2xl shadow-[4px_4px_0px_#0A0A0C] dark:shadow-[4px_4px_0px_#27272A] transition-all hover:-translate-y-1"
+            >
+              <div class="flex items-center justify-between mb-2">
+                <h4
+                  class="font-bold text-base font-display text-zinc-900 dark:text-white"
+                >
+                  توصيل من نقطة إلى نقطة (مباشر)
+                </h4>
+                <span
+                  class="bg-zinc-900 text-white dark:bg-zinc-100 dark:text-black font-mono font-black text-[10px] px-2 py-0.5 rounded border border-black"
+                  >POINT TO POINT</span
+                >
+              </div>
+              <p
+                class="text-xs text-zinc-700 dark:text-zinc-300 font-medium leading-relaxed"
+              >
+                خدمة التوصيل السريع المباشر من عنوان المرسل إلى عنوان المستلم
+                دون المرور بأي محطات انتظار.
+              </p>
+            </div>
+          </div>
+
+          <!-- Live Map Iframe (Right Column) with fixed dark/light adjustments -->
+          <div class="lg:col-span-6 relative flex items-center">
+            <div
+              class="w-full h-full min-h-[420px] bg-zinc-100 dark:bg-zinc-950 border-2 border-zinc-900 dark:border-zinc-700 rounded-3xl p-3 shadow-[8px_8px_0px_#0A0A0C] dark:shadow-[8px_8px_0px_#27272A] flex flex-col justify-between overflow-hidden relative"
+            >
+              <div
+                id="map-container"
+                class="relative w-full h-full min-h-[380px] rounded-2xl overflow-hidden border border-zinc-300 dark:border-zinc-800"
+              >
+                <!-- Google Map Iframe with smooth adjusted filters -->
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d115948.8837375276!2d32.84654876790934!3d24.088938048255533!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14367b5ab19bc315%3A0x13c792f026a793c!2sAswan%2C%20Aswan%20Governorate!5e0!3m2!1sen!2seg!4v1700000000000!5m2!1sen!2seg"
+                  class="w-full h-full border-0 saturate-[0.8] contrast-[1.05] dark:hue-rotate-180 dark:invert-[0.92] dark:saturate-[0.7] transition-all duration-300"
+                  allowfullscreen=""
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                >
+                </iframe>
+
+                <!-- Top Overlay Badge -->
+                <div
+                  class="absolute top-4 right-4 bg-zinc-900/90 dark:bg-zinc-100/90 text-white dark:text-zinc-900 font-mono text-[11px] font-bold px-3 py-1.5 rounded-lg border border-zinc-700 dark:border-zinc-300 shadow-md backdrop-blur-md z-10 pointer-events-none"
+                >
+                  خريطة أسوان المباشرة
+                </div>
+
+                <!-- Bottom Status Indicator -->
+                <div
+                  class="absolute bottom-4 left-4 bg-white/90 dark:bg-zinc-900/90 border-2 border-zinc-900 dark:border-zinc-700 p-3 rounded-xl shadow-lg flex items-center gap-3 backdrop-blur-md z-10 pointer-events-none"
+                >
+                  <div
+                    class="w-3 h-3 rounded-full bg-emerald-500 animate-ping"
+                  ></div>
+                  <div>
+                    <p
+                      class="text-[11px] font-bold font-display text-zinc-900 dark:text-white"
+                    >
+                      التغطية نشطة الآن
+                    </p>
+                    <p
+                      class="text-[9px] font-mono text-zinc-600 dark:text-zinc-400"
+                    >
+                      أسوان - صحاري - المحمودية - الكورنيش
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: FAQ (الأسئلة الشائعة) -->
+    <section
+      id="faq"
+      class="py-24 border-b-2 border-zinc-900 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 transition-colors"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 space-y-12">
+        <div class="border-b-2 border-zinc-900 dark:border-zinc-800 pb-6">
+          <span
+            class="text-xs font-mono font-bold text-red-600 dark:text-amber-400"
+            >/ 05. FAQ</span
+          >
+          <h2
+            class="text-3xl sm:text-5xl font-black font-display text-zinc-900 dark:text-white mt-1"
+          >
+            لديك استفسار؟ لدينا إجابات
+          </h2>
+        </div>
+
+        <div class="grid lg:grid-cols-12 gap-12">
+          <div class="lg:col-span-4 space-y-4">
+            <h3 class="text-xl font-black font-display text-zinc-900 dark:text-white">
+              هل لديك أسئلة حول خدمات التوصيل الخاصة بنا؟
+            </h3>
+            <p
+              class="text-xs text-zinc-600 dark:text-zinc-400 font-medium leading-relaxed"
+            >
+              جمعنا لك إجابات أكثر الأسئلة شيوعاً حول كيفية طلب كابتن التوصيل، وآلية
+              التحقق من المندوبين، وطرق التتبع والمتابعة المباشرة.
+            </p>
+            <div class="pt-4">
+              <a
+                href="https://wa.me/201148606472"
+                target="_blank"
+                class="inline-block bg-amber-400 hover:bg-amber-500 text-black font-extrabold text-xs px-6 py-3 rounded-xl border-2 border-zinc-900 shadow-[3px_3px_0px_#0A0A0C] font-mono transition-all"
+              >
+                اسأل الدعم الفني مباشر
+              </a>
+            </div>
+          </div>
+
+          <div class="lg:col-span-8 space-y-4 font-body">
+            <details
+              class="group bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-800 rounded-2xl shadow-[4px_4px_0px_#0A0A0C] dark:shadow-[4px_4px_0px_#27272A] overflow-hidden transition-all [&[open]]:border-amber-400"
+            >
+              <summary
+                class="flex justify-between items-center p-6 cursor-pointer font-bold text-base font-display text-zinc-900 dark:text-white select-none"
+              >
+                <span>كيف يمكنني حجز مندوب توصيل من مرسال؟</span>
+                <span
+                  class="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 border border-zinc-900 dark:border-zinc-700 flex items-center justify-center font-mono font-black text-lg text-zinc-900 dark:text-white group-open:bg-amber-400 group-open:text-black transition-colors"
+                >
+                  +
+                </span>
+              </summary>
+              <div
+                class="px-6 pb-6 text-xs text-zinc-600 dark:text-zinc-400 font-medium leading-relaxed border-t border-zinc-100 dark:border-zinc-800/60 pt-4"
+              >
+                يمكنك الحجز بسهولة من خلال استمارة الطلب المباشرة على الموقع، أو
+                عبر التواصل المباشر مع فريق الدعم على الواتساب، وتحديد نقطة
+                الاستلام والتسليم ليتوجه إليك أقرب كابتن فورا.
+              </div>
+            </details>
+
+            <details
+              class="group bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-800 rounded-2xl shadow-[4px_4px_0px_#0A0A0C] dark:shadow-[4px_4px_0px_#27272A] overflow-hidden transition-all [&[open]]:border-red-600"
+              open
+            >
+              <summary
+                class="flex justify-between items-center p-6 cursor-pointer font-bold text-base font-display text-zinc-900 dark:text-white select-none"
+              >
+                <span>كيف يتم التحقق من هويات كباتن التوصيل؟</span>
+                <span
+                  class="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 border border-zinc-900 dark:border-zinc-700 flex items-center justify-center font-mono font-black text-lg text-zinc-900 dark:text-white group-open:bg-red-600 group-open:text-white transition-colors"
+                >
+                  +
+                </span>
+              </summary>
+              <div
+                class="px-6 pb-6 text-xs text-zinc-600 dark:text-zinc-400 font-medium leading-relaxed border-t border-zinc-100 dark:border-zinc-800/60 pt-4"
+              >
+                يمر جميع مناديب مرسال بفيش وفحص دقيق يتضمن التحقق من الهوية الشخصية،
+                السجل الجنائي، والمقابلة الشخصية المباشرة لضمان أعلى درجات الأمان
+                والأمانة لشحناتك.
+              </div>
+            </details>
+
+            <details
+              class="group bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-800 rounded-2xl shadow-[4px_4px_0px_#0A0A0C] dark:shadow-[4px_4px_0px_#27272A] overflow-hidden transition-all [&[open]]:border-amber-400"
+            >
+              <summary
+                class="flex justify-between items-center p-6 cursor-pointer font-bold text-base font-display text-zinc-900 dark:text-white select-none"
+              >
+                <span>كيف يمكنني تتبع حالة التوصيل الخاصة بي؟</span>
+                <span
+                  class="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 border border-zinc-900 dark:border-zinc-700 flex items-center justify-center font-mono font-black text-lg text-zinc-900 dark:text-white group-open:bg-amber-400 group-open:text-black transition-colors"
+                >
+                  +
+                </span>
+              </summary>
+              <div
+                class="px-6 pb-6 text-xs text-zinc-600 dark:text-zinc-400 font-medium leading-relaxed border-t border-zinc-100 dark:border-zinc-800/60 pt-4"
+              >
+                بمجرد قبول الطلب، ستحصل على كود تتبع مباشر للشحنة، ويمكنك متابعة
+                تحديثات الحالة خطوة بخطوة والتواصل المباشر مع الكابتن المسؤول.
+              </div>
+            </details>
+
+            <details
+              class="group bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-800 rounded-2xl shadow-[4px_4px_0px_#0A0A0C] dark:shadow-[4px_4px_0px_#27272A] overflow-hidden transition-all [&[open]]:border-emerald-500"
+            >
+              <summary
+                class="flex justify-between items-center p-6 cursor-pointer font-bold text-base font-display text-zinc-900 dark:text-white select-none"
+              >
+                <span>ما هي طرق الدفع المتاحة لخدمة التوصيل؟</span>
+                <span
+                  class="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 border border-zinc-900 dark:border-zinc-700 flex items-center justify-center font-mono font-black text-lg text-zinc-900 dark:text-white group-open:bg-emerald-500 group-open:text-white transition-colors"
+                >
+                  +
+                </span>
+              </summary>
+              <div
+                class="px-6 pb-6 text-xs text-zinc-600 dark:text-zinc-400 font-medium leading-relaxed border-t border-zinc-100 dark:border-zinc-800/60 pt-4"
+              >
+                نوفر خيارات دفع متعددة وسلسة مثل الدفع النقدي عند الاستلام (COD)،
+                أو المحافظ الإلكترونية لضمان راحتك.
+              </div>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+<!-- SECTION: ORDER FORM (نموذج إرسال الشحنة المتوافق مع Database Schema) -->
+<section id="order-form" class="py-24 bg-zinc-100 dark:bg-zinc-900 border-b-2 border-zinc-900 dark:border-zinc-800 transition-colors">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-8">
+    
+    <div class="text-center space-y-2">
+      <span class="bg-red-600 text-white text-xs font-mono font-extrabold px-3 py-1 rounded border border-black inline-block">
+        / ORDER SUBMISSION API
+      </span>
+      <h2 class="text-3xl sm:text-4xl font-black font-display text-zinc-900 dark:text-white">أرسل طلب الشحن الآن</h2>
+      <p class="text-xs text-zinc-600 dark:text-zinc-400 font-mono">سيتم إنشاء الطلب في النظام وتوجيهه مباشرة إلى لوحة تحكم الأدمن</p>
+    </div>
+
+    <!-- The Validated Form matching DB Schema -->
+    <form id="mersal-order-form" class="bg-white dark:bg-zinc-950 border-2 border-zinc-900 dark:border-zinc-700 p-6 sm:p-10 rounded-2xl shadow-[8px_8px_0px_#0A0A0C] dark:shadow-[8px_8px_0px_#27272A] space-y-8">
+      
+      <!-- Block 1: Customer (Sender) Info -->
+      <div class="space-y-4">
+        <div class="border-b-2 border-zinc-900 dark:border-zinc-800 pb-2 flex items-center gap-2">
+          <span class="bg-amber-400 text-black font-mono font-black text-xs px-2.5 py-0.5 rounded">01</span>
+          <h3 class="font-bold text-base text-zinc-900 dark:text-white font-display">بيانات العميل (المرسل - Customer)</h3>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="space-y-1 font-mono text-xs">
+            <label class="font-bold text-zinc-700 dark:text-zinc-300 block">اسم العميل بالكامل *</label>
+            <input type="text" name="customerName" required placeholder="مثال: محمد علي" class="w-full bg-zinc-50 dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 rounded-lg text-zinc-900 dark:text-white p-3 font-body focus:outline-none focus:border-amber-400">
+          </div>
+
+          <div class="space-y-1 font-mono text-xs">
+            <label class="font-bold text-zinc-700 dark:text-zinc-300 block">رقم الهاتف / الواتساب (Phone) *</label>
+            <input type="tel" name="phone" required pattern="^01[0125][0-9]{8}$" placeholder="01012345678" class="w-full bg-zinc-50 dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 rounded-lg text-zinc-900 dark:text-white p-3 focus:outline-none focus:border-amber-400">
+            <span class="text-[10px] text-zinc-500">يجب أن يكون رقم مصري صحيح مكون من 11 رقم</span>
+          </div>
+        </div>
+
+        <div class="space-y-1 font-mono text-xs">
+          <label class="font-bold text-zinc-700 dark:text-zinc-300 block">عنوان الاستلام (Pickup Address) *</label>
+          <input type="text" name="pickupAddress" required placeholder="المنطقة / الشارع / اسم المعلم أو المحل" class="w-full bg-zinc-50 dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 rounded-lg text-zinc-900 dark:text-white p-3 font-body focus:outline-none focus:border-amber-400">
+        </div>
+      </div>
+
+      <!-- Block 2: Receiver Info -->
+      <div class="space-y-4">
+        <div class="border-b-2 border-zinc-900 dark:border-zinc-800 pb-2 flex items-center gap-2">
+          <span class="bg-amber-400 text-black font-mono font-black text-xs px-2.5 py-0.5 rounded">02</span>
+          <h3 class="font-bold text-base text-zinc-900 dark:text-white font-display">بيانات المستلم (Receiver)</h3>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="space-y-1 font-mono text-xs">
+            <label class="font-bold text-zinc-700 dark:text-zinc-300 block">اسم المستلم *</label>
+            <input type="text" name="receiverName" required placeholder="مثال: أحمد محمود" class="w-full bg-zinc-50 dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 rounded-lg text-zinc-900 dark:text-white p-3 font-body focus:outline-none focus:border-amber-400">
+          </div>
+
+          <div class="space-y-1 font-mono text-xs">
+            <label class="font-bold text-zinc-700 dark:text-zinc-300 block">رقم هاتف المستلم *</label>
+            <input type="tel" name="receiverPhone" required pattern="^01[0125][0-9]{8}$" placeholder="01012345678" class="w-full bg-zinc-50 dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 rounded-lg text-zinc-900 dark:text-white p-3 focus:outline-none focus:border-amber-400">
+          </div>
+        </div>
+
+        <div class="space-y-1 font-mono text-xs">
+          <label class="font-bold text-zinc-700 dark:text-zinc-300 block">عنوان التسليم (Delivery Address) *</label>
+          <input type="text" name="deliveryAddress" required placeholder="تفاصيل عنوان المستلم والعلامات المميزة" class="w-full bg-zinc-50 dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 rounded-lg text-zinc-900 dark:text-white p-3 font-body focus:outline-none focus:border-amber-400">
+        </div>
+      </div>
+
+      <!-- Block 3: Shipment & Payment Details -->
+      <div class="space-y-4">
+        <div class="border-b-2 border-zinc-900 dark:border-zinc-800 pb-2 flex items-center gap-2">
+          <span class="bg-amber-400 text-black font-mono font-black text-xs px-2.5 py-0.5 rounded">03</span>
+          <h3 class="font-bold text-base text-zinc-900 dark:text-white font-display">تفاصيل الشحنة والدفع (Shipment Details)</h3>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="space-y-1 font-mono text-xs">
+            <label class="font-bold text-zinc-700 dark:text-zinc-300 block">تفاصيل / محتوى الشحنة (Shipment Details) *</label>
+            <input type="text" name="shipmentDetails" required placeholder="مثال: ملابس، أوراق، طرد" class="w-full bg-zinc-50 dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 rounded-lg text-zinc-900 dark:text-white p-3 font-body focus:outline-none focus:border-amber-400">
+          </div>
+
+          <div class="space-y-1 font-mono text-xs">
+            <label class="font-bold text-zinc-700 dark:text-zinc-300 block">عدد القطع *</label>
+            <input type="number" name="piecesCount" min="1" value="1" required class="w-full bg-zinc-50 dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 rounded-lg text-zinc-900 dark:text-white p-3 focus:outline-none focus:border-amber-400">
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="space-y-1 font-mono text-xs">
+            <label class="font-bold text-zinc-700 dark:text-zinc-300 block">طريقة الدفع (Payment Method) *</label>
+            <select name="paymentMethod" class="w-full bg-zinc-50 dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 rounded-lg text-zinc-900 dark:text-white p-3 font-body focus:outline-none focus:border-amber-400">
+              <option value="COD">الدفع عند الاستلام (COD)</option>
+              <option value="Prepaid">مدفوع مقدماً</option>
+            </select>
+          </div>
+
+          <div class="space-y-1 font-mono text-xs">
+            <label class="font-bold text-zinc-700 dark:text-zinc-300 block">المبلغ المطلوب تحصيله (إن وجد)</label>
+            <input type="number" name="codAmount" min="0" placeholder="0.00" class="w-full bg-zinc-50 dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 rounded-lg text-zinc-900 dark:text-white p-3 focus:outline-none focus:border-amber-400">
+          </div>
+        </div>
+
+        <div class="space-y-1 font-mono text-xs">
+          <label class="font-bold text-zinc-700 dark:text-zinc-300 block">سعر التوصيل المعروض (ج.م) *</label>
+          <input type="number" name="deliveryFee" min="0" step="0.5" required placeholder="مثال: 30" class="w-full bg-zinc-50 dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 rounded-lg text-zinc-900 dark:text-white p-3 focus:outline-none focus:border-amber-400">
+          <p class="text-[10px] text-zinc-500 dark:text-zinc-400">السعر اللي هتدفعه مقابل توصيل الشحنة — بيوصل للإدارة مع الطلب.</p>
+        </div>
+
+        <div class="space-y-1 font-mono text-xs">
+          <label class="font-bold text-zinc-700 dark:text-zinc-300 block">ملاحظات إضافية (Notes)</label>
+          <textarea name="notes" rows="3" placeholder="ملاحظات خاصة بالتسليم أو الاستلام..." class="w-full bg-zinc-50 dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 rounded-lg text-zinc-900 dark:text-white p-3 font-body focus:outline-none focus:border-amber-400 resize-none"></textarea>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="w-full bg-red-600 text-white font-extrabold font-display text-lg py-4 rounded-xl border-2 border-zinc-900 hover:bg-red-700 transition-all shadow-[4px_4px_0px_#0A0A0C] dark:shadow-[4px_4px_0px_#27272A] flex items-center justify-center gap-2">
+        <span>تأكيد وإرسال طلب الشحنة (إنشاء الطلب)</span>
+        <span class="font-mono text-sm">→</span>
+      </button>
+
+    </form>
+
+  </div>
+</section>
+    <!-- PROFESSIONAL FOOTER -->
+    <footer
+      class="bg-white dark:bg-zinc-950 border-t-2 border-zinc-900 dark:border-zinc-800 text-zinc-900 dark:text-white transition-colors pt-16 pb-12"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 space-y-12">
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 pb-12 border-b border-zinc-200 dark:border-zinc-800"
+        >
+          <div class="lg:col-span-2 space-y-4">
+            <div class="flex items-center gap-3">
+              <div
+                class="bg-red-600 text-white font-black text-xl px-3 py-0.5 tracking-wider border-2 border-black rounded-lg shadow-[3px_3px_0px_#0A0A0C]"
+              >
+                مرسال
+              </div>
+              <span class="text-sm font-black font-display tracking-tight"
+                >MERSAL DELIVERY</span
+              >
+            </div>
+            <p
+              class="text-xs text-zinc-600 dark:text-zinc-400 font-medium leading-relaxed max-w-sm"
+            >
+              الطريق الأسرع والأكثر أماناً لتوصيل طرودك وبضائعك داخل مدينة أسوان.
+              مش بس سرعة.. سرعة ودقة وأمان.
+            </p>
+            <div class="pt-2 flex items-center gap-3 font-mono text-xs">
+              <span
+                class="bg-amber-400 text-black font-bold px-3 py-1 rounded border border-black"
+                >أسوان، مصر</span
+              >
+              <span
+                class="bg-zinc-100 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 font-bold px-3 py-1 rounded border border-zinc-300 dark:border-zinc-700"
+                >خدمة 24/7</span
+              >
+            </div>
+          </div>
+
+          <div class="space-y-3 font-body">
+            <h4
+              class="font-bold text-sm font-display text-zinc-900 dark:text-white uppercase tracking-wider"
+            >
+              روابط سريعة
+            </h4>
+            <ul class="space-y-2 text-xs font-mono text-zinc-600 dark:text-zinc-400">
+              <li>
+                <a
+                  href="#hero"
+                  class="hover:text-red-600 dark:hover:text-amber-400 transition-colors"
+                  >الرئيسية</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#about"
+                  class="hover:text-red-600 dark:hover:text-amber-400 transition-colors"
+                  >عن مرسال</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#services"
+                  class="hover:text-red-600 dark:hover:text-amber-400 transition-colors"
+                  >خدمات التوصيل</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#coverage"
+                  class="hover:text-red-600 dark:hover:text-amber-400 transition-colors"
+                  >مناطق التغطية</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#order-form"
+                  class="hover:text-red-600 dark:hover:text-amber-400 transition-colors"
+                  >اطلب شحنة</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div class="space-y-3 font-body">
+            <h4
+              class="font-bold text-sm font-display text-zinc-900 dark:text-white uppercase tracking-wider"
+            >
+              بوابة النظام
+            </h4>
+            <ul class="space-y-2 text-xs font-mono text-zinc-600 dark:text-zinc-400">
+              <li>
+                <a
+                  href="login.html"
+                  class="hover:text-red-600 dark:hover:text-amber-400 transition-colors"
+                  >دخول الأدمن (Dashboard)</a
+                >
+              </li>
+              <li>
+                <a
+                  href="driver-orders.html"
+                  class="hover:text-red-600 dark:hover:text-amber-400 transition-colors"
+                  >تطبيق السائقين</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#faq"
+                  class="hover:text-red-600 dark:hover:text-amber-400 transition-colors"
+                  >الأسئلة الشائعة</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div class="space-y-3 font-body">
+            <h4
+              class="font-bold text-sm font-display text-zinc-900 dark:text-white uppercase tracking-wider"
+            >
+              الدعم المباشر
+            </h4>
+            <div class="space-y-2 text-xs font-mono">
+              <p class="text-zinc-600 dark:text-zinc-400">
+                للتواصل السريع وحجز الطلبات:
+              </p>
+              <a
+                href="tel:01148606472"
+                class="block font-black text-red-600 dark:text-amber-400 text-sm dir-ltr"
+              >
+                011 48606472
+              </a>
+              <a
+                href="https://wa.me/201148606472"
+                target="_blank"
+                class="inline-block mt-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-lg border border-black transition-all"
+              >
+                راسلنا عبر واتساب
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-zinc-500 dark:text-zinc-400"
+        >
+          <p>© 2026 Mersal Logistics OS. All rights reserved.</p>
+          <p class="flex items-center gap-2">
+            <span>Built with Uber Base Architecture</span>
+            <span class="w-1.5 h-1.5 rounded-full bg-red-600"></span>
+            <span>Aswan, Egypt</span>
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Theme Toggle Logic Script -->
+    <script>
+      const themeToggleBtn = document.getElementById("theme-toggle");
+      const themeToggleText = document.getElementById("theme-toggle-text");
+
+      themeToggleBtn.addEventListener("click", function () {
+        if (document.documentElement.classList.contains("dark")) {
+          document.documentElement.classList.remove("dark");
+          themeToggleText.textContent = "MODE: LIGHT";
+        } else {
+          document.documentElement.classList.add("dark");
+          themeToggleText.textContent = "MODE: DARK";
+        }
+      });
+    </script>
+  </body>
+</html>

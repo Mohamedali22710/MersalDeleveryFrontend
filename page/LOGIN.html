@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="ar" dir="rtl" class="dark scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>تسجيل الدخول للأدمن | نظام مرسال لوجفستيكس</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Tajawal:wght@700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ["Tajawal", "sans-serif"],
+              body: ["IBM Plex Sans Arabic", "sans-serif"],
+              mono: ["JetBrains Mono", "monospace"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "IBM Plex Sans Arabic", sans-serif;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      .font-display {
+        font-family: "Tajawal", sans-serif;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gradient-to-tr from-amber-400 via-red-600 to-amber-500 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950 text-zinc-900 dark:text-white antialiased selection:bg-amber-400 selection:text-black transition-colors duration-300 min-h-screen flex flex-col justify-between"
+  >
+
+    <!-- TOP SYSTEM BAR -->
+    <div class="bg-zinc-950 text-white text-[11px] font-mono border-b border-zinc-800 py-1.5 px-4 shadow-sm">
+      <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <span class="bg-amber-400 text-black font-extrabold px-2 py-0.5 border border-black">LOGISTICS OS V2.8</span>
+          <span class="hidden sm:inline-block text-zinc-400">نظام إدارة الشحنات والتوصيل المباشر — أسوان</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <button
+            id="theme-toggle"
+            type="button"
+            class="bg-zinc-900 border border-zinc-700 hover:border-amber-400 text-white px-2 py-0.5 font-bold transition-all text-[10px]"
+          >
+            <span id="theme-toggle-text">MODE: DARK</span>
+          </button>
+          <span class="text-amber-400 font-bold flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+            الخدمة متوفرة الآن
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- NAVBAR (من اللاندينج بيج) -->
+    <header class="sticky top-0 z-50 bg-white dark:bg-zinc-950 border-b-2 border-zinc-900 dark:border-zinc-800 transition-colors shadow-md">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
+        
+        <!-- Brand Logo -->
+        <a href="Landingpage.html" class="flex items-center gap-3">
+          <div class="bg-red-600 text-white font-black text-2xl px-4 py-1 tracking-wider border-2 border-black rounded-lg shadow-[3px_3px_0px_#0A0A0C]">
+            مرسال
+          </div>
+          <div class="flex flex-col">
+            <span class="text-sm font-black font-display text-zinc-900 dark:text-white leading-none">MERSAL DELIVERY</span>
+            <span class="text-[10px] font-mono text-red-600 dark:text-red-500 font-bold">مش بس سرعة.. سرعة ودقة وأمان</span>
+          </div>
+        </a>
+
+        <!-- Navigation Menu -->
+        <nav class="hidden lg:flex items-center gap-8 text-xs font-bold font-mono text-zinc-700 dark:text-zinc-300">
+          <a href="Landingpage.html#about" class="hover:text-red-600 dark:hover:text-amber-400 transition-colors">01. عن مرسال</a>
+          <a href="Landingpage.html#services" class="hover:text-red-600 dark:hover:text-amber-400 transition-colors">02. خدمات التوصيل</a>
+          <a href="Landingpage.html#lifecycle" class="hover:text-red-600 dark:hover:text-amber-400 transition-colors">03. حالات الطلب</a>
+          <a href="Landingpage.html#order-form" class="hover:text-red-600 dark:hover:text-amber-400 transition-colors">04. اطلب الآن</a>
+        </nav>
+
+        <!-- Action Buttons -->
+        <div class="flex items-center gap-3">
+          <a href="Landingpage.html" class="border-2 border-zinc-900 dark:border-zinc-700 bg-transparent text-zinc-900 dark:text-white font-bold text-xs px-4 py-2.5 rounded-lg hover:bg-amber-400 hover:text-black transition-all font-mono">
+            الرئيسية
+          </a>
+          <a href="Landingpage.html#order-form" class="bg-amber-400 text-black font-extrabold text-xs px-5 py-2.5 rounded-lg border-2 border-zinc-900 shadow-[3px_3px_0px_#0A0A0C] hover:bg-red-600 hover:text-white transition-all font-display">
+            ارسل طلبك الآن
+          </a>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- MAIN LOGIN CONTAINER (SPLIT SCREEN) -->
+    <main class="flex-grow flex items-center justify-center p-4 sm:p-6 lg:p-12 my-8">
+      <div class="w-full max-w-5xl bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-800 rounded-3xl shadow-[12px_12px_0px_#0A0A0C] dark:shadow-[12px_12px_0px_#27272A] overflow-hidden grid lg:grid-cols-12">
+        
+        <!-- RIGHT SIDE: Image Visual Background -->
+        <div class="lg:col-span-5 relative overflow-hidden flex flex-col justify-end p-8 sm:p-12 border-b-2 lg:border-b-0 lg:border-l-2 border-zinc-900 dark:border-zinc-800 bg-zinc-900">
+          
+          <!-- Real Delivery Image -->
+          <img 
+            src="https://images.unsplash.com/photo-1617347454431-f49d7ff5c3b1?auto=format&fit=crop&w=1000&q=80" 
+            alt="Mersal Delivery Logistics" 
+            class="absolute inset-0 w-full h-full object-cover filter contrast-110 saturate-[0.85]"
+          >
+          
+          <!-- Gradient Overlay for Image Readability -->
+          <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/60 to-transparent"></div>
+
+          <!-- Content on top of Image -->
+          <div class="relative z-10 space-y-4">
+            <div class="inline-flex items-center gap-2 bg-amber-400 text-black font-mono text-xs font-bold px-3 py-1 rounded border border-black shadow-md">
+              <span>MERSAL ADMIN PORTAL</span>
+            </div>
+            <h1 class="text-3xl sm:text-4xl font-black font-display tracking-tight text-white leading-tight drop-shadow-sm">
+              إدارة أسطول الشحن <br>
+              <span class="text-amber-400">بكل احترافية</span>
+            </h1>
+            <p class="text-xs sm:text-sm text-zinc-200 font-medium leading-relaxed drop-shadow-sm">
+              تحكم كامل في الطلبات، متابعة سير العمليات، وإضافة وتوزيع الكباتن والسائقين داخل أسوان من لوحة تحكم واحدة.
+            </p>
+          </div>
+
+        </div>
+
+        <!-- LEFT SIDE: Login Form -->
+        <div class="lg:col-span-7 p-8 sm:p-12 flex flex-col justify-center space-y-8 bg-white dark:bg-zinc-950">
+          
+          <div class="space-y-2">
+            <h2 class="text-2xl sm:text-3xl font-black font-display text-zinc-900 dark:text-white">تسجيل دخول الأدمن</h2>
+            <p class="text-xs font-mono text-zinc-500 dark:text-zinc-400">أدخل بيانات الاعتماد الخاصة بحساب الإدارة للوصول للداشبورد</p>
+          </div>
+
+          <!-- Login Form -->
+          <form class="space-y-6" onsubmit="event.preventDefault(); alert('جاري التحقق من الصلاحيات وتوجيهك لوحة التحكم...'); window.location.href='admin-dashboard.html';">
+            
+            <!-- Email Field -->
+            <div class="space-y-1.5 font-mono text-xs">
+              <label class="font-bold text-zinc-700 dark:text-zinc-300 block">البريد الإلكتروني للإدارة *</label>
+              <input 
+                type="email" 
+                name="email" 
+                required 
+                placeholder="admin@mersal.com" 
+                class="w-full bg-zinc-50 dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-white p-3.5 focus:outline-none focus:border-amber-400 transition-all shadow-sm"
+              >
+            </div>
+
+            <!-- Password Field -->
+            <div class="space-y-1.5 font-mono text-xs">
+              <div class="flex justify-between items-center">
+                <label class="font-bold text-zinc-700 dark:text-zinc-300 block">كلمة المرور *</label>
+                <a href="#" class="text-red-600 dark:text-amber-400 hover:underline text-[11px]">هل نسيت كلمة المرور؟</a>
+              </div>
+              <input 
+                type="password" 
+                name="password" 
+                required 
+                placeholder="••••••••••••" 
+                class="w-full bg-zinc-50 dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-white p-3.5 focus:outline-none focus:border-amber-400 transition-all shadow-sm"
+              >
+            </div>
+
+            <!-- Submit Button -->
+            <button 
+              type="submit" 
+              class="w-full bg-red-600 hover:bg-red-700 text-white font-extrabold font-display text-base py-4 rounded-xl border-2 border-zinc-900 shadow-[4px_4px_0px_#0A0A0C] dark:shadow-[4px_4px_0px_#27272A] transition-all flex items-center justify-center gap-2 mt-2"
+            >
+              <span>دخول إلى لوحة التحكم</span>
+              <span class="font-mono text-sm">→</span>
+            </button>
+
+          </form>
+
+        </div>
+
+      </div>
+    </main>
+
+    <!-- PROFESSIONAL FOOTER -->
+    <footer class="bg-white dark:bg-zinc-950 border-t-2 border-zinc-900 dark:border-zinc-800 text-zinc-900 dark:text-white transition-colors pt-16 pb-12">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 space-y-12">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 pb-12 border-b border-zinc-200 dark:border-zinc-800">
+          
+          <div class="lg:col-span-2 space-y-4">
+            <div class="flex items-center gap-3">
+              <div class="bg-red-600 text-white font-black text-xl px-3 py-0.5 tracking-wider border-2 border-black rounded-lg shadow-[3px_3px_0px_#0A0A0C]">
+                مرسال
+              </div>
+              <span class="text-sm font-black font-display tracking-tight">MERSAL DELIVERY</span>
+            </div>
+            <p class="text-xs text-zinc-600 dark:text-zinc-400 font-medium leading-relaxed max-w-sm">
+              الطريق الأسرع والأكثر أماناً لتوصيل طرودك وبضائعك داخل مدينة أسوان. مش بس سرعة.. سرعة ودقة وأمان.
+            </p>
+            <div class="pt-2 flex items-center gap-3 font-mono text-xs">
+              <span class="bg-amber-400 text-black font-bold px-3 py-1 rounded border border-black">أسوان، مصر</span>
+              <span class="bg-zinc-100 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 font-bold px-3 py-1 rounded border border-zinc-300 dark:border-zinc-700">خدمة 24/7</span>
+            </div>
+          </div>
+
+          <div class="space-y-3 font-body">
+            <h4 class="font-bold text-sm font-display text-zinc-900 dark:text-white uppercase tracking-wider">روابط سريعة</h4>
+            <ul class="space-y-2 text-xs font-mono text-zinc-600 dark:text-zinc-400">
+              <li><a href="Landingpage.html" class="hover:text-red-600 dark:hover:text-amber-400 transition-colors">الرئيسية</a></li>
+              <li><a href="Landingpage.html#about" class="hover:text-red-600 dark:hover:text-amber-400 transition-colors">عن مرسال</a></li>
+              <li><a href="Landingpage.html#services" class="hover:text-red-600 dark:hover:text-amber-400 transition-colors">خدمات التوصيل</a></li>
+              <li><a href="Landingpage.html#coverage" class="hover:text-red-600 dark:hover:text-amber-400 transition-colors">مناطق التغطية</a></li>
+            </ul>
+          </div>
+
+          <div class="space-y-3 font-body">
+            <h4 class="font-bold text-sm font-display text-zinc-900 dark:text-white uppercase tracking-wider">بوابة النظام</h4>
+            <ul class="space-y-2 text-xs font-mono text-zinc-600 dark:text-zinc-400">
+              <li><a href="login.html" class="hover:text-red-600 dark:hover:text-amber-400 transition-colors">دخول الأدمن (Dashboard)</a></li>
+              <li><a href="Landingpage.html#faq" class="hover:text-red-600 dark:hover:text-amber-400 transition-colors">الأسئلة الشائعة</a></li>
+            </ul>
+          </div>
+
+          <div class="space-y-3 font-body">
+            <h4 class="font-bold text-sm font-display text-zinc-900 dark:text-white uppercase tracking-wider">الدعم المباشر</h4>
+            <div class="space-y-2 text-xs font-mono">
+              <p class="text-zinc-600 dark:text-zinc-400">للتواصل السريع وحجز الطلبات:</p>
+              <a href="tel:01148606472" class="block font-black text-red-600 dark:text-amber-400 text-sm dir-ltr">
+                011 48606472
+              </a>
+              <a href="https://wa.me/201148606472" target="_blank" class="inline-block mt-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-lg border border-black transition-all">
+                راسلنا عبر واتساب
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-zinc-500 dark:text-zinc-400">
+          <p>© 2026 Mersal Logistics OS. All rights reserved.</p>
+          <p class="flex items-center gap-2">
+            <span>Built with Uber Base Architecture</span>
+            <span class="w-1.5 h-1.5 rounded-full bg-red-600"></span>
+            <span>Aswan, Egypt</span>
+          </p>
+        </div>
+
+      </div>
+    </footer>
+
+    <!-- Theme Toggle Logic Script -->
+    <script>
+      const themeToggleBtn = document.getElementById("theme-toggle");
+      const themeToggleText = document.getElementById("theme-toggle-text");
+
+      themeToggleBtn.addEventListener("click", function () {
+        if (document.documentElement.classList.contains("dark")) {
+          document.documentElement.classList.remove("dark");
+          themeToggleText.textContent = "MODE: LIGHT";
+        } else {
+          document.documentElement.classList.add("dark");
+          themeToggleText.textContent = "MODE: DARK";
+        }
+      });
+    </script>
+  </body>
+</html>

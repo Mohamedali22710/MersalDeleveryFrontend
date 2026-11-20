@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="ar" dir="rtl" class="dark scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>لوحة تحكم الأدمن | نظام مرسال لوجفستيكس</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Tajawal:wght@700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ["Tajawal", "sans-serif"],
+              body: ["IBM Plex Sans Arabic", "sans-serif"],
+              mono: ["JetBrains Mono", "monospace"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "IBM Plex Sans Arabic", sans-serif;
+      }
+      h1, h2, h3, h4, .font-display {
+        font-family: "Tajawal", sans-serif;
+      }
+    </style>
+  </head>
+  <body class="bg-zinc-100 dark:bg-zinc-950 text-zinc-900 dark:text-white antialiased selection:bg-amber-400 selection:text-black transition-colors duration-200 min-h-screen flex flex-col justify-between">
+
+    <!-- TOP SYSTEM BAR -->
+    <div class="bg-zinc-950 text-white text-[11px] font-mono border-b border-zinc-800 py-1.5 px-4">
+      <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <span class="bg-amber-400 text-black font-extrabold px-2 py-0.5 border border-black">LOGISTICS OS V2.8</span>
+          <span class="hidden sm:inline-block text-zinc-400">لوحة تحكم الإدارة المركزية — أسوان</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <button
+            id="theme-toggle"
+            type="button"
+            class="bg-zinc-900 border border-zinc-700 hover:border-amber-400 text-white px-2 py-0.5 font-bold transition-all text-[10px]"
+          >
+            <span id="theme-toggle-text">MODE: DARK</span>
+          </button>
+          <span class="text-emerald-400 font-bold flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+            متصل بالـ Database
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADMIN NAVBAR -->
+    <header class="sticky top-0 z-50 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md border-b-2 border-zinc-900 dark:border-zinc-800 transition-colors">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
+        
+        <!-- Brand Logo -->
+        <a href="#" class="flex items-center gap-3">
+          <div class="bg-red-600 text-white font-black text-2xl px-4 py-1 tracking-wider border-2 border-black rounded-lg shadow-[3px_3px_0px_#0A0A0C]">
+            مرسال
+          </div>
+          <div class="flex flex-col">
+            <span class="text-sm font-black font-display text-zinc-900 dark:text-white leading-none">ADMIN DASHBOARD</span>
+            <span class="text-[10px] font-mono text-red-600 dark:text-red-500 font-bold">إدارة الشحنات وتوزيع السائقين</span>
+          </div>
+        </a>
+
+        <!-- Navigation Links -->
+        <nav class="hidden lg:flex items-center gap-6 text-xs font-bold font-mono text-zinc-700 dark:text-zinc-300">
+          <a href="admin-dashboard.html" class="text-red-600 dark:text-amber-400 font-black">الطلبات العامة</a>
+          <a href="#drivers" class="hover:text-red-600 dark:hover:text-amber-400 transition-colors">إدارة السائقين (Drivers)</a>
+          <a href="Landingpage.html" target="_blank" class="hover:text-red-600 dark:hover:text-amber-400 transition-colors">معاينة الموقع (Landing) ↗</a>
+        </nav>
+
+        <!-- Admin Profile & Logout -->
+        <div class="flex items-center gap-3">
+          <div class="hidden sm:flex flex-col text-left font-mono text-[11px]">
+            <span class="font-bold text-zinc-900 dark:text-white">مدير النظام (Admin)</span>
+            <span class="text-zinc-500">admin@mersal.com</span>
+          </div>
+          <a href="login.html" class="border-2 border-zinc-900 dark:border-zinc-700 bg-red-600 text-white font-bold text-xs px-4 py-2 rounded-lg hover:bg-red-700 transition-all font-mono shadow-[2px_2px_0px_#0A0A0C]">
+            خروج
+          </a>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- MAIN DASHBOARD CONTENT -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-8 w-full flex-grow">
+      
+      <!-- Page Title & Actions Header -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b-2 border-zinc-300 dark:border-zinc-800">
+        <div>
+          <span class="text-xs font-mono font-bold text-red-600 dark:text-amber-400">/ ORDERS MANAGEMENT</span>
+          <h1 class="text-2xl sm:text-4xl font-black font-display text-zinc-900 dark:text-white mt-1">متابعة وتوزيع الشحنات</h1>
+        </div>
+        <div class="flex items-center gap-3 font-mono text-xs">
+          <button onclick="alert('جاري تحديث بيانات الطلبات من قاعدة البيانات...')" class="bg-amber-400 hover:bg-amber-500 text-black font-extrabold px-4 py-2.5 rounded-xl border-2 border-zinc-900 shadow-[3px_3px_0px_#0A0A0C] transition-all">
+            تحديث القائمة ⟳
+          </button>
+        </div>
+      </div>
+
+      <!-- KPI METRICS CARDS -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        
+        <div class="bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 p-5 rounded-2xl shadow-[5px_5px_0px_#0A0A0C] dark:shadow-[5px_5px_0px_#27272A] space-y-2">
+          <div class="flex justify-between items-center text-xs font-mono text-zinc-500 dark:text-zinc-400">
+            <span>إجمالي الطلبات</span>
+            <span class="bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded border border-zinc-300 dark:border-zinc-700">Total</span>
+          </div>
+          <div class="text-3xl font-black font-display text-zinc-900 dark:text-white">142</div>
+          <p class="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 font-bold">+12 اليوم</p>
+        </div>
+
+        <div class="bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 p-5 rounded-2xl shadow-[5px_5px_0px_#0A0A0C] dark:shadow-[5px_5px_0px_#27272A] space-y-2">
+          <div class="flex justify-between items-center text-xs font-mono text-zinc-500 dark:text-zinc-400">
+            <span>طلبات جديدة</span>
+            <span class="bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 px-2 py-0.5 rounded border border-amber-500">New</span>
+          </div>
+          <div class="text-3xl font-black font-display text-amber-500">8</div>
+          <p class="text-[10px] font-mono text-zinc-500">بانتظار تعيين سائق</p>
+        </div>
+
+        <div class="bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 p-5 rounded-2xl shadow-[5px_5px_0px_#0A0A0C] dark:shadow-[5px_5px_0px_#27272A] space-y-2">
+          <div class="flex justify-between items-center text-xs font-mono text-zinc-500 dark:text-zinc-400">
+            <span>قيد التوصيل</span>
+            <span class="bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300 px-2 py-0.5 rounded border border-blue-500">Active</span>
+          </div>
+          <div class="text-3xl font-black font-display text-blue-600 dark:text-blue-400">24</div>
+          <p class="text-[10px] font-mono text-zinc-500">مع الكباتن حالياً</p>
+        </div>
+
+        <div class="bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 p-5 rounded-2xl shadow-[5px_5px_0px_#0A0A0C] dark:shadow-[5px_5px_0px_#27272A] space-y-2">
+          <div class="flex justify-between items-center text-xs font-mono text-zinc-500 dark:text-zinc-400">
+            <span>تم التسليم بنجاح</span>
+            <span class="bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 px-2 py-0.5 rounded border border-emerald-500">Done</span>
+          </div>
+          <div class="text-3xl font-black font-display text-emerald-600 dark:text-emerald-400">105</div>
+          <p class="text-[10px] font-mono text-zinc-500">اليوم</p>
+        </div>
+
+      </div>
+
+      <!-- FILTER & SEARCH BAR -->
+      <div class="bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 p-4 rounded-2xl shadow-[6px_6px_0px_#0A0A0C] dark:shadow-[6px_6px_0px_#27272A] flex flex-col md:flex-row gap-4 items-center justify-between">
+        <div class="w-full md:w-1/3 relative">
+          <input 
+            type="text" 
+            placeholder="البحث برقم الطلب، اسم العميل أو الهاتف..." 
+            class="w-full bg-zinc-50 dark:bg-zinc-950 border-2 border-zinc-900 dark:border-zinc-700 rounded-xl px-4 py-2.5 text-xs font-mono focus:outline-none focus:border-amber-400 text-zinc-900 dark:text-white"
+          >
+        </div>
+        <div class="w-full md:w-auto flex flex-wrap gap-2 text-xs font-mono">
+          <button class="bg-amber-400 text-black font-bold px-3 py-2 rounded-lg border border-black">الكل (142)</button>
+          <button class="bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-bold px-3 py-2 rounded-lg border border-zinc-300 dark:border-zinc-700 hover:border-amber-400">جديد (8)</button>
+          <button class="bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-bold px-3 py-2 rounded-lg border border-zinc-300 dark:border-zinc-700 hover:border-amber-400">قيد التوصيل (24)</button>
+          <button class="bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-bold px-3 py-2 rounded-lg border border-zinc-300 dark:border-zinc-700 hover:border-amber-400">تم التسليم (105)</button>
+        </div>
+      </div>
+
+      <!-- ORDERS TABLE -->
+      <div class="bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 rounded-2xl shadow-[8px_8px_0px_#0A0A0C] dark:shadow-[8px_8px_0px_#27272A] overflow-hidden">
+        
+        <div class="overflow-x-auto">
+          <table class="w-full text-right border-collapse">
+            <thead>
+              <tr class="bg-zinc-100 dark:bg-zinc-950 border-b-2 border-zinc-900 dark:border-zinc-800 text-xs font-mono text-zinc-700 dark:text-zinc-300">
+                <th class="p-4">رقم الطلب / الوقت</th>
+                <th class="p-4">العميل (المرسل)</th>
+                <th class="p-4">المستلم والاتصال</th>
+                <th class="p-4">تفاصيل الشحنة</th>
+                <th class="p-4">سعر التوصيل</th>
+                <th class="p-4">حالة الطلب (Status)</th>
+                <th class="p-4">الكابتن المسؤول (Driver)</th>
+                <th class="p-4 text-center">الإجراءات</th>
+              </tr>
+            </thead>
+
+            <tbody id="ordersBody" class="divide-y divide-zinc-200 dark:divide-zinc-800 text-xs font-mono"></tbody>
+          </table>
+        </div>
+
+      </div>
+
+
+      <!-- DRIVERS MANAGEMENT -->
+      <section id="drivers" class="space-y-4 scroll-mt-28">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b-2 border-zinc-300 dark:border-zinc-800">
+          <div>
+            <span class="text-xs font-mono font-bold text-red-600 dark:text-amber-400">/ DRIVERS MANAGEMENT</span>
+            <h2 class="text-2xl sm:text-3xl font-black font-display text-zinc-900 dark:text-white mt-1">إدارة السائقين (الكباتن)</h2>
+          </div>
+          <button onclick="openDriverModal()" class="bg-red-600 hover:bg-red-700 text-white font-extrabold font-display text-sm px-5 py-3 rounded-xl border-2 border-zinc-900 shadow-[3px_3px_0px_#0A0A0C] transition-all">
+            + إضافة سائق جديد
+          </button>
+        </div>
+
+        <div class="bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 rounded-2xl shadow-[8px_8px_0px_#0A0A0C] dark:shadow-[8px_8px_0px_#27272A] overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-right border-collapse">
+              <thead>
+                <tr class="bg-zinc-100 dark:bg-zinc-950 border-b-2 border-zinc-900 dark:border-zinc-800 text-xs font-mono text-zinc-700 dark:text-zinc-300">
+                  <th class="p-4">الكود</th>
+                  <th class="p-4">اسم السائق</th>
+                  <th class="p-4">رقم الهاتف (واتساب)</th>
+                  <th class="p-4">البريد الإلكتروني</th>
+                  <th class="p-4">طلبات مسندة</th>
+                  <th class="p-4">الحالة</th>
+                  <th class="p-4 text-center">إجراء</th>
+                </tr>
+              </thead>
+              <tbody id="driversBody" class="divide-y divide-zinc-200 dark:divide-zinc-800 text-xs font-mono"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ORDER DETAILS MODAL (نافذة تفاصيل الطلب مع زر الواتساب) -->
+    <div id="orderModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+      <div class="bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 w-full max-w-2xl rounded-3xl p-6 sm:p-8 space-y-6 shadow-[10px_10px_0px_#0A0A0C] relative">
+        
+        <div class="flex justify-between items-center border-b-2 border-zinc-200 dark:border-zinc-800 pb-4">
+          <div>
+            <span id="modalOrderId" class="bg-amber-400 text-black font-mono font-black text-xs px-3 py-1 rounded border border-black">#MERS-000</span>
+            <h3 class="text-xl font-black font-display text-zinc-900 dark:text-white mt-2">تفاصيل الشحنة الكاملة</h3>
+          </div>
+          <button onclick="closeOrderModal()" class="w-8 h-8 rounded-full bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 font-bold flex items-center justify-center border border-zinc-400 hover:bg-red-600 hover:text-white transition-all">
+            ✕
+          </button>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4 font-mono text-xs">
+          <div class="bg-zinc-50 dark:bg-zinc-950 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 space-y-1">
+            <span class="text-zinc-500 block">بيانات المرسل (العميل):</span>
+            <p id="modalCustomerName" class="font-bold text-zinc-900 dark:text-white text-sm">-</p>
+            <p id="modalCustomerPhone" class="text-zinc-600 dark:text-zinc-400">-</p>
+            <p id="modalPickupAddress" class="text-zinc-500 text-[11px]">-</p>
+          </div>
+
+          <div class="bg-zinc-50 dark:bg-zinc-950 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 space-y-1">
+            <span class="text-zinc-500 block">بيانات المستلم:</span>
+            <p id="modalReceiverName" class="font-bold text-zinc-900 dark:text-white text-sm">-</p>
+            <p id="modalReceiverPhone" class="text-zinc-600 dark:text-zinc-400">-</p>
+            <p id="modalDeliveryAddress" class="text-zinc-500 text-[11px]">-</p>
+          </div>
+        </div>
+
+        <div class="bg-amber-500/10 border border-amber-500/30 p-4 rounded-xl space-y-1 font-mono text-xs">
+          <span class="font-bold text-amber-600 dark:text-amber-400 block">محتوى الشحنة والدفع:</span>
+          <p id="modalShipmentDetails" class="text-zinc-800 dark:text-zinc-200">-</p>
+        </div>
+
+        <!-- WhatsApp Action Button (إرسال الطلب للسائق عبر واتساب) -->
+        <div class="pt-2 flex flex-col sm:flex-row gap-3">
+          <a id="whatsappDriverBtn" href="#" target="_blank" class="flex-grow bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold font-display py-3 px-4 rounded-xl border-2 border-zinc-900 shadow-[3px_3px_0px_#0A0A0C] transition-all flex items-center justify-center gap-2 text-sm">
+            <span>📲 إرسال تفاصيل الطلب للسائق عبر واتساب</span>
+          </a>
+          <button onclick="closeOrderModal()" class="bg-zinc-900 text-white dark:bg-zinc-100 dark:text-black font-bold py-3 px-6 rounded-xl border-2 border-black font-mono text-xs">
+            إغلاق
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+        <!-- ADD DRIVER MODAL -->
+    <div id="driverModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+      <div class="bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-700 w-full max-w-lg rounded-3xl p-6 sm:p-8 space-y-5 shadow-[10px_10px_0px_#0A0A0C]">
+        <div class="flex justify-between items-center border-b-2 border-zinc-200 dark:border-zinc-800 pb-4">
+          <div>
+            <span class="bg-amber-400 text-black font-mono font-black text-xs px-3 py-1 rounded border border-black">NEW DRIVER</span>
+            <h3 class="text-xl font-black font-display text-zinc-900 dark:text-white mt-2">إضافة سائق جديد</h3>
+          </div>
+          <button type="button" onclick="closeDriverModal()" class="w-8 h-8 rounded-full bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 font-bold flex items-center justify-center border border-zinc-400 hover:bg-red-600 hover:text-white transition-all">✕</button>
+        </div>
+
+        <form id="driverForm" onsubmit="submitNewDriver(event)" class="space-y-4 font-mono text-xs" novalidate>
+          <div class="space-y-1">
+            <label class="font-bold text-zinc-700 dark:text-zinc-300 block">اسم السائق بالكامل *</label>
+            <input type="text" name="name" required placeholder="مثال: محمود إبراهيم علي" class="w-full bg-zinc-50 dark:bg-zinc-950 border-2 border-zinc-900 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-white p-3 focus:outline-none focus:border-amber-400">
+          </div>
+          <div class="space-y-1">
+            <label class="font-bold text-zinc-700 dark:text-zinc-300 block">البريد الإلكتروني (لتسجيل الدخول) *</label>
+            <input type="email" name="email" required placeholder="driver@mersal.com" dir="ltr" class="w-full bg-zinc-50 dark:bg-zinc-950 border-2 border-zinc-900 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-white p-3 focus:outline-none focus:border-amber-400 text-left">
+          </div>
+          <div class="space-y-1">
+            <label class="font-bold text-zinc-700 dark:text-zinc-300 block">كلمة المرور * (6 أحرف على الأقل)</label>
+            <div class="flex gap-2">
+              <input type="password" name="password" id="driverPassword" required minlength="6" placeholder="••••••••" dir="ltr" class="w-full bg-zinc-50 dark:bg-zinc-950 border-2 border-zinc-900 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-white p-3 focus:outline-none focus:border-amber-400 text-left">
+              <button type="button" onclick="const i=document.getElementById('driverPassword'); i.type = i.type==='password' ? 'text' : 'password';" class="border-2 border-zinc-900 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white font-bold px-3 rounded-xl">إظهار</button>
+            </div>
+          </div>
+          <div class="space-y-1">
+            <label class="font-bold text-zinc-700 dark:text-zinc-300 block">رقم الهاتف / الواتساب *</label>
+            <input type="tel" name="phone" required placeholder="01012345678" dir="ltr" class="w-full bg-zinc-50 dark:bg-zinc-950 border-2 border-zinc-900 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-white p-3 focus:outline-none focus:border-amber-400 text-left">
+            <p class="text-[10px] text-zinc-500">هنا بتوصل رسالة الواتساب لما الأدمن يسند طلب للسائق.</p>
+          </div>
+
+          <p id="driverFormError" class="hidden bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300 border border-red-500 rounded-lg px-3 py-2 font-bold"></p>
+
+          <div class="flex gap-3 pt-2">
+            <button type="submit" class="flex-grow bg-red-600 hover:bg-red-700 text-white font-extrabold font-display text-sm py-3 rounded-xl border-2 border-zinc-900 shadow-[3px_3px_0px_#0A0A0C] transition-all">حفظ السائق</button>
+            <button type="button" onclick="closeDriverModal()" class="bg-zinc-900 text-white dark:bg-zinc-100 dark:text-black font-bold py-3 px-6 rounded-xl border-2 border-black text-xs">إلغاء</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[60] hidden bg-zinc-900 text-white border-2 border-amber-400 font-mono text-xs font-bold px-5 py-3 rounded-xl shadow-[4px_4px_0px_#000] max-w-[90vw] text-center"></div>
+
+    <!-- PROFESSIONAL FOOTER -->
+    <footer class="bg-white dark:bg-zinc-950 border-t-2 border-zinc-900 dark:border-zinc-800 text-zinc-900 dark:text-white transition-colors pt-12 pb-8">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-zinc-500 dark:text-zinc-400">
+        <p>© 2026 Mersal Logistics OS. Admin Dashboard Module.</p>
+        <p class="flex items-center gap-2">
+          <span>Database Schema v1</span>
+          <span class="w-1.5 h-1.5 rounded-full bg-red-600"></span>
+          <span>Aswan, Egypt</span>
+        </p>
+      </div>
+    </footer>
+
+    <!-- Scripts for Theme & Modal -->
+    <script>
+      const themeToggleBtn = document.getElementById("theme-toggle");
+      const themeToggleText = document.getElementById("theme-toggle-text");
+
+      themeToggleBtn.addEventListener("click", function () {
+        if (document.documentElement.classList.contains("dark")) {
+          document.documentElement.classList.remove("dark");
+          themeToggleText.textContent = "MODE: LIGHT";
+        } else {
+          document.documentElement.classList.add("dark");
+          themeToggleText.textContent = "MODE: DARK";
+        }
+      });
+
+      /* =====================================================================
+         بيانات تجريبية + طبقة "API" وهمية (localStorage).
+         في نسخة React كل دالة api.* هنا بتتحول لطلب فعلي للـ Backend:
+           api.addDriver     → POST  /api/drivers          (الباسورد بيتعمله hash في الباك)
+           api.assignOrder   → PATCH /api/orders/:id/assign (بيحط driver + status=ASSIGNED
+                                                           وبيظهر في تطبيق الكابتن: GET /api/driver/orders)
+         ===================================================================== */
+      const KEYS = { drivers: "mersal_drivers", orders: "mersal_orders_state", inbox: "mersal_driver_inbox" };
+
+      const DEFAULT_DRIVERS = [
+        { id: "driver1", code: "DRV-01", name: "محمود إبراهيم", phone: "01098765432", email: "mahmoud@mersal.com", isActive: true },
+        { id: "driver2", code: "DRV-02", name: "علي حسن", phone: "01022223333", email: "ali@mersal.com", isActive: true },
+      ];
+
+      const ORDERS = [
+        { id: "MERS-1025", age: "منذ 15 دقيقة", customerName: "محمد علي", customerPhone: "01012345678", pickupAddress: "أسوان - الكورنيش",
+          receiverName: "أحمد محمود", receiverPhone: "01099887766", deliveryAddress: "أسوان - المحمودية",
+          shipmentDetails: "أوراق ومستندات مهمة", shortDetails: "أوراق ومستندات", piecesCount: 1, paymentMethod: "COD", codAmount: 0, deliveryFee: 30,
+          status: "NEW", driverId: null },
+        { id: "MERS-1024", age: "منذ ساعة", customerName: "شركة النور", customerPhone: "01198765432", pickupAddress: "أسوان - السوق التجاري",
+          receiverName: "إبراهيم عادل", receiverPhone: "01233445566", deliveryAddress: "أسوان - السيل",
+          shipmentDetails: "ملابس وأزياء شتوية", shortDetails: "ملابس وأزياء", piecesCount: 3, paymentMethod: "COD", codAmount: 450, deliveryFee: 40,
+          status: "GOING_TO_DELIVER", driverId: "driver1" },
+      ];
+
+      const STATUS_UI = {
+        NEW: { label: "جديد (New)", cls: "bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 border-amber-500" },
+        ASSIGNED: { label: "تم التعيين", cls: "bg-indigo-100 text-indigo-800 dark:bg-indigo-950 dark:text-indigo-300 border-indigo-500" },
+        GOING_TO_DELIVER: { label: "في الطريق للتسليم", cls: "bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300 border-blue-500" },
+      };
+
+      const store = {
+        read(key, fallback) { try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch (e) { return fallback; } },
+        write(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) { /* التخزين غير متاح */ } },
+      };
+
+      let drivers = store.read(KEYS.drivers, DEFAULT_DRIVERS);
+      const savedOrders = store.read(KEYS.orders, {});
+      ORDERS.forEach((o) => { if (savedOrders[o.id]) Object.assign(o, savedOrders[o.id]); });
+
+      const api = {
+        addDriver(data) {
+          const next = drivers.length + 1;
+          const driver = { id: "driver" + Date.now(), code: "DRV-" + String(next).padStart(2, "0"), name: data.name, phone: data.phone, email: data.email, isActive: true };
+          drivers.push(driver); // الباسورد مش بيتخزن هنا — الباك إند بيعمله hash
+          store.write(KEYS.drivers, drivers);
+          return driver;
+        },
+        toggleDriver(id) {
+          const d = drivers.find((x) => x.id === id);
+          if (d) { d.isActive = !d.isActive; store.write(KEYS.drivers, drivers); }
+        },
+        assignOrder(order, driver) {
+          order.driverId = driver.id;
+          if (order.status === "NEW") order.status = "ASSIGNED";
+          const state = {}; ORDERS.forEach((o) => { state[o.id] = { status: o.status, driverId: o.driverId }; });
+          store.write(KEYS.orders, state);
+          // صندوق وارد تطبيق الكابتن: الطلب بيظهر عند السائق ده بس
+          const inbox = store.read(KEYS.inbox, {});
+          Object.keys(inbox).forEach((k) => { inbox[k] = inbox[k].filter((x) => x.id !== order.id); });
+          (inbox[driver.id] = inbox[driver.id] || []).push({ ...order, assignedAt: new Date().toISOString() });
+          store.write(KEYS.inbox, inbox);
+        },
+      };
+
+      /* ============================ Helpers ============================ */
+      const esc = (t) => String(t).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+      const driverById = (id) => drivers.find((d) => d.id === id);
+      const paymentText = (o) => (o.paymentMethod === "COD" ? "COD: " + o.codAmount + " ج.م" : "مدفوع مقدماً");
+      const waNumber = (phone) => "20" + phone.replace(/^0/, ""); // 010... → 2010...
+
+      function buildWhatsAppLink(order, driver) {
+        const text =
+          "📦 *طلب توصيل جديد من مرسال*\n" +
+          "كابتن " + driver.name + "\n" +
+          "رقم الطلب: #" + order.id + "\n" +
+          "المرسل: " + order.customerName + " (" + order.customerPhone + ")\n" +
+          "عنوان الاستلام: " + order.pickupAddress + "\n" +
+          "المستلم: " + order.receiverName + " (" + order.receiverPhone + ")\n" +
+          "عنوان التسليم: " + order.deliveryAddress + "\n" +
+          "التفاصيل: " + order.shipmentDetails + " (" + order.piecesCount + " قطعة) • " + paymentText(order) + "\n" +
+          "سعر التوصيل: " + order.deliveryFee + " ج.م";
+        return "https://wa.me/" + waNumber(driver.phone) + "?text=" + encodeURIComponent(text);
+      }
+
+      let toastTimer;
+      function toast(msg) {
+        const el = document.getElementById("toast");
+        el.textContent = msg;
+        el.classList.remove("hidden");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => el.classList.add("hidden"), 3500);
+      }
+
+      /* ============================ Orders ============================ */
+      function driverOptions(order) {
+        const placeholder = order.driverId ? "" : '<option value="">-- تعيين سائق --</option>';
+        const opts = drivers
+          .filter((d) => d.isActive || d.id === order.driverId)
+          .map((d) => '<option value="' + d.id + '"' + (d.id === order.driverId ? " selected" : "") + ">" + esc(d.name) + (d.isActive ? "" : " (معطّل)") + "</option>")
+          .join("");
+        return placeholder + opts;
+      }
+
+      function renderOrders() {
+        document.getElementById("ordersBody").innerHTML = ORDERS.map((o) => {
+          const st = STATUS_UI[o.status] || STATUS_UI.NEW;
+          const selCls = o.driverId ? "text-zinc-900 dark:text-white" : "text-amber-600 dark:text-amber-400";
+          return (
+            '<tr class="hover:bg-amber-500/5 transition-colors cursor-pointer" onclick="openOrderModal(\'' + o.id + '\')">' +
+            '<td class="p-4"><span class="font-black text-zinc-900 dark:text-white block">#' + o.id + '</span><span class="text-[10px] text-zinc-500">' + o.age + "</span></td>" +
+            '<td class="p-4"><span class="font-bold text-zinc-900 dark:text-white block">' + esc(o.customerName) + '</span><span class="text-[10px] text-zinc-500">' + o.customerPhone + "</span></td>" +
+            '<td class="p-4"><span class="font-bold text-zinc-900 dark:text-white block">' + esc(o.receiverName) + '</span><span class="text-[10px] text-zinc-500">' + esc(o.deliveryAddress) + "</span></td>" +
+            '<td class="p-4"><span class="font-bold block">' + esc(o.shortDetails) + '</span><span class="text-[10px] text-zinc-500">' + o.piecesCount + " قطع • " + paymentText(o) + "</span></td>" +
+            '<td class="p-4"><span class="font-black text-emerald-600 dark:text-emerald-400">' + o.deliveryFee + " ج.م</span></td>" +
+            '<td class="p-4"><span class="' + st.cls + ' font-extrabold px-2.5 py-1 rounded-full border text-[10px]">' + st.label + "</span></td>" +
+            '<td class="p-4" onclick="event.stopPropagation();"><select onchange="assignDriver(\'' + o.id + '\', this.value)" class="bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-700 rounded px-2 py-1 text-xs font-bold ' + selCls + ' focus:outline-none">' + driverOptions(o) + "</select></td>" +
+            '<td class="p-4 text-center" onclick="event.stopPropagation();"><button onclick="openOrderModal(\'' + o.id + '\')" class="bg-zinc-900 text-white dark:bg-zinc-100 dark:text-black font-bold px-3 py-1.5 rounded-lg border border-black hover:bg-red-600 hover:text-white transition-all text-[11px]">التفاصيل</button></td>' +
+            "</tr>"
+          );
+        }).join("");
+      }
+
+      function assignDriver(orderId, driverId) {
+        if (!driverId) return;
+        const order = ORDERS.find((o) => o.id === orderId);
+        const driver = driverById(driverId);
+        if (!order || !driver) return;
+
+        api.assignOrder(order, driver); // ← يظهر في تطبيق الكابتن
+        renderOrders();
+        renderDrivers();
+
+        // ← ويتبعت واتساب لرقم السائق مباشرة
+        window.open(buildWhatsAppLink(order, driver), "_blank");
+        toast("تم إسناد #" + order.id + " للكابتن " + driver.name + " — ظهر في تطبيقه وفُتح واتساب لإرساله");
+      }
+
+      /* ====================== Order details modal ====================== */
+      function openOrderModal(id) {
+        const o = ORDERS.find((x) => x.id === id);
+        if (!o) return;
+        const driver = o.driverId ? driverById(o.driverId) : null;
+        document.getElementById("modalOrderId").textContent = "#" + o.id;
+        document.getElementById("modalCustomerName").textContent = o.customerName;
+        document.getElementById("modalCustomerPhone").textContent = o.customerPhone;
+        document.getElementById("modalPickupAddress").textContent = "استلام من: " + o.pickupAddress;
+        document.getElementById("modalReceiverName").textContent = o.receiverName;
+        document.getElementById("modalReceiverPhone").textContent = o.receiverPhone;
+        document.getElementById("modalDeliveryAddress").textContent = "تسليم إلى: " + o.deliveryAddress;
+        document.getElementById("modalShipmentDetails").textContent =
+          o.shipmentDetails + " (" + o.piecesCount + " قطع) • " + paymentText(o) + " • سعر التوصيل: " + o.deliveryFee + " ج.م" +
+          (driver ? " • الكابتن: " + driver.name : " • لم يُسند لسائق بعد");
+
+        const wa = document.getElementById("whatsappDriverBtn");
+        if (driver) {
+          wa.href = buildWhatsAppLink(o, driver);
+          wa.removeAttribute("onclick");
+        } else {
+          wa.href = "#";
+          wa.onclick = (e) => { e.preventDefault(); toast("اختار سائق من القائمة الأول عشان يتبعتله الطلب"); };
+        }
+        document.getElementById("orderModal").classList.remove("hidden");
+      }
+      function closeOrderModal() { document.getElementById("orderModal").classList.add("hidden"); }
+
+      /* ============================ Drivers ============================ */
+      function renderDrivers() {
+        document.getElementById("driversBody").innerHTML = drivers.map((d) => {
+          const count = ORDERS.filter((o) => o.driverId === d.id).length;
+          const badge = d.isActive
+            ? '<span class="bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-500 font-extrabold px-2.5 py-1 rounded-full text-[10px]">نشط</span>'
+            : '<span class="bg-zinc-200 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 border border-zinc-500 font-extrabold px-2.5 py-1 rounded-full text-[10px]">معطّل</span>';
+          return (
+            "<tr>" +
+            '<td class="p-4 font-black text-zinc-900 dark:text-white">' + d.code + "</td>" +
+            '<td class="p-4 font-bold text-zinc-900 dark:text-white">' + esc(d.name) + "</td>" +
+            '<td class="p-4" dir="ltr">' + esc(d.phone) + "</td>" +
+            '<td class="p-4" dir="ltr">' + esc(d.email) + "</td>" +
+            '<td class="p-4 font-bold">' + count + "</td>" +
+            '<td class="p-4">' + badge + "</td>" +
+            '<td class="p-4 text-center"><button onclick="toggleDriver(\'' + d.id + '\')" class="bg-zinc-900 text-white dark:bg-zinc-100 dark:text-black font-bold px-3 py-1.5 rounded-lg border border-black hover:bg-red-600 hover:text-white transition-all text-[11px]">' + (d.isActive ? "تعطيل" : "تفعيل") + "</button></td>" +
+            "</tr>"
+          );
+        }).join("");
+      }
+
+      function toggleDriver(id) { api.toggleDriver(id); renderDrivers(); renderOrders(); }
+
+      function openDriverModal() {
+        document.getElementById("driverForm").reset();
+        document.getElementById("driverFormError").classList.add("hidden");
+        document.getElementById("driverPassword").type = "password";
+        document.getElementById("driverModal").classList.remove("hidden");
+      }
+      function closeDriverModal() { document.getElementById("driverModal").classList.add("hidden"); }
+
+      function submitNewDriver(e) {
+        e.preventDefault();
+        const f = e.target;
+        const fd = new FormData(f); // ملحوظة: f.name بترجّع اسم الفورم نفسه مش الحقل، فبنستخدم FormData
+        const data = { name: String(fd.get("name")).trim(), email: String(fd.get("email")).trim().toLowerCase(), password: String(fd.get("password")), phone: String(fd.get("phone")).trim() };
+        const err = document.getElementById("driverFormError");
+        const fail = (m) => { err.textContent = m; err.classList.remove("hidden"); };
+
+        if (!data.name) return fail("اكتب اسم السائق");
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) return fail("البريد الإلكتروني غير صحيح");
+        if (data.password.length < 6) return fail("كلمة المرور لازم تكون 6 أحرف على الأقل");
+        if (!/^01[0125][0-9]{8}$/.test(data.phone)) return fail("رقم الهاتف لازم يكون رقم مصري صحيح (مثال: 01012345678)");
+        if (drivers.some((d) => d.phone === data.phone)) return fail("رقم الهاتف ده مسجّل لسائق آخر");
+        if (drivers.some((d) => d.email === data.email)) return fail("البريد الإلكتروني ده مسجّل لسائق آخر");
+
+        const driver = api.addDriver(data);
+        closeDriverModal();
+        renderDrivers();
+        renderOrders();
+        toast("تمت إضافة الكابتن " + driver.name + " (" + driver.code + ") وهو متاح الآن في قائمة التعيين");
+      }
+
+      renderOrders();
+      renderDrivers();
+    </script>
+  </body>
+</html>
